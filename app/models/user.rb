@@ -10,6 +10,13 @@
 
 
 # before_validation :ensure_session_token
+
+
+    has_many :notes,
+    foreign_key: :author_id,
+    class_name: :Note,
+    dependent: :destroy
+    
   after_initialize :ensure_session_token
 
   def self.find_by_credentials(username, password)

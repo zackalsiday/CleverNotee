@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unique: MyString
+  from: MyString
+  notes: MyString
+  index: MyString
+
+two:
+  unique: MyString
+  from: MyString
+  notes: MyString
+  index: MyString
