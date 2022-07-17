@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 class NoteEdit extends React.Component {
     constructor(props) {
         super(props)
@@ -9,7 +10,7 @@ class NoteEdit extends React.Component {
             notebook_id: '',
             id: ''
         }
-        // this.handleSubmit = this.handleSubmit.bind(this)
+        this.deleteNote = this.deleteNote.bind(this)
     }
 
     componentDidMount() {
@@ -57,11 +58,12 @@ class NoteEdit extends React.Component {
         })
     }
 
-    // handleSubmit(e){
-    //     e.preventDefault();
-    //     const note = Object.assign({}, this.state)
-    //     this.props.updateNote(note)
-    // }
+    deleteNote(){
+       
+        this.props.deleteNote(this.state.id)
+    }
+
+   
 
    
 
@@ -71,6 +73,7 @@ class NoteEdit extends React.Component {
     render() {
         return (
             <div>
+                <Link to="/notes" onClick={this.deleteNote}>Delete</Link>
                 <form onSubmit={this.handleSubmit}>
                     <input type="text"
                         value={this.state.title}

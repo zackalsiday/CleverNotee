@@ -39,10 +39,10 @@ var receiveNote = function receiveNote(note) {
   };
 };
 
-var removeNote = function removeNote(note) {
+var removeNote = function removeNote(noteId) {
   return {
     type: REMOVE_NOTE,
-    note: note
+    noteId: noteId
   };
 };
 
@@ -74,10 +74,10 @@ var updateNote = function updateNote(note) {
     });
   };
 };
-var deleteNote = function deleteNote(note) {
+var deleteNote = function deleteNote(noteId) {
   return function (dispatch) {
-    return _util_notes_api_util__WEBPACK_IMPORTED_MODULE_0__.deleteNote(note).then(function (note) {
-      return dispatch(removeNote(note));
+    return _util_notes_api_util__WEBPACK_IMPORTED_MODULE_0__.deleteNote(noteId).then(function () {
+      return dispatch(removeNote(noteId));
     });
   };
 };
@@ -346,6 +346,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Link.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -372,6 +373,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var NoteEdit = /*#__PURE__*/function (_React$Component) {
   _inherits(NoteEdit, _React$Component);
 
@@ -389,8 +391,8 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       author_id: '',
       notebook_id: '',
       id: ''
-    }; // this.handleSubmit = this.handleSubmit.bind(this)
-
+    };
+    _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -451,16 +453,19 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         return _this4.setState(_defineProperty({}, field, e.currentTarget.value));
       };
-    } // handleSubmit(e){
-    //     e.preventDefault();
-    //     const note = Object.assign({}, this.state)
-    //     this.props.updateNote(note)
-    // }
-
+    }
+  }, {
+    key: "deleteNote",
+    value: function deleteNote() {
+      this.props.deleteNote(this.state.id);
+    }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        to: "/notes",
+        onClick: this.deleteNote
+      }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
@@ -503,6 +508,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
  // const mapStateToProps = (state, ownProps) => ({
 //     // currentNote: dispatch(fetchNote(ownProps.match.params.id)) 
 // })
@@ -514,6 +520,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     updateNote: function updateNote(note) {
       return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.updateNote)(note));
+    },
+    deleteNote: function deleteNote(noteId) {
+      return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.deleteNote)(noteId));
     }
   };
 };
@@ -1264,7 +1273,7 @@ var NotesReducer = function NotesReducer() {
       return nextState;
 
     case _actions_note_actions__WEBPACK_IMPORTED_MODULE_0__.REMOVE_NOTE:
-      delete nextState[action.note.id];
+      delete nextState[action.noteId];
       return nextState;
 
     default:
