@@ -16,6 +16,10 @@
     foreign_key: :author_id,
     class_name: :Note,
     dependent: :destroy
+
+    has_many :notebooks,
+    foreign_key: :user_id,
+    class_name: "Notebook"
     
   after_initialize :ensure_session_token
 
