@@ -37,7 +37,7 @@ export const fetchNotebook = (notebookId) => (dispatch) => {
 
 export const createNotebook = (notebook) => (dispatch) => {
     return NotebooksApiUtil.createNotebook(notebook)
-        .then(({ notebook}) => dispatch(receiveNotebook(notebook)))
+        .then(notebook => dispatch(receiveNotebook(notebook)))
 }
 
 export const updateNotebook = (notebook) => (dispatch) => {

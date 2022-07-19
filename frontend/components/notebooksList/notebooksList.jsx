@@ -10,9 +10,17 @@ class NotebookList extends React.Component {
     componentDidMount(){
         let allNotebooks = this.props.fetchNotebooks
         dispatch(allNotebooks())
-        
+        let notebooksArray = Object.values(this.props.notebooks)
+
     }
 
+    // componentDidUpdate(prevProps, prevState){
+    //     if(prevProps.name != this.state.name){
+    //         dispatch(this.props.fetchNotebooks())
+    //     }
+    // }
+
+ 
  
 
     
@@ -27,7 +35,7 @@ class NotebookList extends React.Component {
                     <li>{<NotebookItem notebook={notebook}/>}</li>
                 ))}
             </ul>
-
+   
 
         </div>
    
