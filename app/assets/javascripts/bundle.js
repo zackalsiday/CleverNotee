@@ -881,22 +881,50 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(NotebookItem);
 
   function NotebookItem(props) {
+    var _this;
+
     _classCallCheck(this, NotebookItem);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      id: _this.props.notebook.id,
+      name: _this.props.notebook.name,
+      user_id: _this.props.notebook.userId
+    };
+    _this.deleteNotebook = _this.deleteNotebook.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(NotebookItem, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log(this.props);
+      console.log(this.state);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState == this.state) {
+        this.props.fetchNotebooks();
+      }
+    }
+  }, {
+    key: "deleteNotebook",
+    value: function deleteNotebook() {
+      this.props.deleteNotebook(this.state.id);
+      this.setState({
+        id: '',
+        name: '',
+        user_id: ''
+      });
     }
   }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
         to: "/notebooks/".concat(this.props.notebook.id)
-      }, this.props.notebook.name));
+      }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+        onClick: this.deleteNotebook
+      }, "Delete"));
     }
   }]);
 
@@ -982,20 +1010,24 @@ var NotebookList = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderNotebooks",
     value: function renderNotebooks() {
+      var _this2 = this;
+
       var notebooksArray = Object.values(this.props.notebooks);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, notebooksArray.map(function (notebook) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_notebookItem_notebookItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          notebook: notebook
+          notebook: notebook,
+          deleteNotebook: _this2.props.deleteNotebook,
+          fetchNotebooks: _this2.props.fetchNotebooks
         }));
       })));
     }
   }, {
     key: "update",
     value: function update(field) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
+        return _this3.setState(_defineProperty({}, field, e.currentTarget.value));
       };
     }
   }, {
