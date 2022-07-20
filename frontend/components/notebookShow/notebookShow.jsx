@@ -21,7 +21,7 @@ class NotebookShow extends React.Component {
         return (
             <div>
                 <h1>We are in the notebookShow component</h1>
-               {this.renderNotes()}
+               {/* {this.renderNotes()} */}
             </div>
 
         )
