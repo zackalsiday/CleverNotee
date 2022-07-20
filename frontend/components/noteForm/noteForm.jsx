@@ -24,6 +24,7 @@ class NoteForm extends React.Component {
         e.preventDefault();
         const note = Object.assign({}, this.state)
         this.props.createNote(note)
+        this.setState({title: ''})
     }
 
     render(){

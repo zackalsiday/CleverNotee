@@ -5,22 +5,20 @@ import { deleteNotebook } from '../../actions/notebook_actions'
 class NotebookItem extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {id: this.props.notebook.id, name: this.props.notebook.name, user_id: this.props.notebook.userId}
         this.deleteNotebook = this.deleteNotebook.bind(this)
     }
     componentDidMount(){
         console.log(this.state)
     }
 
-    componentDidUpdate(prevProps, prevState){
-        if(prevState == this.state){
-            this.props.fetchNotebooks()
-        }
-    }
+    // componentDidUpdate(prevProps, prevState){
+    //     if(prevState == this.state){
+    //         console.log(this.state)
+    //     }
+    // }
 
-    deleteNotebook(){
-        this.props.deleteNotebook(this.state.id)
-        this.setState({id: '', name:'', user_id:''})
+    deleteNotebook(notebookId){
+        this.props.deleteNotebook(notebookId)
     }
     render() {
         return (
@@ -28,7 +26,8 @@ class NotebookItem extends React.Component {
                 <Link to={`/notebooks/${this.props.notebook.id}`}>
                     {this.props.notebook.name}
                 </Link>
-                <button onClick={this.deleteNotebook}>Delete</button>
+                {/* <button onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button> */}
+                {/* this is commented out because if i delete the notebook it will delete all the notes within it */}
             </li>
         )
     }

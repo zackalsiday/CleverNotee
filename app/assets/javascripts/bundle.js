@@ -700,6 +700,9 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       e.preventDefault();
       var note = Object.assign({}, this.state);
       this.props.createNote(note);
+      this.setState({
+        title: ''
+      });
     }
   }, {
     key: "render",
@@ -744,6 +747,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _noteForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./noteForm */ "./frontend/components/noteForm/noteForm.jsx");
 /* harmony import */ var _actions_note_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/note_actions */ "./frontend/actions/note_actions.js");
+/* harmony import */ var _actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/notebook_actions */ "./frontend/actions/notebook_actions.js");
+
 
 
 
@@ -758,6 +763,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     createNote: function createNote(note) {
       return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.createNote)(note));
+    },
+    fetchNotebooks: function fetchNotebooks() {
+      return (0,_actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNotebooks)();
     }
   };
 };
@@ -886,11 +894,6 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, NotebookItem);
 
     _this = _super.call(this, props);
-    _this.state = {
-      id: _this.props.notebook.id,
-      name: _this.props.notebook.name,
-      user_id: _this.props.notebook.userId
-    };
     _this.deleteNotebook = _this.deleteNotebook.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -899,32 +902,23 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       console.log(this.state);
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps, prevState) {
-      if (prevState == this.state) {
-        this.props.fetchNotebooks();
-      }
-    }
+    } // componentDidUpdate(prevProps, prevState){
+    //     if(prevState == this.state){
+    //         console.log(this.state)
+    //     }
+    // }
+
   }, {
     key: "deleteNotebook",
-    value: function deleteNotebook() {
-      this.props.deleteNotebook(this.state.id);
-      this.setState({
-        id: '',
-        name: '',
-        user_id: ''
-      });
+    value: function deleteNotebook(notebookId) {
+      this.props.deleteNotebook(notebookId);
     }
   }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
         to: "/notebooks/".concat(this.props.notebook.id)
-      }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-        onClick: this.deleteNotebook
-      }, "Delete"));
+      }, this.props.notebook.name));
     }
   }]);
 
@@ -1002,7 +996,7 @@ var NotebookList = /*#__PURE__*/function (_React$Component) {
       dispatch(allNotebooks());
       var notebooksArray = Object.values(this.props.notebooks);
     } // componentDidUpdate(prevProps, prevState){
-    //     if(prevProps.name != this.state.name){
+    //     if(prevProps == this.props){
     //         dispatch(this.props.fetchNotebooks())
     //     }
     // }
