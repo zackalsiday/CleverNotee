@@ -7,6 +7,7 @@ import NoteItem from '../noteItem/note_item'
 import {Route} from 'react-router-dom'
 import NoteEditContainer from '../noteEdit/noteEdit_container'
 import NotebookListContainer from '../notebooksList/notebooksList_container'
+import NotebookShowContainer from '../notebookShow/notebookShow_container'
 class Main extends React.Component {
     constructor(props){
         super(props)
@@ -44,8 +45,13 @@ class Main extends React.Component {
                     </Link>
                    */}
                 </hgroup>
-                <ProtectedRoute path="/notebooks" component={NotebookListContainer}/>
+                <Switch>
+                    <ProtectedRoute path="/notebooks/:id/notes" component={NotebookShowContainer} />
+                    <ProtectedRoute path="/notebooks" component={NotebookListContainer}/>
+                </Switch>
+         
                 <ProtectedRoute path="/notes" component={NoteContainer}/>
+               
                 <Switch>
                  <ProtectedRoute  exact path="/notes/:id" component={NoteEditContainer} />
                  <ProtectedRoute path="/notes" component={NoteFormContainer} />

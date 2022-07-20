@@ -74,7 +74,7 @@ class NoteEdit extends React.Component {
         return (
             <div>
                 <Link to="/notes" onClick={this.deleteNote}>Delete</Link>
-                <form onSubmit={this.handleSubmit}>
+                <form >
                     <input type="text"
                         value={this.state.title}
                         placeholder='please title your note'
@@ -86,10 +86,6 @@ class NoteEdit extends React.Component {
                         value={this.state.content}
                         placeholder='take notes here'
                         onChange={this.update('content')}
-                    />
-
-                    <input type="submit"
-                        value='submit'
                     />
                 </form>
             </div>

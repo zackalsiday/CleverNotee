@@ -3,6 +3,7 @@ import NotebookList from './notebooksList'
 import { fetchNotebooks } from '../../actions/notebook_actions'
 import { createNotebook } from '../../actions/notebook_actions'
 import { deleteNotebook } from '../../actions/notebook_actions'
+import { updateNotebook } from '../../actions/notebook_actions'
 const mapStateToProps = (state) => ({
     currentUser: state.entities.users[state.session.id],
     notebooks: state.entities.notebooks
@@ -11,7 +12,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
     fetchNotebooks: () => fetchNotebooks(),
     createNotebook: notebook => dispatch(createNotebook(notebook)),
-    deleteNotebook: notebookId => dispatch(deleteNotebook(notebookId))
+    deleteNotebook: notebookId => dispatch(deleteNotebook(notebookId)),
+    updateNotebook: notebook => dispatch(updateNotebook(notebook)) 
 })
 
 export default connect(

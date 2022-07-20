@@ -42,7 +42,7 @@ export const createNotebook = (notebook) => (dispatch) => {
 
 export const updateNotebook = (notebook) => (dispatch) => {
     return NotebooksApiUtil.updateNotebook(notebook)
-        .then(({ notebook, notes }) => dispatch(receiveNotebook(notebook.notes)))
+        .then(notebook => dispatch(receiveNotebook(notebook)))
 }
 
 export const deleteNotebook = (notebookId) => (dispatch) => {

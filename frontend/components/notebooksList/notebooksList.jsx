@@ -33,7 +33,12 @@ class NotebookList extends React.Component {
            <ul>
                 {notebooksArray.map((notebook) => (
                     <li>
-                        {<NotebookItem notebook={notebook} deleteNotebook={this.props.deleteNotebook} fetchNotebooks={this.props.fetchNotebooks}/>}
+                        {<NotebookItem 
+                        notebook={notebook} 
+                        deleteNotebook={this.props.deleteNotebook} 
+                        fetchNotebooks={this.props.fetchNotebooks}
+                        updateNotebook={this.props.updateNotebook}
+                        />}
                         
                     </li>
                 ))}
