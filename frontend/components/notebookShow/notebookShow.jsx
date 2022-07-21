@@ -61,9 +61,9 @@ class NotebookShow extends React.Component {
                         onChange={this.update('content')}
                     />
 
-                    {/* <input type="submit"
+                    <input type="submit"
                         value='submit'
-                    /> */}
+                    />
                 </form>
             </div>
 

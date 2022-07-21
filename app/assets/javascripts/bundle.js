@@ -1068,6 +1068,9 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "submit",
+        value: "submit"
       })));
     }
   }]);
