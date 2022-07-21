@@ -360,14 +360,14 @@ var Main = /*#__PURE__*/function (_React$Component) {
         className: "header-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
         className: "header-name"
-      }, "Hi, ", this.props.currentUser.username, "!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      }, "Hi, ", this.props.currentUser.username, "!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        to: "/notes"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        to: "/notebooks"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         className: "header-button",
         onClick: this.props.logout
-      }, "Log Out"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        to: "/notes"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        to: "/notebooks"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
+      }, "Log Out")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
         path: "/notebooks/:notebook_id/notes",
         component: _notebookShow_notebookShow_container__WEBPACK_IMPORTED_MODULE_7__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
@@ -377,8 +377,10 @@ var Main = /*#__PURE__*/function (_React$Component) {
         path: "/notes",
         component: _notesList_notes_container__WEBPACK_IMPORTED_MODULE_2__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
-        exact: true,
-        path: "/notes/:id",
+        path: "/notebooks/:notebook_id/notes/:note_id",
+        component: _noteEdit_noteEdit_container__WEBPACK_IMPORTED_MODULE_5__["default"]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
+        path: "/notes/:note_id",
         component: _noteEdit_noteEdit_container__WEBPACK_IMPORTED_MODULE_5__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
         path: "/notes",
@@ -498,7 +500,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      dispatch(this.props.fetchNote(this.props.match.params.id)).then(function (res) {
+      dispatch(this.props.fetchNote(this.props.match.params.note_id)).then(function (res) {
         _this2.setState({
           title: res.note.title,
           content: res.note.content,
@@ -507,15 +509,15 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
           id: res.note.id
         });
       });
-      console.log(this.state);
+      console.log(this.props);
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
       var _this3 = this;
 
-      if (prevProps.match.params.id != this.props.match.params.id) {
-        dispatch(this.props.fetchNote(this.props.match.params.id)).then(function (res) {
+      if (prevProps.match.params.note_id != this.props.match.params.note_id) {
+        dispatch(this.props.fetchNote(this.props.match.params.note_id)).then(function (res) {
           _this3.setState({
             title: res.note.title,
             content: res.note.content,
@@ -539,8 +541,6 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
 
         this.props.updateNote(_note3);
       }
-
-      console.log(this.state);
     }
   }, {
     key: "update",
@@ -601,9 +601,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // const mapStateToProps = (state, ownProps) => ({
-//     // currentNote: dispatch(fetchNote(ownProps.match.params.id)) 
-// })
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    state: state
+  };
+};
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
@@ -619,7 +623,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(null, mapDispatchToProps)(_noteEdit__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_noteEdit__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -903,11 +907,6 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(NotebookItem, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      console.log(this.state);
-    }
-  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -967,6 +966,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Link.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -990,6 +990,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1018,7 +1019,6 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchNotes();
-      console.log(this.props);
     }
   }, {
     key: "renderNotes",
@@ -1030,7 +1030,9 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
         return note.notebookId.toString() === _this2.props.match.params.notebook_id.toString();
       });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, filteredNotes.map(function (note) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, note.title);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          to: "/notebooks/:notebook_id/notes/".concat(note.id)
+        }, note.title));
       }));
     }
   }, {

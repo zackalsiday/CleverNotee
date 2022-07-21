@@ -12,9 +12,7 @@ class NotebookItem extends React.Component {
         }
         this.deleteNotebook = this.deleteNotebook.bind(this)
     }
-    componentDidMount(){
-        console.log(this.state)
-    }
+
 
 
     update(field) {

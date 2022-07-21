@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 class NotebookShow extends React.Component {
     constructor(props) {
         super(props)
@@ -14,7 +14,7 @@ class NotebookShow extends React.Component {
 
     componentDidMount(){
        this.props.fetchNotes()
-        console.log(this.props)
+       
     }
 
     renderNotes(){
@@ -23,7 +23,9 @@ class NotebookShow extends React.Component {
         return(
             <ul>
                 {filteredNotes.map((note) => (
-                    <li>{note.title}</li>
+                    <li>
+                        <Link to={`/notebooks/:notebook_id/notes/${note.id}`}>{note.title}</Link>   
+                    </li>
                 ))}
             </ul>
         )

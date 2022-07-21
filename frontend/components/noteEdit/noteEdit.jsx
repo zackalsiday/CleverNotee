@@ -14,7 +14,7 @@ class NoteEdit extends React.Component {
     }
 
     componentDidMount() {
-        dispatch(this.props.fetchNote(this.props.match.params.id)).then((res) => {
+        dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
                 title: res.note.title,
                 content: res.note.content,
@@ -23,12 +23,12 @@ class NoteEdit extends React.Component {
                 id: res.note.id
             })
         })
-        console.log(this.state)
+      console.log(this.props)
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.match.params.id != this.props.match.params.id) {
-            dispatch(this.props.fetchNote(this.props.match.params.id)).then((res) => {
+        if(prevProps.match.params.note_id != this.props.match.params.note_id) {
+            dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
                 this.setState({
                     title: res.note.title,
                     content: res.note.content,
@@ -49,7 +49,7 @@ class NoteEdit extends React.Component {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
         }
-        console.log(this.state)
+       
     }
 
     update(field) {

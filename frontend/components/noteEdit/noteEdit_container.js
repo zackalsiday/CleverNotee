@@ -5,9 +5,9 @@ import NoteEdit from './noteEdit';
 import { fetchNote } from '../../actions/note_actions'
 import {updateNote} from '../../actions/note_actions'
 import { deleteNote } from '../../actions/note_actions';
-// const mapStateToProps = (state, ownProps) => ({
-//     // currentNote: dispatch(fetchNote(ownProps.match.params.id)) 
-// })
+const mapStateToProps = (state, ownProps) => ({
+   state 
+})
 
 const mapDispatchToProps = dispatch => ({
     fetchNote: (noteId) => (fetchNote(noteId)),
@@ -16,6 +16,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(NoteEdit);

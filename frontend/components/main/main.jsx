@@ -19,18 +19,20 @@ class Main extends React.Component {
             <div>
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
-                    <button className="header-button" onClick={this.props.logout}>Log Out</button>
-                    <br />
                      <Link to='/notes'> 
                         <button>
                             Notes 
                         </button>
                     </Link>
+                    <br />
                     <Link to='/notebooks'>
                         <button>
                             Notebooks
                         </button>
                     </Link>
+
+                    <br />
+                    <button className="header-button" onClick={this.props.logout}>Log Out</button>
                          {/* <br />
                     <Link to="/notes">
                         <button>
@@ -53,7 +55,8 @@ class Main extends React.Component {
                 <ProtectedRoute path="/notes" component={NoteContainer}/>
                
                 <Switch>
-                 <ProtectedRoute  exact path="/notes/:id" component={NoteEditContainer} />
+                 <ProtectedRoute path='/notebooks/:notebook_id/notes/:note_id' component={NoteEditContainer}/>
+                 <ProtectedRoute path="/notes/:note_id" component={NoteEditContainer} />
                  <ProtectedRoute path="/notes" component={NoteFormContainer} />
                 </Switch>
 
