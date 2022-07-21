@@ -7,7 +7,7 @@ class NoteForm extends React.Component {
             title: '',
             content: '',
             author_id: this.props.currentUser.id,
-            notebook_id: 1
+            notebook_id: 2
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -24,7 +24,7 @@ class NoteForm extends React.Component {
         e.preventDefault();
         const note = Object.assign({}, this.state)
         this.props.createNote(note)
-        this.setState({title: ''})
+        this.setState({title: '', content: ''})
     }
 
     render(){

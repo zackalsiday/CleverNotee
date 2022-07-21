@@ -46,7 +46,7 @@ class Main extends React.Component {
                    */}
                 </hgroup>
                 <Switch>
-                    <ProtectedRoute path="/notebooks/:id/notes" component={NotebookShowContainer} />
+                    <ProtectedRoute path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
                     <ProtectedRoute path="/notebooks" component={NotebookListContainer}/>
                 </Switch>
          

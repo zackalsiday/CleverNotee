@@ -368,7 +368,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
         to: "/notebooks"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
-        path: "/notebooks/:id/notes",
+        path: "/notebooks/:notebook_id/notes",
         component: _notebookShow_notebookShow_container__WEBPACK_IMPORTED_MODULE_7__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
         path: "/notebooks",
@@ -677,7 +677,7 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       title: '',
       content: '',
       author_id: _this.props.currentUser.id,
-      notebook_id: 1
+      notebook_id: 2
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
@@ -699,7 +699,8 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       var note = Object.assign({}, this.state);
       this.props.createNote(note);
       this.setState({
-        title: ''
+        title: '',
+        content: ''
       });
     }
   }, {
@@ -968,6 +969,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -996,25 +999,79 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(NotebookShow);
 
   function NotebookShow(props) {
+    var _this;
+
     _classCallCheck(this, NotebookShow);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      title: '',
+      content: '',
+      author_id: parseInt(_this.props.currentUser.id),
+      notebook_id: parseInt(_this.props.match.params.notebook_id)
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(NotebookShow, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.fetchNotes();
+      console.log(this.props);
     }
   }, {
     key: "renderNotes",
     value: function renderNotes() {
+      var _this2 = this;
+
       var notesArray = Object.values(this.props.notes);
+      var filteredNotes = notesArray.filter(function (note) {
+        return note.notebookId.toString() === _this2.props.match.params.notebook_id.toString();
+      });
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, filteredNotes.map(function (note) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, note.title);
+      }));
+    }
+  }, {
+    key: "update",
+    value: function update(field) {
+      var _this3 = this;
+
+      return function (e) {
+        return _this3.setState(_defineProperty({}, field, e.currentTarget.value));
+      };
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      var note = Object.assign({}, this.state);
+      this.props.createNote(note);
+      this.setState({
+        title: '',
+        content: ''
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "We are in the notebookShow component"));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderNotes(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "text",
+        value: this.state.title,
+        placeholder: "please title your note",
+        onChange: this.update('title')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "text",
+        value: this.state.content,
+        placeholder: "take notes here",
+        onChange: this.update('content')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "submit",
+        value: "submit"
+      })));
     }
   }]);
 
@@ -1043,9 +1100,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    notes: state.entities.notes
+    notes: state.entities.notes,
+    currentUser: state.entities.users[state.session.id]
   };
 };
 
@@ -1053,6 +1112,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchNotes: function fetchNotes() {
       return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.fetchNotes)());
+    },
+    createNote: function createNote(note) {
+      return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.createNote)(note));
     }
   };
 };
