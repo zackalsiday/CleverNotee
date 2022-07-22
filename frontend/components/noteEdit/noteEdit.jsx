@@ -82,7 +82,7 @@ class NoteEdit extends React.Component {
         return (
             <div>
                 {this.renderBackButton()}
-                {/* <Link to={this.state.url} onClick={this.deleteNote}>Delete</Link> */}
+                <Link to={this.state.url} onClick={this.deleteNote}>Delete</Link>
                 <form >
                     <input type="text"
                         value={this.state.title}
