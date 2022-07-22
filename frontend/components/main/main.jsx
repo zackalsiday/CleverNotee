@@ -33,29 +33,18 @@ class Main extends React.Component {
 
                     <br />
                     <button className="header-button" onClick={this.props.logout}>Log Out</button>
-                         {/* <br />
-                    <Link to="/notes">
-                        <button>
-                            Home
-                        </button>
-                    </Link>
-                    <br />
-                    <Link to='/notes'>
-                        <button>
-                            Create Note 
-                        </button>
-                    </Link>
-                   */}
                 </hgroup>
                 <Switch>
-                    <ProtectedRoute path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
+                    <ProtectedRoute exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
+                    <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
                     <ProtectedRoute path="/notebooks" component={NotebookListContainer}/>
                 </Switch>
          
                 <ProtectedRoute path="/notes" component={NoteContainer}/>
+                
                
                 <Switch>
-                 <ProtectedRoute path='/notebooks/:notebook_id/notes/:note_id' component={NoteEditContainer}/>
+                 <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
                  <ProtectedRoute path="/notes/:note_id" component={NoteEditContainer} />
                  <ProtectedRoute path="/notes" component={NoteFormContainer} />
                 </Switch>

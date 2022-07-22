@@ -368,7 +368,11 @@ var Main = /*#__PURE__*/function (_React$Component) {
         className: "header-button",
         onClick: this.props.logout
       }, "Log Out")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
+        exact: true,
         path: "/notebooks/:notebook_id/notes",
+        component: _notebookShow_notebookShow_container__WEBPACK_IMPORTED_MODULE_7__["default"]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
+        path: "/notebooks/:notebook_id/notes/:note_id",
         component: _notebookShow_notebookShow_container__WEBPACK_IMPORTED_MODULE_7__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
         path: "/notebooks",
@@ -489,7 +493,8 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       content: '',
       author_id: '',
       notebook_id: '',
-      id: ''
+      id: '',
+      url: _this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? "/notebooks/".concat(_this.props.match.params.notebook_id, "/notes") : '/notes'
     };
     _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     return _this;
@@ -557,10 +562,23 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       this.props.deleteNote(this.state.id);
     }
   }, {
+    key: "renderBackButton",
+    value: function renderBackButton() {
+      var _this5 = this;
+
+      if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id") {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+          onClick: function onClick() {
+            return _this5.props.history.goBack();
+          }
+        }, "Return");
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        to: "/notes",
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderBackButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        to: this.state.url,
         onClick: this.deleteNote
       }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
@@ -1031,7 +1049,7 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
       });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, filteredNotes.map(function (note) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          to: "/notebooks/:notebook_id/notes/".concat(note.id)
+          to: "/notebooks/".concat(note.notebookId, "/notes/").concat(note.id)
         }, note.title));
       }));
     }
@@ -1056,24 +1074,31 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "renderForm",
+    value: function renderForm() {
+      if (this.props.match.path == "/notebooks/:notebook_id/notes") {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+          onSubmit: this.handleSubmit
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+          type: "text",
+          value: this.state.title,
+          placeholder: "please title your note",
+          onChange: this.update('title')
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+          type: "text",
+          value: this.state.content,
+          placeholder: "take notes here",
+          onChange: this.update('content')
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+          type: "submit",
+          value: "submit"
+        })));
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderNotes(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-        type: "text",
-        value: this.state.title,
-        placeholder: "please title your note",
-        onChange: this.update('title')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-        type: "text",
-        value: this.state.content,
-        placeholder: "take notes here",
-        onChange: this.update('content')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-        type: "submit",
-        value: "submit"
-      })));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderNotes(), this.renderForm());
     }
   }]);
 
@@ -1106,7 +1131,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     notes: state.entities.notes,
-    currentUser: state.entities.users[state.session.id]
+    currentUser: state.entities.users[state.session.id],
+    state: state
   };
 };
 

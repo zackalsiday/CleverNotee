@@ -6,7 +6,7 @@ import { fetchNote } from '../../actions/note_actions'
 import {updateNote} from '../../actions/note_actions'
 import { deleteNote } from '../../actions/note_actions';
 const mapStateToProps = (state, ownProps) => ({
-   state 
+   state
 })
 
 const mapDispatchToProps = dispatch => ({

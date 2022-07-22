@@ -14,8 +14,10 @@ class NotebookShow extends React.Component {
 
     componentDidMount(){
        this.props.fetchNotes()
-       
+  
     }
+
+
 
     renderNotes(){
         let notesArray = Object.values(this.props.notes)
@@ -24,7 +26,7 @@ class NotebookShow extends React.Component {
             <ul>
                 {filteredNotes.map((note) => (
                     <li>
-                        <Link to={`/notebooks/:notebook_id/notes/${note.id}`}>{note.title}</Link>   
+                        <Link to={`/notebooks/${note.notebookId}/notes/${note.id}`}>{note.title}</Link>   
                     </li>
                 ))}
             </ul>
@@ -44,12 +46,12 @@ class NotebookShow extends React.Component {
         this.setState({ title: '', content: '' })
     }
 
-    render() {
-
-        return (
+    renderForm(){
+        if (this.props.match.path == "/notebooks/:notebook_id/notes"){
+            return (
             <div>
-               {this.renderNotes()}
-                <form onSubmit={this.handleSubmit}>
+            
+                  <form onSubmit={this.handleSubmit}>
                     <input type="text"
                         value={this.state.title}
                         placeholder='please title your note'
@@ -67,6 +69,19 @@ class NotebookShow extends React.Component {
                         value='submit'
                     />
                 </form>
+            </div>
+              
+            )
+        }
+ 
+    }
+
+    render() {
+
+        return (
+            <div>
+               {this.renderNotes()}
+                {this.renderForm()}
             </div>
 
         )

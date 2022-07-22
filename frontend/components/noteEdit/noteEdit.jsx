@@ -8,10 +8,13 @@ class NoteEdit extends React.Component {
             content: '',
             author_id: '',
             notebook_id: '',
-            id: ''
+            id: '',
+            url: this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? `/notebooks/${this.props.match.params.notebook_id}/notes` : '/notes'
         }
         this.deleteNote = this.deleteNote.bind(this)
+     
     }
+
 
     componentDidMount() {
         dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
@@ -23,7 +26,7 @@ class NoteEdit extends React.Component {
                 id: res.note.id
             })
         })
-      console.log(this.props)
+        console.log(this.props)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -49,7 +52,6 @@ class NoteEdit extends React.Component {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
         }
-       
     }
 
     update(field) {
@@ -63,7 +65,13 @@ class NoteEdit extends React.Component {
         this.props.deleteNote(this.state.id)
     }
 
-   
+   renderBackButton(){
+       if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ){
+           return (
+               <button onClick={() => this.props.history.goBack()}>Return</button>
+           )
+       }
+   }
 
    
 
@@ -73,7 +81,8 @@ class NoteEdit extends React.Component {
     render() {
         return (
             <div>
-                <Link to="/notes" onClick={this.deleteNote}>Delete</Link>
+                {this.renderBackButton()}
+                <Link to={this.state.url} onClick={this.deleteNote}>Delete</Link>
                 <form >
                     <input type="text"
                         value={this.state.title}
