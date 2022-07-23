@@ -7,11 +7,14 @@ class NoteForm extends React.Component {
             title: '',
             content: '',
             author_id: this.props.currentUser.id,
-            notebook_id: 2
+            notebook_id: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
-
+    componentDidMount(){
+        this.props.fetchNotebooks()
+       
+    }
     
 
     update(field) {
@@ -25,6 +28,19 @@ class NoteForm extends React.Component {
         const note = Object.assign({}, this.state)
         this.props.createNote(note)
         this.setState({title: '', content: ''})
+    }
+
+    notebookOptions(){
+        let notebooksArray = Object.values(this.props.notebooks)
+        return(
+            <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
+                
+                {notebooksArray.map((notebook) => (
+                    <option value={notebook.id}>{notebook.name}</option>
+                ))}
+            </select>
+        )
+
     }
 
     render(){
@@ -42,13 +58,16 @@ class NoteForm extends React.Component {
              type="text"
              value={this.state.content}
              placeholder='take notes here'
-                    onChange={this.update('content')}
+             onChange={this.update('content')}
              />
+
+             {this.notebookOptions()}
 
              <input type="submit" 
              value='submit'
              />
          </form>
+                
         </div>
   
         )

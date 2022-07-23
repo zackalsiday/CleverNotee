@@ -17,6 +17,7 @@ class NoteEdit extends React.Component {
 
 
     componentDidMount() {
+        this.props.fetchNotebooks()
         dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
                 title: res.note.title,
@@ -26,7 +27,7 @@ class NoteEdit extends React.Component {
                 id: res.note.id
             })
         })
-        console.log(this.props)
+        
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -73,6 +74,19 @@ class NoteEdit extends React.Component {
        }
    }
 
+    notebookOptions() {
+        let notebooksArray = Object.values(this.props.notebooks)
+        return (
+            <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
+
+                {notebooksArray.map((notebook) => (
+                    <option value={notebook.id}>{notebook.name}</option>
+                ))}
+            </select>
+        )
+
+    }
+
    
 
   
@@ -96,6 +110,7 @@ class NoteEdit extends React.Component {
                         placeholder='take notes here'
                         onChange={this.update('content')}
                     />
+                    {this.notebookOptions()}
                 </form>
             </div>
 

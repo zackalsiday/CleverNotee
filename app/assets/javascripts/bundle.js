@@ -505,6 +505,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.props.fetchNotebooks();
       dispatch(this.props.fetchNote(this.props.match.params.note_id)).then(function (res) {
         _this2.setState({
           title: res.note.title,
@@ -514,7 +515,6 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
           id: res.note.id
         });
       });
-      console.log(this.props);
     }
   }, {
     key: "componentDidUpdate",
@@ -575,6 +575,19 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "notebookOptions",
+    value: function notebookOptions() {
+      var notebooksArray = Object.values(this.props.notebooks);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+        value: this.state.notebook_id,
+        onChange: this.update('notebook_id')
+      }, notebooksArray.map(function (notebook) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+          value: notebook.id
+        }, notebook.name);
+      }));
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderBackButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -590,7 +603,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
-      })));
+      }), this.notebookOptions()));
     }
   }]);
 
@@ -615,15 +628,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _noteEdit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./noteEdit */ "./frontend/components/noteEdit/noteEdit.jsx");
 /* harmony import */ var _actions_note_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/note_actions */ "./frontend/actions/note_actions.js");
+/* harmony import */ var _actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/notebook_actions */ "./frontend/actions/notebook_actions.js");
 
 
 
 
 
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+
+var mapStateToProps = function mapStateToProps(state) {
   return {
-    state: state
+    notebooks: state.entities.notebooks
   };
 };
 
@@ -637,6 +652,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteNote: function deleteNote(noteId) {
       return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.deleteNote)(noteId));
+    },
+    fetchNotebooks: function fetchNotebooks() {
+      return dispatch((0,_actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNotebooks)());
     }
   };
 };
@@ -699,13 +717,18 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       title: '',
       content: '',
       author_id: _this.props.currentUser.id,
-      notebook_id: 2
+      notebook_id: ''
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(NoteForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchNotebooks();
+    }
+  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -726,6 +749,19 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "notebookOptions",
+    value: function notebookOptions() {
+      var notebooksArray = Object.values(this.props.notebooks);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+        value: this.state.notebook_id,
+        onChange: this.update('notebook_id')
+      }, notebooksArray.map(function (notebook) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+          value: notebook.id
+        }, notebook.name);
+      }));
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
@@ -740,7 +776,7 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      }), this.notebookOptions(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "submit",
         value: "submit"
       })));
@@ -776,7 +812,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    currentUser: state.entities.users[state.session.id]
+    currentUser: state.entities.users[state.session.id],
+    notebooks: state.entities.notebooks
   };
 };
 
@@ -786,7 +823,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.createNote)(note));
     },
     fetchNotebooks: function fetchNotebooks() {
-      return (0,_actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNotebooks)();
+      return dispatch((0,_actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNotebooks)());
     }
   };
 };
