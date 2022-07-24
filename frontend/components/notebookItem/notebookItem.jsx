@@ -26,11 +26,11 @@ class NotebookItem extends React.Component {
         this.props.deleteNotebook(notebookId)
     }
 
-    // deleteButton(){
-    //     return(
-    //         <button onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button>
-    //     )
-    // }
+    deleteButton(){
+        return(
+            <button onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button>
+        )
+    }
 
     
     render() {
