@@ -7,13 +7,15 @@ class NoteForm extends React.Component {
             title: '',
             content: '',
             author_id: this.props.currentUser.id,
-            notebook_id: ''
+            notebook_id: 1
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     componentDidMount(){
-        this.props.fetchNotebooks()
-       
+
+        this.props.fetchNotebooks().then((res) => {
+            console.log(res)
+        })
     }
     
 
@@ -30,8 +32,13 @@ class NoteForm extends React.Component {
         this.setState({title: '', content: ''})
     }
 
+
+
     notebookOptions(){
         let notebooksArray = Object.values(this.props.notebooks)
+
+        
+        
         return(
             <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
                 
@@ -60,9 +67,9 @@ class NoteForm extends React.Component {
              placeholder='take notes here'
              onChange={this.update('content')}
              />
-
+            <br />
              {this.notebookOptions()}
-
+            <br />
              <input type="submit" 
              value='submit'
              />

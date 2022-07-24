@@ -717,7 +717,7 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       title: '',
       content: '',
       author_id: _this.props.currentUser.id,
-      notebook_id: ''
+      notebook_id: 1
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
@@ -726,7 +726,9 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
   _createClass(NoteForm, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.fetchNotebooks();
+      this.props.fetchNotebooks().then(function (res) {
+        console.log(res);
+      });
     }
   }, {
     key: "update",
@@ -776,7 +778,7 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
-      }), this.notebookOptions(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), this.notebookOptions(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "submit",
         value: "submit"
       })));
@@ -976,19 +978,26 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
       this.props.deleteNotebook(notebookId);
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "deleteButton",
+    value: function deleteButton() {
       var _this3 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        to: "/notebooks/".concat(this.props.notebook.id, "/notes")
-      }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: function onClick() {
           return _this3.deleteNotebook(_this3.props.notebook.id);
         }
-      }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+      }, "Delete");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        to: "/notebooks/".concat(this.props.notebook.id, "/notes")
+      }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), this.props.notebook.id != 1 ? this.deleteButton() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
         onSubmit: function onSubmit() {
-          return _this3.props.updateNotebook(_this3.state);
+          return _this4.props.updateNotebook(_this4.state);
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",

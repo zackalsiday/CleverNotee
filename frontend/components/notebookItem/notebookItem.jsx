@@ -26,6 +26,12 @@ class NotebookItem extends React.Component {
         this.props.deleteNotebook(notebookId)
     }
 
+    deleteButton(){
+        return(
+            <button onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button>
+        )
+    }
+
     
     render() {
         return (
@@ -33,7 +39,9 @@ class NotebookItem extends React.Component {
                 <Link to={`/notebooks/${this.props.notebook.id}/notes`}>
                     {this.props.notebook.name}
                 </Link>
-                <button onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button>
+                <br />
+                {this.props.notebook.id != 1 ? this.deleteButton() : ''}
+          
                 <form onSubmit={() => this.props.updateNotebook(this.state)}>
                     <input 
                     type="text" 
