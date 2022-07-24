@@ -34,7 +34,7 @@ class Note extends React.Component{
         
         return (
         <div>
-            {/* {this.renderNotes()} */}
+            {this.renderNotes()}
                
         </div>
             
