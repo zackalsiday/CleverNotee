@@ -10,6 +10,6 @@ class Note < ApplicationRecord
     belongs_to :notebook,
     foreign_key: :notebook_id,
     class_name: "Notebook"
-
+    
     
 end

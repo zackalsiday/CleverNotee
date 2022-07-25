@@ -20,6 +20,10 @@
     has_many :notebooks,
     foreign_key: :user_id,
     class_name: "Notebook"
+
+    has_many :tags,
+    foreign_key: :user_id,
+    class_name: "Tag"
     
   after_initialize :ensure_session_token
 
