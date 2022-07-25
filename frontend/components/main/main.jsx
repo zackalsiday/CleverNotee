@@ -13,6 +13,7 @@ class Main extends React.Component {
         super(props)
     }
 
+
     render(){
      
         return (
@@ -29,6 +30,12 @@ class Main extends React.Component {
                         <button>
                             Notebooks
                         </button>
+                    </Link>
+                    <br />
+                    <Link to='/tags'>
+                            <button>
+                                 Tags 
+                            </button>
                     </Link>
 
                     <br />

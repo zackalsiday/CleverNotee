@@ -3,10 +3,12 @@ import { combineReducers } from "redux";
 import usersReducer from "./users_reducer";
 import NotesReducer from "./notes_reducer";
 import notebooksReducer from "./notebooks_Reducer";
+import tagsReducer from "./tags_reducer"
 const entitiesReducer = combineReducers({
     users: usersReducer,
     notes: NotesReducer,
-    notebooks: notebooksReducer
+    notebooks: notebooksReducer,
+    tags: tagsReducer
 });
 
 export default entitiesReducer;

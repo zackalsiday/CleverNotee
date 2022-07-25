@@ -238,6 +238,89 @@ var logout = function logout() {
 
 /***/ }),
 
+/***/ "./frontend/actions/tag_actions.js":
+/*!*****************************************!*\
+  !*** ./frontend/actions/tag_actions.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RECEIVE_TAG": () => (/* binding */ RECEIVE_TAG),
+/* harmony export */   "RECEIVE_TAGS": () => (/* binding */ RECEIVE_TAGS),
+/* harmony export */   "REMOVE_TAG": () => (/* binding */ REMOVE_TAG),
+/* harmony export */   "createTag": () => (/* binding */ createTag),
+/* harmony export */   "deleteTag": () => (/* binding */ deleteTag),
+/* harmony export */   "fetchTag": () => (/* binding */ fetchTag),
+/* harmony export */   "fetchTags": () => (/* binding */ fetchTags),
+/* harmony export */   "updateTag": () => (/* binding */ updateTag)
+/* harmony export */ });
+/* harmony import */ var _util_tag_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/tag_api_util */ "./frontend/util/tag_api_util.js");
+
+var RECEIVE_TAGS = "RECEIVE_TAGS";
+var RECEIVE_TAG = "RECEIVE_TAG";
+var REMOVE_TAG = "REMOVE_TAG";
+
+var receiveTags = function receiveTags(tags) {
+  return {
+    type: RECEIVE_TAGS,
+    tags: tags
+  };
+};
+
+var receiveTag = function receiveTag(tag) {
+  return {
+    type: RECEIVE_TAG,
+    tag: tag
+  };
+};
+
+var removeTag = function removeTag(tagId) {
+  return {
+    type: REMOVE_TAG,
+    tagId: tagId
+  };
+};
+
+var fetchTags = function fetchTags() {
+  return function (dispatch) {
+    return _util_tag_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchTags().then(function (tags) {
+      return dispatch(receiveTags(tags));
+    });
+  };
+};
+var fetchTag = function fetchTag(tagId) {
+  return function (dispatch) {
+    return _util_tag_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchTag(tagId).then(function (tag) {
+      return dispatch(receiveTag(tag));
+    });
+  };
+};
+var createTag = function createTag(tag) {
+  return function (dispatch) {
+    return _util_tag_api_util__WEBPACK_IMPORTED_MODULE_0__.createTag(tag).then(function (tag) {
+      return dispatch(receiveTag(tag));
+    });
+  };
+};
+var updateTag = function updateTag(tag) {
+  return function (dispatch) {
+    return _util_tag_api_util__WEBPACK_IMPORTED_MODULE_0__.updateTag(tag).then(function (tag) {
+      return dispatch(receiveTag(tag));
+    });
+  };
+};
+var deleteTag = function deleteTag(tagId) {
+  return function (dispatch) {
+    return _util_tag_api_util__WEBPACK_IMPORTED_MODULE_0__.deleteTag(tagId).then(function () {
+      return dispatch(removeTag(tagId));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/components/App.jsx":
 /*!*************************************!*\
   !*** ./frontend/components/App.jsx ***!
@@ -364,7 +447,9 @@ var Main = /*#__PURE__*/function (_React$Component) {
         to: "/notes"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
         to: "/notebooks"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        to: "/tags"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Tags")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         className: "header-button",
         onClick: this.props.logout
       }, "Log Out")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
@@ -1842,18 +1927,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _notes_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./notes_reducer */ "./frontend/reducers/notes_reducer.js");
 /* harmony import */ var _notebooks_Reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notebooks_Reducer */ "./frontend/reducers/notebooks_Reducer.js");
+/* harmony import */ var _tags_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tags_reducer */ "./frontend/reducers/tags_reducer.js");
 
 
 
 
-var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_3__.combineReducers)({
+
+var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_4__.combineReducers)({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_0__["default"],
   notes: _notes_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  notebooks: _notebooks_Reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  notebooks: _notebooks_Reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  tags: _tags_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (entitiesReducer);
 
@@ -2062,6 +2150,47 @@ var sessionReducer = function sessionReducer() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (sessionReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/tags_reducer.js":
+/*!*******************************************!*\
+  !*** ./frontend/reducers/tags_reducer.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _actions_tag_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/tag_actions */ "./frontend/actions/tag_actions.js");
+
+
+var tagsReducer = function tagsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var newState = Object.assign({}, state);
+
+  switch (action.type) {
+    case _actions_tag_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_TAGS:
+      return action.tags;
+
+    case _actions_tag_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_TAG:
+      newState[action.tag.id] = action.tag;
+      return newState;
+
+    case _actions_tag_actions__WEBPACK_IMPORTED_MODULE_0__.REMOVE_TAG:
+      delete newState[action.tagId];
+      return newState;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tagsReducer);
 
 /***/ }),
 
@@ -2345,6 +2474,60 @@ var logout = function logout() {
   return $.ajax({
     method: 'DELETE',
     url: '/api/session'
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/tag_api_util.js":
+/*!***************************************!*\
+  !*** ./frontend/util/tag_api_util.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createTag": () => (/* binding */ createTag),
+/* harmony export */   "deleteTag": () => (/* binding */ deleteTag),
+/* harmony export */   "fetchTag": () => (/* binding */ fetchTag),
+/* harmony export */   "fetchTags": () => (/* binding */ fetchTags),
+/* harmony export */   "updateTag": () => (/* binding */ updateTag)
+/* harmony export */ });
+var fetchTags = function fetchTags() {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/tags'
+  });
+};
+var fetchTag = function fetchTag(tagId) {
+  return $.ajax({
+    method: 'GET',
+    url: "api/tags/".concat(tagId)
+  });
+};
+var createTag = function createTag(tag) {
+  return $.ajax({
+    method: 'POST',
+    url: 'api/tags',
+    data: {
+      tag: tag
+    }
+  });
+};
+var updateTag = function updateTag(tag) {
+  return $.ajax({
+    method: 'PATCH',
+    url: "api/tags/".concat(tag.id),
+    data: {
+      tag: tag
+    }
+  });
+};
+var deleteTag = function deleteTag(tagId) {
+  return $.ajax({
+    method: 'DELETE',
+    url: "api/tags/".concat(tagId)
   });
 };
 
