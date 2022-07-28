@@ -8,6 +8,7 @@ import {Route} from 'react-router-dom'
 import NoteEditContainer from '../noteEdit/noteEdit_container'
 import NotebookListContainer from '../notebooksList/notebooksList_container'
 import NotebookShowContainer from '../notebookShow/notebookShow_container'
+import Tag from '../tags'
 class Main extends React.Component {
     constructor(props){
         super(props)
@@ -40,7 +41,10 @@ class Main extends React.Component {
 
                     <br />
                     <button className="header-button" onClick={this.props.logout}>Log Out</button>
+                    <Tag/>
                 </hgroup>
+
+            
                 <Switch>
                     <ProtectedRoute exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
                     <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
