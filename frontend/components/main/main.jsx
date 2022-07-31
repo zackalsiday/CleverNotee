@@ -14,6 +14,7 @@ class Main extends React.Component {
         super(props)
         this.state = {tagsVisible: false}
         this.toggleTags = this.toggleTags.bind(this)
+        this.turnOffTags = this.turnOffTags.bind(this)
     }
 
     toggleTags(){
@@ -32,6 +33,12 @@ class Main extends React.Component {
     componentDidUpdate(){
         console.log(this.state)
     }
+
+    turnOffTags(){
+        if(this.state.tagsVisible === true){
+            this.setState({tagsVisible: false})
+        }
+    }
     
     renderTags(){
         return(
@@ -48,13 +55,13 @@ class Main extends React.Component {
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
                      <Link to='/notes'> 
-                        <button>
+                        <button onClick={this.turnOffTags} >
                             Notes 
                         </button>
                     </Link>
                     <br />
                     <Link to='/notebooks'>
-                        <button>
+                        <button onClick={this.turnOffTags}>
                             Notebooks
                         </button>
                     </Link>

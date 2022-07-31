@@ -40,7 +40,7 @@ class NotebookItem extends React.Component {
                     {this.props.notebook.name}
                 </Link>
                 <br />
-                {this.props.notebook.id != 1 ? this.deleteButton() : ''}
+                {this.props.notebook.name != 'first notebook' ? this.deleteButton() : ''}
           
                 <form onSubmit={() => this.props.updateNotebook(this.state)}>
                     <input 

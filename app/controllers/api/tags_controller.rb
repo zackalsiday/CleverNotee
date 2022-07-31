@@ -1,6 +1,6 @@
 class Api::TagsController < ApplicationController
     def index
-        @tags = Tag.all
+        @tags = current_user.tags
         render :index
     end
 
