@@ -902,7 +902,7 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
         onChange: this.update('content')
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), this.notebookOptions(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "submit",
-        value: "submit"
+        value: "submi"
       })));
     }
   }]);

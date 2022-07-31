@@ -71,7 +71,7 @@ class NoteForm extends React.Component {
              {this.notebookOptions()}
             <br />
              <input type="submit" 
-             value='submit'
+             value='submi'
              />
          </form>
                 
