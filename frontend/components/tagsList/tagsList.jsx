@@ -1,5 +1,5 @@
 import React from 'react'
-
+import TagItemContainer from '../tagItem/tagItem_container'
 class TagsList extends React.Component {
     constructor(props) {
         super(props)
@@ -16,7 +16,7 @@ class TagsList extends React.Component {
         return(
             <ul>
                 {tagsArray.map((tag) => (
-                    <li>{tag.name}</li>
+                    <TagItemContainer tag={tag}/>
                 ))}
             </ul>
         )
