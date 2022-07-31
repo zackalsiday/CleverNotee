@@ -392,7 +392,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _noteEdit_noteEdit_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../noteEdit/noteEdit_container */ "./frontend/components/noteEdit/noteEdit_container.js");
 /* harmony import */ var _notebooksList_notebooksList_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../notebooksList/notebooksList_container */ "./frontend/components/notebooksList/notebooksList_container.js");
 /* harmony import */ var _notebookShow_notebookShow_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../notebookShow/notebookShow_container */ "./frontend/components/notebookShow/notebookShow_container.js");
-/* harmony import */ var _tags__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../tags */ "./frontend/components/tags.jsx");
+/* harmony import */ var _tagsList_tagsList_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../tagsList/tagsList_container */ "./frontend/components/tagsList/tagsList_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -433,12 +433,47 @@ var Main = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(Main);
 
   function Main(props) {
+    var _this;
+
     _classCallCheck(this, Main);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      tagsVisible: false
+    };
+    _this.toggleTags = _this.toggleTags.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(Main, [{
+    key: "toggleTags",
+    value: function toggleTags() {
+      if (this.state.tagsVisible === false) {
+        this.setState({
+          tagsVisible: true
+        });
+      } else {
+        this.setState({
+          tagsVisible: false
+        });
+      }
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log(this.state);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      console.log(this.state);
+    }
+  }, {
+    key: "renderTags",
+    value: function renderTags() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tagsList_tagsList_container__WEBPACK_IMPORTED_MODULE_8__["default"], null);
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hgroup", {
@@ -449,12 +484,12 @@ var Main = /*#__PURE__*/function (_React$Component) {
         to: "/notes"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], {
         to: "/notebooks"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["default"], {
-        to: "/tags"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Tags")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Notebooks")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+        onClick: this.toggleTags
+      }, "Tags"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         className: "header-button",
         onClick: this.props.logout
-      }, "Log Out"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tags__WEBPACK_IMPORTED_MODULE_8__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
+      }, "Log Out")), this.state.tagsVisible === true ? this.renderTags() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_1__.ProtectedRoute, {
         exact: true,
         path: "/notebooks/:notebook_id/notes",
         component: _notebookShow_notebookShow_container__WEBPACK_IMPORTED_MODULE_7__["default"]
@@ -1918,10 +1953,10 @@ var Welcome = function Welcome() {
 
 /***/ }),
 
-/***/ "./frontend/components/tags.jsx":
-/*!**************************************!*\
-  !*** ./frontend/components/tags.jsx ***!
-  \**************************************/
+/***/ "./frontend/components/tagsList/tagsList.jsx":
+/*!***************************************************!*\
+  !*** ./frontend/components/tagsList/tagsList.jsx ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1932,6 +1967,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1955,28 +1992,123 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var Tag = /*#__PURE__*/function (_React$Component) {
-  _inherits(Tag, _React$Component);
+var TagsList = /*#__PURE__*/function (_React$Component) {
+  _inherits(TagsList, _React$Component);
 
-  var _super = _createSuper(Tag);
+  var _super = _createSuper(TagsList);
 
-  function Tag(props) {
-    _classCallCheck(this, Tag);
+  function TagsList(props) {
+    var _this;
 
-    return _super.call(this, props);
+    _classCallCheck(this, TagsList);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      name: '',
+      user_id: _this.props.currentUser
+    };
+    _this.createTag = _this.createTag.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
-  _createClass(Tag, [{
+  _createClass(TagsList, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      dispatch(this.props.fetchTags());
+      console.log(this.state);
+    }
+  }, {
+    key: "renderTags",
+    value: function renderTags() {
+      var tagsArray = Object.values(this.props.tags);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, tagsArray.map(function (tag) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, tag.name);
+      }));
+    }
+  }, {
+    key: "update",
+    value: function update(field) {
+      var _this2 = this;
+
+      return function (e) {
+        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
+      };
+    }
+  }, {
+    key: "createTag",
+    value: function createTag() {
+      var tag = Object.assign({}, this.state);
+      this.props.createTag(tag);
+      this.setState({
+        name: ''
+      });
+    }
+  }, {
+    key: "renderTagsForm",
+    value: function renderTagsForm() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+        onSubmit: this.createTag
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "text",
+        value: this.state.name,
+        onChange: this.update('name')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "submit",
+        value: "submit"
+      }));
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "we are it the tags component");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderTags(), this.renderTagsForm());
     }
   }]);
 
-  return Tag;
+  return TagsList;
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tag);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TagsList);
+
+/***/ }),
+
+/***/ "./frontend/components/tagsList/tagsList_container.js":
+/*!************************************************************!*\
+  !*** ./frontend/components/tagsList/tagsList_container.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _tagsList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tagsList */ "./frontend/components/tagsList/tagsList.jsx");
+/* harmony import */ var _actions_tag_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/tag_actions */ "./frontend/actions/tag_actions.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    tags: state.entities.tags,
+    currentUser: state.entities.users[state.session.id].id
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchTags: function fetchTags() {
+      return (0,_actions_tag_actions__WEBPACK_IMPORTED_MODULE_2__.fetchTags)();
+    },
+    createTag: function createTag(tag) {
+      return dispatch((0,_actions_tag_actions__WEBPACK_IMPORTED_MODULE_2__.createTag)(tag));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_tagsList__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 

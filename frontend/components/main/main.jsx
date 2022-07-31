@@ -8,11 +8,37 @@ import {Route} from 'react-router-dom'
 import NoteEditContainer from '../noteEdit/noteEdit_container'
 import NotebookListContainer from '../notebooksList/notebooksList_container'
 import NotebookShowContainer from '../notebookShow/notebookShow_container'
-import Tag from '../tags'
+import TagsListContainer from '../tagsList/tagsList_container'
 class Main extends React.Component {
     constructor(props){
         super(props)
+        this.state = {tagsVisible: false}
+        this.toggleTags = this.toggleTags.bind(this)
     }
+
+    toggleTags(){
+        if(this.state.tagsVisible === false){
+            this.setState({tagsVisible: true})
+        }else{
+            this.setState({tagsVisible: false})
+        }
+   
+    }
+
+    componentDidMount(){
+        console.log(this.state)
+    }
+
+    componentDidUpdate(){
+        console.log(this.state)
+    }
+    
+    renderTags(){
+        return(
+            <TagsListContainer/>
+        )
+    }
+
 
 
     render(){
@@ -33,18 +59,20 @@ class Main extends React.Component {
                         </button>
                     </Link>
                     <br />
-                    <Link to='/tags'>
-                            <button>
-                                 Tags 
-                            </button>
-                    </Link>
+                 
+                        <button onClick={this.toggleTags}>
+                            Tags 
+                        </button>
+          
+                            
+                  
 
                     <br />
                     <button className="header-button" onClick={this.props.logout}>Log Out</button>
-                    <Tag/>
+                   
                 </hgroup>
 
-            
+                {this.state.tagsVisible === true ? this.renderTags() : ''}
                 <Switch>
                     <ProtectedRoute exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
                     <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
