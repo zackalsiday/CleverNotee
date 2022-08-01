@@ -39,7 +39,7 @@ export const updateNoteTag = (noteTag) => dispatch => {
         .then(noteTag => dispatch(receiveNoteTag(noteTag)))
 }
 
-// export const deleteNoteTag = (noteTagId) => dispatch => {
-//     return NoteTagApiUtil.deleteNoteTag(noteTagId)
-//         .then(() => dispatch(removeNoteTag(noteTagId)))
-// }
+export const deleteNoteTag = (noteTagId) => dispatch => {
+    return NoteTagApiUtil.deleteNoteTag(noteTagId)
+        .then(() => dispatch(removeNoteTag(noteTagId)))
+}
