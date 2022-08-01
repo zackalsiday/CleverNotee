@@ -2290,21 +2290,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _notes_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./notes_reducer */ "./frontend/reducers/notes_reducer.js");
 /* harmony import */ var _notebooks_Reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notebooks_Reducer */ "./frontend/reducers/notebooks_Reducer.js");
 /* harmony import */ var _tags_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tags_reducer */ "./frontend/reducers/tags_reducer.js");
+/* harmony import */ var _note_tags_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./note_tags_reducer */ "./frontend/reducers/note_tags_reducer.js");
 
 
 
 
 
-var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_4__.combineReducers)({
+
+var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_5__.combineReducers)({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_0__["default"],
   notes: _notes_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   notebooks: _notebooks_Reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
-  tags: _tags_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+  tags: _tags_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
+  noteTags: _note_tags_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (entitiesReducer);
 
@@ -2329,6 +2332,47 @@ var errorsReducer = (0,redux__WEBPACK_IMPORTED_MODULE_1__.combineReducers)({
   session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/note_tags_reducer.js":
+/*!************************************************!*\
+  !*** ./frontend/reducers/note_tags_reducer.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '../actions/note_tag_action'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+
+
+var noteTagsReducer = function noteTagsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var newState = Object.assign({}, state);
+
+  switch (action.type) {
+    case Object(function webpackMissingModule() { var e = new Error("Cannot find module '../actions/note_tag_action'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()):
+      return action.note_tags;
+
+    case Object(function webpackMissingModule() { var e = new Error("Cannot find module '../actions/note_tag_action'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()):
+      newState[action.note_tag.id] = action.note_tag;
+      return newState;
+
+    case Object(function webpackMissingModule() { var e = new Error("Cannot find module '../actions/note_tag_action'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()):
+      delete newState[action.noteId];
+      return newState;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (noteTagsReducer);
 
 /***/ }),
 
