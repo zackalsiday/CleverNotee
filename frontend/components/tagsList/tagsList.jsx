@@ -16,7 +16,7 @@ class TagsList extends React.Component {
         return(
             <ul>
                 {tagsArray.map((tag) => (
-                    <TagItemContainer tag={tag}/>
+                    <TagItemContainer tag={tag} updateTag={this.props.updateTag}/>
                 ))}
             </ul>
         )

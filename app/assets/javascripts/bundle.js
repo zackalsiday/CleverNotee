@@ -1982,6 +1982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2015,6 +2017,10 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, TagItem);
 
     _this = _super.call(this, props);
+    _this.state = {
+      id: _this.props.tag.id,
+      name: _this.props.tag.name
+    };
     _this.deleteTag = _this.deleteTag.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -2025,6 +2031,15 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
       console.log(this.props);
     }
   }, {
+    key: "update",
+    value: function update(field) {
+      var _this2 = this;
+
+      return function (e) {
+        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
+      };
+    }
+  }, {
     key: "deleteTag",
     value: function deleteTag() {
       this.props.deleteTag(this.props.tag.id);
@@ -2032,9 +2047,22 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, this.props.tag.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      var _this3 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, this.props.tag.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteTag
-      }, "Delete"));
+      }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+        onSubmit: function onSubmit() {
+          return _this3.props.updateTag(_this3.state);
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "text",
+        value: this.state.name,
+        onChange: this.update('name')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "submit",
+        value: "submit"
+      })));
     }
   }]);
 
@@ -2150,20 +2178,23 @@ var TagsList = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderTags",
     value: function renderTags() {
+      var _this2 = this;
+
       var tagsArray = Object.values(this.props.tags);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, tagsArray.map(function (tag) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tagItem_tagItem_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          tag: tag
+          tag: tag,
+          updateTag: _this2.props.updateTag
         });
       }));
     }
   }, {
     key: "update",
     value: function update(field) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
+        return _this3.setState(_defineProperty({}, field, e.currentTarget.value));
       };
     }
   }, {
@@ -2222,6 +2253,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mapStateToProps = function mapStateToProps(state) {
   return {
     tags: state.entities.tags,
@@ -2236,6 +2268,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     createTag: function createTag(tag) {
       return dispatch((0,_actions_tag_actions__WEBPACK_IMPORTED_MODULE_2__.createTag)(tag));
+    },
+    updateTag: function updateTag(tagId) {
+      return dispatch((0,_actions_tag_actions__WEBPACK_IMPORTED_MODULE_2__.updateTag)(tagId));
     }
   };
 };
