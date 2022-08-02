@@ -15,6 +15,7 @@ class Main extends React.Component {
         this.state = {tagsVisible: false}
         this.toggleTags = this.toggleTags.bind(this)
         this.turnOffTags = this.turnOffTags.bind(this)
+        this.createNote = this.createNote.bind(this)
     }
 
     toggleTags(){
@@ -27,7 +28,8 @@ class Main extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.state)
+       this.props.fetchNotes()
+       this.props.fetchNotebooks()
     }
 
     componentDidUpdate(){
@@ -46,6 +48,32 @@ class Main extends React.Component {
         )
     }
 
+    firstNoteId(){
+        let notesArray = Object.values(this.props.notes)
+        let final = []
+        notesArray.map((note) => (
+            final.push(note.id)
+        ))
+        return final
+    }
+
+    firstNotebookId(){
+        let notebooksArray = Object.values(this.props.notebooks)
+        let final = []
+        notebooksArray.map((notebook) => (
+            final.push(notebook.id)
+        ))
+        return final 
+    }
+
+    createNote(){
+        let note = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
+        dispatch(this.props.createNote(note))
+        
+           { < Redirect to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}/>}
+    }
+
+
 
 
     render(){
@@ -54,7 +82,20 @@ class Main extends React.Component {
             <div>
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
-                     <Link to='/notes'> 
+
+                    <Link to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} >
+                        <button onClick={this.createNote}>
+                            New
+                        </button>
+                    </Link>
+                    <br />
+                    <Link to='/'>
+                        <button onClick={this.turnOffTags}>
+                            Home
+                        </button>
+                    </Link>
+                    <br />
+                     <Link to={`/notes/${this.firstNoteId()[0]}`}> 
                         <button onClick={this.turnOffTags} >
                             Notes 
                         </button>
@@ -70,7 +111,7 @@ class Main extends React.Component {
                         <button onClick={this.toggleTags}>
                             Tags 
                         </button>
-          
+
                             
                   
 
@@ -85,9 +126,11 @@ class Main extends React.Component {
                     <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
                     <ProtectedRoute path="/notebooks" component={NotebookListContainer}/>
                 </Switch>
-         
-                <ProtectedRoute path="/notes" component={NoteContainer}/>
-                
+
+                    <ProtectedRoute path="/notes" component={NoteContainer}/>
+                    {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
+                    <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
+
                
                 <Switch>
                  <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>

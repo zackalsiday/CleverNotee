@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
 class TagItem extends React.Component {
     constructor(props) {
         super(props)
@@ -24,8 +24,9 @@ class TagItem extends React.Component {
     render() {
 
         return (
+          <Link to={`/tags/${this.props.tag.id}/notes`}>
           
-                 <li>
+               <li>
                     {this.props.tag.name}
                     <button onClick={this.deleteTag}>
                              Delete
@@ -42,6 +43,9 @@ class TagItem extends React.Component {
                     </form>
 
                  </li>
+    
+          </Link>
+            
                  
           
            

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import TagItem from './tagItem';
 import { deleteTag } from '../../actions/tag_actions';
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
     state
 })
 

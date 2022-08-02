@@ -1,6 +1,6 @@
 import React from 'react'
-
 class NoteForm extends React.Component {
+
     constructor(props){
         super(props)
         this.state = {
@@ -9,10 +9,11 @@ class NoteForm extends React.Component {
             author_id: this.props.currentUser.id,
             notebook_id: 1
         }
+  
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     componentDidMount(){
-
+        this.props.fetchTags()
         this.props.fetchNotebooks().then((res) => {
             console.log(res)
         })
@@ -34,6 +35,7 @@ class NoteForm extends React.Component {
 
 
 
+
     notebookOptions(){
         let notebooksArray = Object.values(this.props.notebooks)
 
@@ -49,6 +51,16 @@ class NoteForm extends React.Component {
         )
 
     }
+
+    // tagsOptions(){
+    //     let tagsArray = Object.values(this.props.tags)
+
+    //     return(
+    //         tagsArray.map((tag) => (
+    //             <button>{tag.name}</button>
+    //         ))
+    //     )
+    // }
 
     render(){
         return(
@@ -70,13 +82,14 @@ class NoteForm extends React.Component {
             <br />
              {this.notebookOptions()}
             <br />
+            {/* {this.tagsOptions()} */}
+            <br />
              <input type="submit" 
              value='submit'
              />
          </form>
-                
         </div>
-  
+
         )
     }
 

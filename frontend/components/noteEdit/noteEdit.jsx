@@ -17,6 +17,7 @@ class NoteEdit extends React.Component {
 
 
     componentDidMount() {
+        this.props.fetchNoteTags()
         this.props.fetchNotebooks()
         dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
@@ -88,6 +89,17 @@ class NoteEdit extends React.Component {
     }
 
    
+    // renderNoteTags(){
+    //     let noteTagsArray = Object.values(this.props.noteTags)
+    //     return(
+    //         <ul>
+    //             {noteTagsArray.map((noteTag) => (
+    //                 <li>{noteTag.tag.name}</li>
+    //             ))}
+    //         </ul>
+    //     )
+        
+    // }
 
   
 
@@ -112,6 +124,7 @@ class NoteEdit extends React.Component {
                     />
                     {this.notebookOptions()}
                 </form>
+                {/* {this.renderNoteTags()} */}
             </div>
 
         )
