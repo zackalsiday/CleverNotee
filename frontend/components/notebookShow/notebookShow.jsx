@@ -22,9 +22,10 @@ class NotebookShow extends React.Component {
     renderNotes(){
         let notesArray = Object.values(this.props.notes)
         let filteredNotes = notesArray.filter(note => note.notebookId.toString() === this.props.match.params.notebook_id.toString())
+        let reversed = filteredNotes.reverse()
         return(
             <ul>
-                {filteredNotes.map((note) => (
+                {reversed.map((note) => (
                     <li>
                         <Link to={`/notebooks/${note.notebookId}/notes/${note.id}`}>{note.title}</Link>   
                     </li>

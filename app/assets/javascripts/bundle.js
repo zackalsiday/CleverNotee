@@ -625,7 +625,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.turnOffTags
       }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["default"], {
-        to: "/notes/".concat(this.firstNoteId()[0])
+        to: "/notes/".concat(this.firstNoteId()[this.firstNoteId().length - 1])
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.turnOffTags
       }, "Notes")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -1411,7 +1411,8 @@ var NotebookShow = /*#__PURE__*/function (_React$Component) {
       var filteredNotes = notesArray.filter(function (note) {
         return note.notebookId.toString() === _this2.props.match.params.notebook_id.toString();
       });
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, filteredNotes.map(function (note) {
+      var reversed = filteredNotes.reverse();
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, reversed.map(function (note) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
           to: "/notebooks/".concat(note.notebookId, "/notes/").concat(note.id)
         }, note.title));
@@ -1764,7 +1765,8 @@ var Note = /*#__PURE__*/function (_React$Component) {
     key: "renderNotes",
     value: function renderNotes() {
       var notesArray = Object.values(this.props.notes);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, notesArray.map(function (note) {
+      var reversed = notesArray.reverse();
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, reversed.map(function (note) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_noteItem_note_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
           note: note
         });

@@ -17,11 +17,12 @@ class Note extends React.Component{
 
     renderNotes(){
         let notesArray = Object.values(this.props.notes)
-        
+        let reversed = notesArray.reverse()
+
         
         return(
             <ul>
-                {notesArray.map((note) => (
+                {reversed.map((note) => (
                     
                         <NoteItem note={note}/>
                     

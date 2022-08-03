@@ -102,7 +102,7 @@ class Main extends React.Component {
                         </button>
                     </Link>
                     <br />
-                     <Link to={`/notes/${this.firstNoteId()[0]}`}> 
+                     <Link to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
                         <button onClick={this.turnOffTags} >
                             Notes 
                         </button>
