@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Switch } from 'react-router-dom'
+import { Link, Switch} from 'react-router-dom'
 import { ProtectedRoute } from '../../util/route_util'
 import NoteContainer from '../notesList/notes_container'
 import NoteFormContainer from '../noteForm/noteForm_container'
@@ -9,13 +9,16 @@ import NoteEditContainer from '../noteEdit/noteEdit_container'
 import NotebookListContainer from '../notebooksList/notebooksList_container'
 import NotebookShowContainer from '../notebookShow/notebookShow_container'
 import TagsListContainer from '../tagsList/tagsList_container'
+import { Redirect } from 'react-router-dom'
 class Main extends React.Component {
+    
     constructor(props){
         super(props)
-        this.state = {tagsVisible: false}
+        this.state = {tagsVisible: false, redirect: false}
         this.toggleTags = this.toggleTags.bind(this)
         this.turnOffTags = this.turnOffTags.bind(this)
         this.createNote = this.createNote.bind(this)
+      
     }
 
     toggleTags(){
@@ -67,10 +70,14 @@ class Main extends React.Component {
     }
 
     createNote(){
+    
         let note = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
-        dispatch(this.props.createNote(note))
+        dispatch(this.props.createNote(note)).then((res) => {
+            this.setState({redirect: true}).then 
+            
+        })
         
-           { < Redirect to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}/>}
+           
     }
 
 
@@ -83,11 +90,11 @@ class Main extends React.Component {
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
 
-                    <Link to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} >
+                    {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                         <button onClick={this.createNote}>
                             New
                         </button>
-                    </Link>
+                
                     <br />
                     <Link to='/'>
                         <button onClick={this.turnOffTags}>
