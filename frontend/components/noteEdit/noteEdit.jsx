@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 class NoteEdit extends React.Component {
     constructor(props) {
         super(props)
@@ -9,7 +10,9 @@ class NoteEdit extends React.Component {
             author_id: '',
             notebook_id: '',
             id: '',
-            url: this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? `/notebooks/${this.props.match.params.notebook_id}/notes` : '/notes'
+            url: '',
+            redirectNotes: false,
+            redirectNotebooks: false 
         }
         this.deleteNote = this.deleteNote.bind(this)
      
@@ -17,6 +20,7 @@ class NoteEdit extends React.Component {
 
 
     componentDidMount() {
+        this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
         dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
@@ -28,7 +32,7 @@ class NoteEdit extends React.Component {
                 id: res.note.id
             })
         })
-        
+        // this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? this.setState({url: `/notebooks/${this.props.match.params.notebook_id}/notes`}) : this.setState({url: `/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`})
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -64,7 +68,14 @@ class NoteEdit extends React.Component {
 
     deleteNote(){
        
-        this.props.deleteNote(this.state.id)
+        this.props.deleteNote(this.state.id).then((res) => {
+            if (this.props.match.path == "/notes/:note_id"){
+                this.setState({redirectNotes: true})
+            }else{
+                this.setState({redirectNotebooks: true})
+            }
+            
+        })
     }
 
    renderBackButton(){
@@ -101,14 +112,36 @@ class NoteEdit extends React.Component {
         
     // }
 
+    firstNoteId() {
+        let notesArray = Object.values(this.props.notes)
+        let final = []
+        notesArray.map((note) => (
+            final.push(note.id)
+        ))
+        return final
+    }
+
+    firstNotebookId() {
+        let notebooksArray = Object.values(this.props.notebooks)
+        let final = []
+        notebooksArray.map((notebook) => (
+            final.push(notebook.id)
+        ))
+        return final
+    }
   
 
 
     render() {
         return (
             <div>
+                {console.log(this.props)}
                 {this.renderBackButton()}
-                <Link to={this.state.url} onClick={this.deleteNote}>Delete</Link>
+                {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
+                {this.state.redirectNotebooks ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}/>) : null }
+                <button onClick={this.deleteNote}>
+                    Delete
+                </button>
                 <form >
                     <input type="text"
                         value={this.state.title}
