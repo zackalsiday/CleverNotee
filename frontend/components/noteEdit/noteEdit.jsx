@@ -46,8 +46,8 @@ class NoteEdit extends React.Component {
                     id: res.note.id
                 })
             })
-            const note = Object.assign({}, this.state)
-            this.props.updateNote(note)
+            // const note = Object.assign({}, this.state)
+            // this.props.updateNote(note)
         }else if(prevState.title != this.state.title) {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
@@ -81,7 +81,10 @@ class NoteEdit extends React.Component {
    renderBackButton(){
        if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ){
            return (
-               <button onClick={() => this.props.history.goBack()}>Return</button>
+               <Link to={`/notebooks/${this.props.match.params.notebook_id}/notes`}>
+                    <button>Return</button>
+               </Link>
+               
            )
        }
    }
@@ -114,8 +117,9 @@ class NoteEdit extends React.Component {
 
     firstNoteId() {
         let notesArray = Object.values(this.props.notes)
+        let filteredNotes = notesArray.filter(note => note.notebookId.toString() === this.props.match.params.notebook_id.toString())
         let final = []
-        notesArray.map((note) => (
+        filteredNotes.map((note) => (
             final.push(note.id)
         ))
         return final
@@ -135,7 +139,7 @@ class NoteEdit extends React.Component {
     render() {
         return (
             <div>
-                {console.log(this.props)}
+                {console.log(this.state)}
                 {this.renderBackButton()}
                 {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 {this.state.redirectNotebooks ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}/>) : null }

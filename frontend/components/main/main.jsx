@@ -73,7 +73,7 @@ class Main extends React.Component {
     
         let note = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
         dispatch(this.props.createNote(note)).then((res) => {
-            this.setState({redirect: true}).then 
+            this.setState({redirect: true})
             
         })
         
