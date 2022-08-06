@@ -81,7 +81,7 @@ class NoteEdit extends React.Component {
    renderBackButton(){
        if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ){
            return (
-               <Link to={`/notebooks/${this.props.match.params.notebook_id}/notes`}>
+               <Link to={`/notebooks/${this.props.match.params.notebook_id}`}>
                     <button>Return</button>
                </Link>
                

@@ -868,7 +868,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function renderBackButton() {
       if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id") {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes")
+          to: "/notebooks/".concat(this.props.match.params.notebook_id)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Return"));
       }
     }
@@ -1353,15 +1353,31 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
       }, "Delete");
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "firstNoteId",
+    value: function firstNoteId() {
       var _this4 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        to: "/notebooks/".concat(this.props.notebook.id, "/notes")
+      var notesArray = Object.values(this.props.notes);
+      var filteredNotes = notesArray.filter(function (note) {
+        return note.notebookId === _this4.props.notebook.id;
+      });
+      console.log(filteredNotes);
+      var _final = [];
+      filteredNotes.map(function (note) {
+        return _final.push(note.id);
+      });
+      return _final;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this5 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, console.log(this.props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        to: "/notebooks/".concat(this.props.notebook.id, "/notes/").concat(this.firstNoteId()[this.firstNoteId().length - 1])
       }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), this.props.notebook.name != 'first notebook' ? this.deleteButton() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
         onSubmit: function onSubmit() {
-          return _this4.props.updateNotebook(_this4.state);
+          return _this5.props.updateNotebook(_this5.state);
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
@@ -1628,6 +1644,7 @@ var NotebookList = /*#__PURE__*/function (_React$Component) {
       var allNotebooks = this.props.fetchNotebooks;
       dispatch(allNotebooks());
       var notebooksArray = Object.values(this.props.notebooks);
+      this.props.fetchNotes();
     } // componentDidUpdate(prevProps, prevState){
     //     if(prevProps == this.props){
     //         dispatch(this.props.fetchNotebooks())
@@ -1645,7 +1662,9 @@ var NotebookList = /*#__PURE__*/function (_React$Component) {
           notebook: notebook,
           deleteNotebook: _this2.props.deleteNotebook,
           fetchNotebooks: _this2.props.fetchNotebooks,
-          updateNotebook: _this2.props.updateNotebook
+          updateNotebook: _this2.props.updateNotebook,
+          notes: _this2.props.notes,
+          match: _this2.props.match
         }));
       })));
     }
@@ -1705,6 +1724,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _notebooksList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./notebooksList */ "./frontend/components/notebooksList/notebooksList.jsx");
 /* harmony import */ var _actions_notebook_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/notebook_actions */ "./frontend/actions/notebook_actions.js");
+/* harmony import */ var _actions_note_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/note_actions */ "./frontend/actions/note_actions.js");
+
 
 
 
@@ -1715,7 +1736,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     currentUser: state.entities.users[state.session.id],
-    notebooks: state.entities.notebooks
+    notebooks: state.entities.notebooks,
+    notes: state.entities.notes
   };
 };
 
@@ -1732,6 +1754,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     updateNotebook: function updateNotebook(notebook) {
       return dispatch((0,_actions_notebook_actions__WEBPACK_IMPORTED_MODULE_2__.updateNotebook)(notebook));
+    },
+    fetchNotes: function fetchNotes() {
+      return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNotes)());
     }
   };
 };

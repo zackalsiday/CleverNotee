@@ -11,7 +11,7 @@ class NotebookList extends React.Component {
         let allNotebooks = this.props.fetchNotebooks
         dispatch(allNotebooks())
         let notebooksArray = Object.values(this.props.notebooks)
-
+        this.props.fetchNotes()
     }
 
     // componentDidUpdate(prevProps, prevState){
@@ -29,7 +29,7 @@ class NotebookList extends React.Component {
         let notebooksArray = Object.values(this.props.notebooks)
         return (
         <div>
-          
+        
            <ul>
                 {notebooksArray.map((notebook) => (
                     <li>
@@ -38,6 +38,8 @@ class NotebookList extends React.Component {
                         deleteNotebook={this.props.deleteNotebook} 
                         fetchNotebooks={this.props.fetchNotebooks}
                         updateNotebook={this.props.updateNotebook}
+                        notes={this.props.notes}
+                        match={this.props.match}
                         />}
                         
                     </li>
