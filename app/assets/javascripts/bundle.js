@@ -823,7 +823,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
             id: res.note.id
           });
         }); // const note = Object.assign({}, this.state)
-        // this.props.updateNote(note)
+        // this.props.fetchNotes()
       } else if (prevState.title != this.state.title) {
         var note = Object.assign({}, this.state);
         this.props.updateNote(note);
@@ -834,7 +834,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       } else if (prevState.notebook_id != this.state.notebook_id) {
         var _note2 = Object.assign({}, this.state);
 
-        this.props.updateNote(_note2);
+        this.props.updateNote(_note2); // this.props.fetchNotes()
       }
     }
   }, {
@@ -842,8 +842,13 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function update(field) {
       var _this4 = this;
 
+      // if(this.state.redirectNotebooks === true){
+      //     this.setState({redirectNotebooks: false})
+      // }
       return function (e) {
-        return _this4.setState(_defineProperty({}, field, e.currentTarget.value));
+        var _this4$setState;
+
+        return _this4.setState((_this4$setState = {}, _defineProperty(_this4$setState, field, e.currentTarget.value), _defineProperty(_this4$setState, "redirectNotebooks", true), _this4$setState));
       };
     }
   }, {
@@ -856,9 +861,17 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
           _this5.setState({
             redirectNotes: true
           });
+
+          _this5.setState({
+            redirectNotes: false
+          });
         } else {
           _this5.setState({
             redirectNotebooks: true
+          });
+
+          _this5.setState({
+            redirectNotebooks: false
           });
         }
       });
@@ -896,8 +909,8 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     // }
 
   }, {
-    key: "firstNoteId",
-    value: function firstNoteId() {
+    key: "filteredFirstNoteId",
+    value: function filteredFirstNoteId() {
       var _this6 = this;
 
       var notesArray = Object.values(this.props.notes);
@@ -911,14 +924,24 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       return _final;
     }
   }, {
+    key: "firstNoteId",
+    value: function firstNoteId() {
+      var notesArray = Object.values(this.props.notes);
+      var _final2 = [];
+      notesArray.map(function (note) {
+        return _final2.push(note.id);
+      });
+      return _final2;
+    }
+  }, {
     key: "firstNotebookId",
     value: function firstNotebookId() {
       var notebooksArray = Object.values(this.props.notebooks);
-      var _final2 = [];
+      var _final3 = [];
       notebooksArray.map(function (notebook) {
-        return _final2.push(notebook.id);
+        return _final3.push(notebook.id);
       });
-      return _final2;
+      return _final3;
     }
   }, {
     key: "render",
@@ -928,7 +951,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         to: "/notes/".concat(this.firstNoteId()[this.firstNoteId().length - 1])
       }) : null, this.state.redirectNotebooks ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
         push: true,
-        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes/").concat(this.firstNoteId()[this.firstNoteId().length - 1])
+        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes/").concat(this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1])
       }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteNote
       }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {

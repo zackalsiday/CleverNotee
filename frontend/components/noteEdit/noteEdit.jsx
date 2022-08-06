@@ -47,7 +47,7 @@ class NoteEdit extends React.Component {
                 })
             })
             // const note = Object.assign({}, this.state)
-            // this.props.updateNote(note)
+            // this.props.fetchNotes()
         }else if(prevState.title != this.state.title) {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
@@ -57,13 +57,20 @@ class NoteEdit extends React.Component {
         }else if (prevState.notebook_id != this.state.notebook_id){
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
+            // this.props.fetchNotes()
         }
     }
 
     update(field) {
+        // if(this.state.redirectNotebooks === true){
+        //     this.setState({redirectNotebooks: false})
+        // }
         return e => this.setState({
-            [field]: e.currentTarget.value
+            [field]: e.currentTarget.value,
+            redirectNotebooks: true
         })
+        
+        
     }
 
     deleteNote(){
@@ -71,8 +78,10 @@ class NoteEdit extends React.Component {
         this.props.deleteNote(this.state.id).then((res) => {
             if (this.props.match.path == "/notes/:note_id"){
                 this.setState({redirectNotes: true})
+                this.setState({redirectNotes: false})
             }else{
                 this.setState({redirectNotebooks: true})
+                this.setState({redirectNotebooks: false})
             }
             
         })
@@ -93,7 +102,6 @@ class NoteEdit extends React.Component {
         let notebooksArray = Object.values(this.props.notebooks)
         return (
             <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
-
                 {notebooksArray.map((notebook) => (
                     <option value={notebook.id}>{notebook.name}</option>
                 ))}
@@ -115,11 +123,20 @@ class NoteEdit extends React.Component {
         
     // }
 
-    firstNoteId() {
+    filteredFirstNoteId() {
         let notesArray = Object.values(this.props.notes)
         let filteredNotes = notesArray.filter(note => note.notebookId.toString() === this.props.match.params.notebook_id.toString())
         let final = []
         filteredNotes.map((note) => (
+            final.push(note.id)
+        ))
+        return final
+    }
+
+    firstNoteId(){
+        let notesArray = Object.values(this.props.notes)
+        let final = []
+        notesArray.map((note) => (
             final.push(note.id)
         ))
         return final
@@ -142,7 +159,7 @@ class NoteEdit extends React.Component {
                 {console.log(this.state)}
                 {this.renderBackButton()}
                 {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
-                {this.state.redirectNotebooks ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}/>) : null }
+                {this.state.redirectNotebooks ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`}/>) : null }
                 <button onClick={this.deleteNote}>
                     Delete
                 </button>
