@@ -921,7 +921,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       filteredNotes.map(function (note) {
         return _final.push(note.id);
       });
-      return _final;
+      return _final[_final.length - 1];
     }
   }, {
     key: "firstNoteId",
@@ -941,17 +941,17 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       notebooksArray.map(function (notebook) {
         return _final3.push(notebook.id);
       });
-      return _final3;
+      return _final3[_final3.length - 1];
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.state), this.renderBackButton(), this.state.redirectNotes ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.renderBackButton(), this.state.redirectNotes ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
         push: true,
         to: "/notes/".concat(this.firstNoteId()[this.firstNoteId().length - 1])
       }) : null, this.state.redirectNotebooks ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
         push: true,
-        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes/").concat(this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1])
+        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes/").concat(this.filteredFirstNoteId())
       }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteNote
       }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
