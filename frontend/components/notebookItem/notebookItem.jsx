@@ -46,10 +46,10 @@ class NotebookItem extends React.Component {
     
     render() {
         return (
-             
+            // this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`
             <li>
                 {console.log(this.props)}
-                <Link to={`/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}>
+                <Link to={this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}>
                     {this.props.notebook.name}
                 </Link>
                 <br />

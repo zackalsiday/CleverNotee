@@ -20,10 +20,12 @@ class NoteEdit extends React.Component {
 
 
     componentDidMount() {
+        console.log(this.props)
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
-             dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
+
+            dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
                 title: res.note.title,
                 content: res.note.content,
@@ -32,13 +34,15 @@ class NoteEdit extends React.Component {
                 id: res.note.id
             })
          })
+        
     
        
         // this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? this.setState({url: `/notebooks/${this.props.match.params.notebook_id}/notes`}) : this.setState({url: `/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`})
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.match.params.note_id != this.props.match.params.note_id) {
+
+       if(prevProps.match.params.note_id != this.props.match.params.note_id) {
             dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
                 this.setState({
                     title: res.note.title,
@@ -50,6 +54,7 @@ class NoteEdit extends React.Component {
             })
             // const note = Object.assign({}, this.state)
             // this.props.fetchNotes()
+  
         }else if(prevState.title != this.state.title) {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
@@ -60,7 +65,13 @@ class NoteEdit extends React.Component {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
             // this.props.fetchNotes()
+        }else if (prevProps.notes != this.props.notes){
+            //  this.props.fetchNotes()
         }
+
+
+    
+ 
     }
 
     update(field) {
@@ -68,8 +79,7 @@ class NoteEdit extends React.Component {
         //     this.setState({redirectNotebooks: false})
         // }
         return e => this.setState({
-            [field]: e.currentTarget.value,
-            redirectNotebooks: true
+            [field]: e.currentTarget.value
         })
 
     
@@ -90,16 +100,7 @@ class NoteEdit extends React.Component {
         })
     }
 
-   renderBackButton(){
-       if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ){
-           return (
-               <Link to={`/notebooks/${this.props.match.params.notebook_id}`}>
-                    <button>Return</button>
-               </Link>
-               
-           )
-       }
-   }
+
 
     notebookOptions() {
         let notebooksArray = Object.values(this.props.notebooks)
@@ -128,12 +129,12 @@ class NoteEdit extends React.Component {
 
     filteredFirstNoteId() {
         let notesArray = Object.values(this.props.notes)
-        let filteredNotes = notesArray.filter(note => note.notebookId.toString() === this.props.match.params.notebook_id.toString())
+        let filteredNotes = notesArray.filter(note => note.notebookId === this.props.match.params.notebook_id)
         let final = []
         filteredNotes.map((note) => (
             final.push(note.id)
         ))
-        return final[final.length - 1]
+        return final
     }
 
     firstNoteId(){
@@ -160,27 +161,34 @@ class NoteEdit extends React.Component {
         return (
             <div>
                 {console.log(this.props)}
-                {this.renderBackButton()}
                 {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
-                {this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()}`}/>) : null }
-                <button onClick={this.deleteNote}>
-                    Delete
-                </button>
-                <form >
-                    <input type="text"
-                        value={this.state.title}
-                        placeholder='please title your note'
-                        onChange={this.update('title')}
-                    />
-                    <br />
-                    <input
-                        type="text"
-                        value={this.state.content}
-                        placeholder='take notes here'
-                        onChange={this.update('content')}
-                    />
-                    {this.notebookOptions()}
-                </form>
+                {this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null }
+                {/* {this.filteredFirstNoteId() === undefined  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null} */}
+                {this.props.match.path === '/notebooks/notebook_id/notes/note_id' ? this.filteredFirstNoteId().length === 0 ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null : null }
+                {this.props.match.params.note_id != 'undefined' ? 
+                <div>
+                    <button onClick={this.deleteNote}>
+                        Delete
+                    </button>
+
+
+                    <form >
+                        <input type="text"
+                            value={this.state.title}
+                            placeholder='please title your note'
+                            onChange={this.update('title')}
+                        />
+                        <br />
+                        <input
+                            type="text"
+                            value={this.state.content}
+                            placeholder='take notes here'
+                            onChange={this.update('content')}
+                        />
+                        {this.notebookOptions()}
+                    </form> 
+                </div>
+                : ''}
                 {/* {this.renderNoteTags()} */}
             </div>
 

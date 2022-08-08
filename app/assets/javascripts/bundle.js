@@ -735,8 +735,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Link.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Redirect.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Redirect.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -795,6 +794,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      console.log(this.props);
       this.props.fetchNotes();
       this.props.fetchNoteTags();
       this.props.fetchNotebooks();
@@ -835,6 +835,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         var _note2 = Object.assign({}, this.state);
 
         this.props.updateNote(_note2); // this.props.fetchNotes()
+      } else if (prevProps.notes != this.props.notes) {//  this.props.fetchNotes()
       }
     }
   }, {
@@ -846,9 +847,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       //     this.setState({redirectNotebooks: false})
       // }
       return function (e) {
-        var _this4$setState;
-
-        return _this4.setState((_this4$setState = {}, _defineProperty(_this4$setState, field, e.currentTarget.value), _defineProperty(_this4$setState, "redirectNotebooks", true), _this4$setState));
+        return _this4.setState(_defineProperty({}, field, e.currentTarget.value));
       };
     }
   }, {
@@ -875,15 +874,6 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
           });
         }
       });
-    }
-  }, {
-    key: "renderBackButton",
-    value: function renderBackButton() {
-      if (this.props.match.path == "/notebooks/:notebook_id/notes/:note_id") {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          to: "/notebooks/".concat(this.props.match.params.notebook_id)
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", null, "Return"));
-      }
     }
   }, {
     key: "notebookOptions",
@@ -915,13 +905,13 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
 
       var notesArray = Object.values(this.props.notes);
       var filteredNotes = notesArray.filter(function (note) {
-        return note.notebookId.toString() === _this6.props.match.params.notebook_id.toString();
+        return note.notebookId === _this6.props.match.params.notebook_id;
       });
       var _final = [];
       filteredNotes.map(function (note) {
         return _final.push(note.id);
       });
-      return _final[_final.length - 1];
+      return _final;
     }
   }, {
     key: "firstNoteId",
@@ -946,13 +936,16 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.renderBackButton(), this.state.redirectNotes ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.state.redirectNotes ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
         to: "/notes/".concat(this.firstNoteId()[this.firstNoteId().length - 1])
-      }) : null, this.state.redirectNotebooks ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }) : null, this.state.redirectNotebooks ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
-        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes/").concat(this.filteredFirstNoteId())
-      }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes/").concat(this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1])
+      }) : null, this.props.match.path === '/notebooks/notebook_id/notes/note_id' ? this.filteredFirstNoteId().length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        push: true,
+        to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes")
+      }) : null : null, this.props.match.params.note_id != 'undefined' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteNote
       }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
@@ -964,7 +957,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
-      }), this.notebookOptions()));
+      }), this.notebookOptions())) : '');
     }
   }]);
 
@@ -1396,20 +1389,24 @@ var NotebookItem = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this5 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, console.log(this.props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        to: "/notebooks/".concat(this.props.notebook.id, "/notes/").concat(this.firstNoteId()[this.firstNoteId().length - 1])
-      }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), this.props.notebook.name != 'first notebook' ? this.deleteButton() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
-        onSubmit: function onSubmit() {
-          return _this5.props.updateNotebook(_this5.state);
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-        type: "text",
-        value: this.state.name,
-        onChange: this.update('name')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-        type: "submit",
-        value: "submit"
-      })));
+      return (
+        /*#__PURE__*/
+        // this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, console.log(this.props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          to: this.firstNoteId().length === 0 ? "/notebooks/".concat(this.props.notebook.id, "/notes") : "/notebooks/".concat(this.props.notebook.id, "/notes/").concat(this.firstNoteId()[this.firstNoteId().length - 1])
+        }, this.props.notebook.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), this.props.notebook.name != 'first notebook' ? this.deleteButton() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+          onSubmit: function onSubmit() {
+            return _this5.props.updateNotebook(_this5.state);
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+          type: "text",
+          value: this.state.name,
+          onChange: this.update('name')
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+          type: "submit",
+          value: "submit"
+        })))
+      );
     }
   }]);
 
