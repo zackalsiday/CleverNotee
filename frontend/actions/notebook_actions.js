@@ -31,7 +31,7 @@ export const fetchNotebooks = () => (dispatch) => {
 
 export const fetchNotebook = (notebookId) => (dispatch) => {
     return NotebooksApiUtil.fetchNotebook(notebookId)
-        .then(({ notebook, notes }) => dispatch(receiveNotebook(notebook, notes)))
+        .then( notebook  => dispatch(receiveNotebook(notebook)))
 }
 
 

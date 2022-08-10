@@ -54,18 +54,20 @@ class NotebookItem extends React.Component {
                 </Link>
                 <br />
                 {this.props.notebook.name != 'first notebook' ? this.deleteButton() : ''}
-          
-                <form onSubmit={() => this.props.updateNotebook(this.state)}>
-                    <input 
-                    type="text" 
-                    value={this.state.name}
-                    onChange={this.update('name')}
-                    />
-                    <input 
-                    type="submit" 
-                    value="submit"
-                    />
-                </form>
+                {this.props.notebook.name != 'first notebook' ? 
+                        <form onSubmit={() => this.props.updateNotebook(this.state)}>
+                        <input 
+                        type="text" 
+                        value={this.state.name}
+                        onChange={this.update('name')}
+                        />
+                        <input 
+                        type="submit" 
+                        value="submit"
+                        />
+                    </form>
+                : '' }
+               
             </li>
         )
     }
