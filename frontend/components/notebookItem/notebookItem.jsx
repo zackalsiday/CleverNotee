@@ -35,7 +35,7 @@ class NotebookItem extends React.Component {
     firstNoteId() {
         let notesArray = Object.values(this.props.notes)
         let filteredNotes = notesArray.filter(note => note.notebookId === this.props.notebook.id)
-        console.log(filteredNotes)
+    
         let final = []
         filteredNotes.map((note) => (
             final.push(note.id)
@@ -48,7 +48,7 @@ class NotebookItem extends React.Component {
         return (
             // this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`
             <li>
-                {console.log(this.props)}
+    
                 <Link to={this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}>
                     {this.props.notebook.name}
                 </Link>

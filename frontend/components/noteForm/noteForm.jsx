@@ -14,9 +14,7 @@ class NoteForm extends React.Component {
     }
     componentDidMount(){
         this.props.fetchTags()
-        this.props.fetchNotebooks().then((res) => {
-            console.log(res)
-        })
+        this.props.fetchNotebooks()
     }
     
 

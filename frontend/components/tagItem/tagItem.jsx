@@ -7,9 +7,7 @@ class TagItem extends React.Component {
         this.deleteTag = this.deleteTag.bind(this)
     }
 
-    componentDidMount() {
-        console.log(this.props)
-    }
+   
 
     update(field) {
         return e => this.setState({

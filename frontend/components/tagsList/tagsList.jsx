@@ -8,7 +8,7 @@ class TagsList extends React.Component {
     }
     componentDidMount(){
         dispatch(this.props.fetchTags())
-        console.log(this.state)
+      
     }
 
     renderTags(){

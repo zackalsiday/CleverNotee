@@ -35,9 +35,7 @@ class Main extends React.Component {
        this.props.fetchNotebooks()
     }
 
-    componentDidUpdate(){
-        console.log(this.state)
-    }
+ 
 
     turnOffTags(){
         if(this.state.tagsVisible === true){
@@ -71,11 +69,21 @@ class Main extends React.Component {
 
     createNote(){
     
-        let note = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
-        dispatch(this.props.createNote(note)).then((res) => {
-            this.setState({redirect: true})
+        let noteOne = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
+        let noteTwo = {title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebooks_id: this.props.match.params.notebook_id}
+        console.log(this.props)
+        // if (this.props.match.path === "/notebooks/:notebook_id/notes/:note_id"){
+        //     dispatch(this.props.createNote(noteTwo))
             
-        })
+        // }else{
+           
+        //     dispatch(this.props.createNote(noteOne)).then((res) => {
+        //         this.setState({ redirect: true }).then((res) => {
+        //             this.setState({redirect: false})
+        //         })
+
+        //     })
+        // }
         
            
     }
@@ -129,20 +137,20 @@ class Main extends React.Component {
 
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
                 <Switch>
-                    <ProtectedRoute exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
-                    <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
-                    <ProtectedRoute path="/notebooks" component={NotebookListContainer}/>
+                    <Route exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
+                    <Route path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
+                    <Route path="/notebooks" component={NotebookListContainer}/>
                 </Switch>
 
-                    <ProtectedRoute path="/notes" component={NoteContainer}/>
+                    <Route path="/notes" component={NoteContainer}/>
                     {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
                     <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
 
                
                 <Switch>
-                 <ProtectedRoute path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
-                 <ProtectedRoute path="/notes/:note_id" component={NoteEditContainer} />
-                 <ProtectedRoute path="/notes" component={NoteFormContainer} />
+                 <Route path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
+                 <Route path="/notes/:note_id" component={NoteEditContainer} />
+                 <Route path="/notes" component={NoteFormContainer} />
                 </Switch>
 
           

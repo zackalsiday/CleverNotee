@@ -11,7 +11,8 @@ import { fetchNotes } from '../../actions/note_actions';
 const mapStateToProps = state => ({
    notebooks: state.entities.notebooks,
    noteTags: state.entities.noteTags,
-   notes: state.entities.notes
+   notes: state.entities.notes,
+    currentUser: state.entities.users[state.session.id]
 })
 
 const mapDispatchToProps = dispatch => ({
