@@ -10,6 +10,7 @@ import NotebookListContainer from '../notebooksList/notebooksList_container'
 import NotebookShowContainer from '../notebookShow/notebookShow_container'
 import TagsListContainer from '../tagsList/tagsList_container'
 import { Redirect } from 'react-router-dom'
+import NoteTags from '../noteTags/noteTags'
 class Main extends React.Component {
     
     constructor(props){
@@ -42,6 +43,7 @@ class Main extends React.Component {
             this.setState({tagsVisible: false})
         }
     }
+    
     
     renderTags(){
         return(
@@ -90,6 +92,7 @@ class Main extends React.Component {
      
         return (
             <div>
+               
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
                     {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
@@ -115,11 +118,17 @@ class Main extends React.Component {
                         </button>
                     </Link>
                     <br />
-                 
-                        <button onClick={this.toggleTags}>
+                   {this.props.location.pathname.includes('tags') === false ? 
+                   <button onClick={this.toggleTags}>
                             Tags 
-                        </button>
-
+                        </button> : ''
+                }
+                       
+                  
+                  {this.props.location.pathname.includes('tags') === true ?  this.turnOffTags() : null
+                    }
+                     
+              
                             
                   
 
@@ -138,8 +147,7 @@ class Main extends React.Component {
                     <Route path="/notes" component={NoteContainer}/>
                     {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
                     <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
-
-               
+                <Route path="/tags/:tag_id/notes" component={NoteTags}/>            
                 <Switch>
                  <Route path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
                  <Route path="/notes/:note_id" component={NoteEditContainer} />

@@ -52,6 +52,7 @@ class TagsList extends React.Component {
 
         return (
             <div>
+                {console.log(this.props)}
                 {this.renderTags()}
                 {this.renderTagsForm()}
             </div>
