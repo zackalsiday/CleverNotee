@@ -8,7 +8,8 @@ import { fetchNotebooks } from '../../actions/notebook_actions';
 const mapStateToProps = (state, ownProps) => ({
     currentUser: state.entities.users[state.session.id],
     notes: state.entities.notes,
-    notebooks: state.entities.notebooks 
+    notebooks: state.entities.notebooks,
+    ownProps
 });
 
 const mapDispatchToProps = dispatch => ({

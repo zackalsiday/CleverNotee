@@ -70,20 +70,15 @@ class Main extends React.Component {
     createNote(){
     
         let noteOne = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
-        let noteTwo = {title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebooks_id: this.props.match.params.notebook_id}
-        console.log(this.props)
-        // if (this.props.match.path === "/notebooks/:notebook_id/notes/:note_id"){
-        //     dispatch(this.props.createNote(noteTwo))
-            
-        // }else{
-           
-        //     dispatch(this.props.createNote(noteOne)).then((res) => {
-        //         this.setState({ redirect: true }).then((res) => {
-        //             this.setState({redirect: false})
-        //         })
+       
 
-        //     })
-        // }
+            dispatch(this.props.createNote(noteOne)).then((res) => {
+                this.setState({ redirect: true }).then((res) => {
+                    this.setState({redirect: false})
+                })
+
+            })
+   
         
            
     }
@@ -97,11 +92,9 @@ class Main extends React.Component {
             <div>
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
-
-                    {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
-                        <button onClick={this.createNote}>
-                            New
-                        </button>
+                    {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
+                    {this.props.location.pathname.includes('notebooks') === true ? '' : <button onClick={this.createNote}> New </button> }
+                       
                 
                     <br />
                     <Link to='/'>

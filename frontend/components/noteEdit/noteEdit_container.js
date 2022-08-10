@@ -8,6 +8,7 @@ import { deleteNote } from '../../actions/note_actions';
 import { fetchNotebooks } from '../../actions/notebook_actions';
 import {fetchNoteTags} from '../../actions/note_tag_actions'
 import { fetchNotes } from '../../actions/note_actions';
+import {createNote} from '../../actions/note_actions'
 const mapStateToProps = state => ({
    notebooks: state.entities.notebooks,
    noteTags: state.entities.noteTags,
@@ -21,7 +22,8 @@ const mapDispatchToProps = dispatch => ({
     deleteNote: noteId => dispatch(deleteNote(noteId)),
     fetchNotebooks: () => dispatch(fetchNotebooks()),
     fetchNoteTags: () => dispatch(fetchNoteTags()),
-    fetchNotes: () => dispatch(fetchNotes())
+    fetchNotes: () => dispatch(fetchNotes()),
+    createNote: note => (createNote(note))
 });
 
 export default connect(

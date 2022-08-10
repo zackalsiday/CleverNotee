@@ -82,7 +82,7 @@ class NotebookShow extends React.Component {
         return (
             <div>
                {this.renderNotes()}
-                {this.renderForm()}
+                Your 'notebook name' notebook is empty 
             </div>
 
         )
