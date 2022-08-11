@@ -25,7 +25,19 @@ class NoteEdit extends React.Component {
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
-        dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
+        if (this.props.match.path === "/tags/:tag_id/notes/:note_id"){
+            dispatch(this.props.fetchNoteTag(this.props.match.params.note_id)).then((res) => {
+                this.setState({
+                    title: res.note_tag.note.title,
+                    content: res.note_tag.note.content,
+                    author_id: res.note_tag.note.authorId,
+                    notebook_id: res.note_tag.note.notebookId,
+                    id: res.note_tag.note.id
+                })
+            })
+        }else{
+
+                  dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
                 title: res.note.title,
                 content: res.note.content,
@@ -35,6 +47,8 @@ class NoteEdit extends React.Component {
             })
          })
     
+        }
+  
      
     
        
@@ -164,13 +178,14 @@ class NoteEdit extends React.Component {
     render() {
         return (
             <div>
+                {/* {console.log(this.props)}
+                {console.log(this.state)} */}
                {this.renderNewButton()}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
                 {/* {this.filteredFirstNoteId() === undefined  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null} */}
                 {/* {this.props.match.path === '/notebooks/notebook_id/notes/note_id' ? this.filteredFirstNoteId().length === 0 ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null : null } */}
                 {/* {this.props.match.params.note_id != 'undefined' ?  */}
-                {console.log(this.props)}
                 {this.state.empty === true ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />): '' } 
                 {this.state.redirectNotebooks === true ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : '' }
                 {this.state.redirectNotes === true? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}

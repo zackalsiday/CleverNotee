@@ -8,7 +8,6 @@ class TagsList extends React.Component {
     }
     componentDidMount(){
         dispatch(this.props.fetchTags())
-      
     }
 
     renderTags(){
@@ -52,7 +51,6 @@ class TagsList extends React.Component {
 
         return (
             <div>
-                {console.log(this.props)}
                 {this.renderTags()}
                 {this.renderTagsForm()}
             </div>

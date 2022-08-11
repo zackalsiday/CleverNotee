@@ -110,7 +110,6 @@ class NotebookShow extends React.Component {
               </button>
             {this.state.newNoteId != '' ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.state.newNoteId}`}/>) : ''}
                {this.renderNotes()}
-               {console.log(this.state)}
             {this.filteredFirstNoteId().length === 0 ? `Your ${this.state.currentNotebookName} is empty. Simply click the New button to create a new note in this Notebook` : ''}
             </div>
 

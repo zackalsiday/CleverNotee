@@ -7,7 +7,9 @@ class TagItem extends React.Component {
         this.deleteTag = this.deleteTag.bind(this)
     }
 
-   
+   componentDidMount(){
+       this.props.fetchNoteTags() 
+   }
 
     update(field) {
         return e => this.setState({
@@ -18,11 +20,23 @@ class TagItem extends React.Component {
     deleteTag(){
         this.props.deleteTag(this.props.tag.id)
     }
+    filteredNotes() {
+        let first = Object.values(this.props.noteTags)
+        let filteredNoteTags = first.filter(noteTag => noteTag.tag_id.toString() === this.props.tag.id.toString())
+        return filteredNoteTags
+    }
+
+    firstNote() {
+        let reversedNotes = this.filteredNotes().reverse()
+        let newObj = Object.assign({}, reversedNotes[0])
+        return newObj.id
+    }
+
 
     render() {
 
         return (
-          <Link to={`/tags/${this.props.tag.id}/notes`}>
+          <Link to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
           
                <li>
                     {this.props.tag.name}

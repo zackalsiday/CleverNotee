@@ -10,7 +10,7 @@ import NotebookListContainer from '../notebooksList/notebooksList_container'
 import NotebookShowContainer from '../notebookShow/notebookShow_container'
 import TagsListContainer from '../tagsList/tagsList_container'
 import { Redirect } from 'react-router-dom'
-import NoteTags from '../noteTags/noteTags'
+import NoteTagsContainer from '../noteTags/noteTags_container'
 class Main extends React.Component {
     
     constructor(props){
@@ -147,7 +147,8 @@ class Main extends React.Component {
                     <Route path="/notes" component={NoteContainer}/>
                     {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
                     <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
-                <Route path="/tags/:tag_id/notes" component={NoteTags}/>            
+                <Route path="/tags/:tag_id/notes" component={NoteTagsContainer}/> 
+                <Route path="/tags/:tag_id/notes/:note_id" component={NoteEditContainer}/>
                 <Switch>
                  <Route path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
                  <Route path="/notes/:note_id" component={NoteEditContainer} />
