@@ -147,7 +147,7 @@ class Main extends React.Component {
                     <Route path="/notes" component={NoteContainer}/>
                     {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
                     <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
-                <Route path="/tags/:tag_id/notes" component={NoteTagsContainer}/> 
+                <Route path="/tags/:tag_id/notes/:note_id" component={NoteTagsContainer}/> 
                 <Route path="/tags/:tag_id/notes/:note_id" component={NoteEditContainer}/>
                 <Switch>
                  <Route path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>

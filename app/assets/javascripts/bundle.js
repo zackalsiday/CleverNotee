@@ -651,7 +651,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
         path: "/notes",
         component: _notesList_notes_container__WEBPACK_IMPORTED_MODULE_2__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__["default"], {
-        path: "/tags/:tag_id/notes",
+        path: "/tags/:tag_id/notes/:note_id",
         component: _noteTags_noteTags_container__WEBPACK_IMPORTED_MODULE_9__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__["default"], {
         path: "/tags/:tag_id/notes/:note_id",
@@ -792,7 +792,8 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       redirectNotes: false,
       redirectNotebooks: false,
       filteredNotes: '',
-      empty: false
+      empty: false,
+      changed: false
     };
     _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     _this.createNote = _this.createNote.bind(_assertThisInitialized(_this));
@@ -807,34 +808,23 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       this.props.fetchNotes();
       this.props.fetchNoteTags();
       this.props.fetchNotebooks();
-
-      if (this.props.match.path === "/tags/:tag_id/notes/:note_id") {
-        dispatch(this.props.fetchNoteTag(this.props.match.params.note_id)).then(function (res) {
-          _this2.setState({
-            title: res.note_tag.note.title,
-            content: res.note_tag.note.content,
-            author_id: res.note_tag.note.authorId,
-            notebook_id: res.note_tag.note.notebookId,
-            id: res.note_tag.note.id
-          });
+      dispatch(this.props.fetchNote(this.props.match.params.note_id)).then(function (res) {
+        _this2.setState({
+          title: res.note.title,
+          content: res.note.content,
+          author_id: res.note.authorId,
+          notebook_id: res.note.notebookId,
+          id: res.note.id
         });
-      } else {
-        dispatch(this.props.fetchNote(this.props.match.params.note_id)).then(function (res) {
-          _this2.setState({
-            title: res.note.title,
-            content: res.note.content,
-            author_id: res.note.authorId,
-            notebook_id: res.note.notebookId,
-            id: res.note.id
-          });
-        });
-      } // this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? this.setState({url: `/notebooks/${this.props.match.params.notebook_id}/notes`}) : this.setState({url: `/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`})
-
+      }); // this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? this.setState({url: `/notebooks/${this.props.match.params.notebook_id}/notes`}) : this.setState({url: `/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`})
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
       var _this3 = this;
+
+      // console.log(prevState.title)
+      console.log(this.state.title);
 
       if (this.props.match.params.note_id === 'undefined') {
         this.setState({
@@ -863,7 +853,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       } else if (prevState.notebook_id != this.state.notebook_id) {
         var _note2 = Object.assign({}, this.state);
 
-        this.props.updateNote(_note2); // this.props.fetchNotes()
+        this.props.updateNote(_note2);
       }
     }
   }, {
@@ -874,7 +864,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         var _this4$setState;
 
-        return _this4.setState((_this4$setState = {}, _defineProperty(_this4$setState, field, e.currentTarget.value), _defineProperty(_this4$setState, "redirectNotebooks", _this4.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false), _defineProperty(_this4$setState, "redirectNotes", _this4.props.match.path === "/notes/:note_id" ? true : false), _this4$setState));
+        return _this4.setState((_this4$setState = {}, _defineProperty(_this4$setState, field, e.currentTarget.value), _defineProperty(_this4$setState, "redirectNotebooks", _this4.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false), _defineProperty(_this4$setState, "redirectNotes", _this4.props.match.path === "/notes/:note_id" ? true : false), _defineProperty(_this4$setState, "changed", _this4.props.match.path === "/tags/:tag_id/notes/:note_id" ? true : false), _this4$setState));
       };
     }
   }, {
@@ -1026,6 +1016,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mapStateToProps = function mapStateToProps(state) {
   return {
     notebooks: state.entities.notebooks,
@@ -1060,6 +1051,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchNoteTag: function fetchNoteTag(NoteTagId) {
       return (0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_4__.fetchNoteTag)(NoteTagId);
+    },
+    updateNoteTag: function updateNoteTag(NoteTag) {
+      return dispatch((0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_4__.updateNoteTag)(NoteTag));
     }
   };
 };
@@ -1430,32 +1424,29 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderNotes",
     value: function renderNotes() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, this.filteredNotes().map(function (noteTags) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, this.filteredNotes().reverse().map(function (noteTags) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, Object.assign({}, noteTags).note.title);
       }));
     }
   }, {
     key: "filteredNotes",
     value: function filteredNotes() {
-      var _this3 = this;
-
-      var first = Object.values(this.props.noteTags);
-      var filteredNoteTags = first.filter(function (noteTag) {
-        return noteTag.tag_id.toString() === _this3.props.match.params.tag_id;
-      });
-      return filteredNoteTags;
+      // let first = Object.values(this.props.noteTags)
+      // let filteredNoteTags = first.filter(noteTag => noteTag.tag_id.toString() === this.props.match.params.tag_id)
+      // return filteredNoteTags
+      return this.props.noteTags;
     }
   }, {
     key: "firstNote",
     value: function firstNote() {
       var reversedNotes = this.filteredNotes().reverse();
       var newObj = Object.assign({}, reversedNotes[0]);
-      return newObj.id;
+      return newObj.note_id;
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderNotes(), this.state.tagsVisible === true ? this.renderTags() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.renderNotes(), this.state.tagsVisible === true ? this.renderTags() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.toggleTags
       }, "Tags"));
     }
@@ -1486,9 +1477,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    noteTags: state.entities.noteTags
+    noteTags: Object.values(state.entities.noteTags).filter(function (noteTag) {
+      return noteTag.tag_id.toString() === ownProps.match.params.tag_id;
+    }),
+    ownProps: ownProps
   };
 };
 
@@ -2611,7 +2605,7 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
     value: function firstNote() {
       var reversedNotes = this.filteredNotes().reverse();
       var newObj = Object.assign({}, reversedNotes[0]);
-      return newObj.id;
+      return newObj.note_id;
     }
   }, {
     key: "render",

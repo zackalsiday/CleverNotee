@@ -4,8 +4,7 @@ import { Redirect } from 'react-router-dom'
 class NoteEdit extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            title: '',
+        this.state =   {title: '',
             content: '',
             author_id: '',
             notebook_id: '',
@@ -14,8 +13,10 @@ class NoteEdit extends React.Component {
             redirectNotes: false,
             redirectNotebooks: false,
             filteredNotes : '',
-            empty:  false 
-        }
+            empty:  false,
+            changed: false
+        } 
+        
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
     }
@@ -25,17 +26,7 @@ class NoteEdit extends React.Component {
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
-        if (this.props.match.path === "/tags/:tag_id/notes/:note_id"){
-            dispatch(this.props.fetchNoteTag(this.props.match.params.note_id)).then((res) => {
-                this.setState({
-                    title: res.note_tag.note.title,
-                    content: res.note_tag.note.content,
-                    author_id: res.note_tag.note.authorId,
-                    notebook_id: res.note_tag.note.notebookId,
-                    id: res.note_tag.note.id
-                })
-            })
-        }else{
+
 
                   dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
@@ -47,7 +38,7 @@ class NoteEdit extends React.Component {
             })
          })
     
-        }
+        
   
      
     
@@ -56,6 +47,8 @@ class NoteEdit extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        // console.log(prevState.title)
+        console.log(this.state.title)
         if(this.props.match.params.note_id === 'undefined'){
             this.setState({empty: true})
         }
@@ -74,14 +67,15 @@ class NoteEdit extends React.Component {
   
         }else if(prevState.title != this.state.title) {
             const note = Object.assign({}, this.state)
-            this.props.updateNote(note)
+            this.props.updateNote(note) 
+
         }else if(prevState.content != this.state.content){
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
         }else if (prevState.notebook_id != this.state.notebook_id){
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
-            // this.props.fetchNotes()
+         
         }
 
 
@@ -94,7 +88,8 @@ class NoteEdit extends React.Component {
        return  e => this.setState({
             [field]: e.currentTarget.value,
             redirectNotebooks: this.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false ,
-            redirectNotes: this.props.match.path === "/notes/:note_id" ? true : false 
+            redirectNotes: this.props.match.path === "/notes/:note_id" ? true : false,
+            changed: this.props.match.path === "/tags/:tag_id/notes/:note_id" ? true : false
         })
          
     }
@@ -175,11 +170,12 @@ class NoteEdit extends React.Component {
     }
 
 
+
     render() {
         return (
             <div>
-                {/* {console.log(this.props)}
-                {console.log(this.state)} */}
+                {/* {console.log(this.props)} */}
+                {/* {console.log(this.state)} */}
                {this.renderNewButton()}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
@@ -189,6 +185,7 @@ class NoteEdit extends React.Component {
                 {this.state.empty === true ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />): '' } 
                 {this.state.redirectNotebooks === true ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : '' }
                 {this.state.redirectNotes === true? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
+             
                 <div>
                     <button onClick={this.deleteNote}>
                         Delete
@@ -197,7 +194,7 @@ class NoteEdit extends React.Component {
 
                     <form >
                         <input type="text"
-                            value={this.state.title}
+                            value={ this.state.title}
                             placeholder='please title your note'
                             onChange={this.update('title')}
                         />

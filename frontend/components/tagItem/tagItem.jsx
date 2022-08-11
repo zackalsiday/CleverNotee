@@ -29,15 +29,15 @@ class TagItem extends React.Component {
     firstNote() {
         let reversedNotes = this.filteredNotes().reverse()
         let newObj = Object.assign({}, reversedNotes[0])
-        return newObj.id
+        return newObj.note_id
     }
 
 
     render() {
 
         return (
+
           <Link to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
-          
                <li>
                     {this.props.tag.name}
                     <button onClick={this.deleteTag}>
