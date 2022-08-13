@@ -793,7 +793,8 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       redirectNotebooks: false,
       filteredNotes: '',
       empty: false,
-      changed: false
+      changed: false,
+      prevTitle: ''
     };
     _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     _this.createNote = _this.createNote.bind(_assertThisInitialized(_this));
@@ -823,9 +824,6 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate(prevProps, prevState) {
       var _this3 = this;
 
-      // console.log(prevState.title)
-      console.log(this.state.title);
-
       if (this.props.match.params.note_id === 'undefined') {
         this.setState({
           empty: true
@@ -846,6 +844,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       } else if (prevState.title != this.state.title) {
         var note = Object.assign({}, this.state);
         this.props.updateNote(note);
+        dispatch(this.props.fetchNote(this.state.id));
       } else if (prevState.content != this.state.content) {
         var _note = Object.assign({}, this.state);
 
@@ -854,6 +853,13 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         var _note2 = Object.assign({}, this.state);
 
         this.props.updateNote(_note2);
+      } else if (prevState.title === this.state.title) {
+        var _note3 = Object.assign({}, this.state);
+
+        this.props.updateNoteTag({
+          note_id: this.state.id,
+          tag_id: this.props.match.params.tag_id
+        });
       }
     }
   }, {
@@ -958,7 +964,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderNewButton(), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.renderNewButton(), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
         to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes")
       }) : '', this.state.redirectNotebooks === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1017,10 +1023,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     notebooks: state.entities.notebooks,
-    noteTags: state.entities.noteTags,
+    noteTags: Object.values(state.entities.noteTags).filter(function (noteTag) {
+      return noteTag.tag_id.toString() === ownProps.match.params.tag_id;
+    }),
     notes: state.entities.notes,
     currentUser: state.entities.users[state.session.id]
   };
@@ -1327,6 +1335,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Link.js");
 /* harmony import */ var _tagsList_tagsList_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tagsList/tagsList_container */ "./frontend/components/tagsList/tagsList_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
@@ -1407,7 +1416,11 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
           });
         }
       });
-    }
+    } // componentDidUpdate(prevProps, prevState){
+    //     if(prevProps.noteTags === this.props.noteTags){
+    //     }
+    // }
+
   }, {
     key: "toggleTags",
     value: function toggleTags() {
@@ -1424,8 +1437,12 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderNotes",
     value: function renderNotes() {
+      var _this3 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, this.filteredNotes().reverse().map(function (noteTags) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, Object.assign({}, noteTags).note.title);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          to: "/tags/".concat(_this3.props.match.params.tag_id, "/notes/").concat(_this3.props.match.params.note_id)
+        }, Object.assign({}, noteTags).note.title));
       }));
     }
   }, {
@@ -1446,7 +1463,7 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.renderNotes(), this.state.tagsVisible === true ? this.renderTags() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderNotes(), this.state.tagsVisible === true ? this.renderTags() : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.toggleTags
       }, "Tags"));
     }

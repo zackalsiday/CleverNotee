@@ -11,9 +11,9 @@ import { fetchNotes } from '../../actions/note_actions';
 import {createNote} from '../../actions/note_actions';
 import { fetchNoteTag } from '../../actions/note_tag_actions';
 import {updateNoteTag} from '../../actions/note_tag_actions'
-const mapStateToProps = state => ({
+const mapStateToProps = (state,ownProps) => ({
    notebooks: state.entities.notebooks,
-   noteTags: state.entities.noteTags,
+    noteTags: Object.values(state.entities.noteTags).filter(noteTag => noteTag.tag_id.toString() === ownProps.match.params.tag_id),
    notes: state.entities.notes,
     currentUser: state.entities.users[state.session.id]
 })

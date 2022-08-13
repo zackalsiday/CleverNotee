@@ -14,7 +14,8 @@ class NoteEdit extends React.Component {
             redirectNotebooks: false,
             filteredNotes : '',
             empty:  false,
-            changed: false
+            changed: false,
+            prevTitle: ''
         } 
         
         this.deleteNote = this.deleteNote.bind(this)
@@ -47,8 +48,7 @@ class NoteEdit extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // console.log(prevState.title)
-        console.log(this.state.title)
+  
         if(this.props.match.params.note_id === 'undefined'){
             this.setState({empty: true})
         }
@@ -68,7 +68,8 @@ class NoteEdit extends React.Component {
         }else if(prevState.title != this.state.title) {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note) 
-
+            dispatch(this.props.fetchNote(this.state.id))
+          
         }else if(prevState.content != this.state.content){
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
@@ -76,7 +77,13 @@ class NoteEdit extends React.Component {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
          
-        }
+         }
+         else if ((prevState.title === this.state.title)){
+           const note = Object.assign({}, this.state)
+           this.props.updateNoteTag({note_id: this.state.id, tag_id: this.props.match.params.tag_id}) 
+         }
+   
+        
 
 
     
@@ -172,10 +179,11 @@ class NoteEdit extends React.Component {
 
 
     render() {
+
         return (
             <div>
-                {/* {console.log(this.props)} */}
-                {/* {console.log(this.state)} */}
+            
+                {console.log(this.props)}
                {this.renderNewButton()}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 

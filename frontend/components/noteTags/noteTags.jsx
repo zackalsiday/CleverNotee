@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import TagsListContainer from '../tagsList/tagsList_container'
 import { Redirect } from 'react-router-dom'
 class NoteTags extends React.Component {
@@ -32,6 +32,12 @@ class NoteTags extends React.Component {
 
     }
 
+    // componentDidUpdate(prevProps, prevState){
+    //     if(prevProps.noteTags === this.props.noteTags){
+          
+    //     }
+    // }
+
     toggleTags() {
         if (this.state.tagsVisible === false) {
             this.setState({ tagsVisible: true })
@@ -44,9 +50,16 @@ class NoteTags extends React.Component {
         return (
         <ul>
             {this.filteredNotes().reverse().map((noteTags) => (
-                <li>{
-                    Object.assign({}, noteTags).note.title
-                    }</li>
+                <li>
+                    <Link to={`/tags/${this.props.match.params.tag_id}/notes/${this.props.match.params.note_id}`}>
+                    
+                    {
+                
+                   Object.assign({}, noteTags).note.title
+                }
+                </Link>
+                    </li>
+                 
            
         ))}
         </ul>
@@ -71,7 +84,7 @@ class NoteTags extends React.Component {
 
         return (
             <div>
-                {console.log(this.props)}
+                {/* {console.log(this.props)} */}
                 {this.renderNotes()}
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
                 {/* {this.state.empty === true ? (<Redirect to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNote()}`}/>) : '' } */}
