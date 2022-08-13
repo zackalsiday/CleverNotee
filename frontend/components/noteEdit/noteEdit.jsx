@@ -24,6 +24,7 @@ class NoteEdit extends React.Component {
 
 
     componentDidMount() {
+
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
@@ -48,7 +49,9 @@ class NoteEdit extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-  
+        let oldNoteTag = Object.assign({}, prevProps.noteTags)
+        let oldNoteTagTwo = Object.assign({}, oldNoteTag[0])
+        let oldNote = Object.assign({}, oldNoteTagTwo.note)
         if(this.props.match.params.note_id === 'undefined'){
             this.setState({empty: true})
         }
@@ -77,11 +80,10 @@ class NoteEdit extends React.Component {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
          
+         }else if( oldNote.title !== this.state.title && this.props.match.path === '/tags/:tag_id/notes/:note_id'){
+           this.props.updateNoteTag({ id: 2, tag_id: this.props.match.params.tag_id, note_id: this.props.match.params.note_id })
          }
-         else if ((prevState.title === this.state.title)){
-           const note = Object.assign({}, this.state)
-           this.props.updateNoteTag({note_id: this.state.id, tag_id: this.props.match.params.tag_id}) 
-         }
+      
    
         
 
@@ -182,7 +184,7 @@ class NoteEdit extends React.Component {
 
         return (
             <div>
-            
+              
                 {console.log(this.props)}
                {this.renderNewButton()}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 

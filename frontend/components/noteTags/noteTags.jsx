@@ -20,6 +20,7 @@ class NoteTags extends React.Component {
                 let first = Object.values(this.props.noteTags)
         let filteredNoteTags = first.filter(noteTag => noteTag.tag_id.toString() === this.props.match.params.tag_id)
         let reverse = filteredNoteTags.reverse()
+        // console.log(reverse)
         this.setState({firstNote: reverse[0].id})
     }).then((res) => {
         let first = Object.values(this.props.noteTags)

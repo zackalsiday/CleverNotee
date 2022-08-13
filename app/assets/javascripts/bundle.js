@@ -824,6 +824,10 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate(prevProps, prevState) {
       var _this3 = this;
 
+      var oldNoteTag = Object.assign({}, prevProps.noteTags);
+      var oldNoteTagTwo = Object.assign({}, oldNoteTag[0]);
+      var oldNote = Object.assign({}, oldNoteTagTwo.note);
+
       if (this.props.match.params.note_id === 'undefined') {
         this.setState({
           empty: true
@@ -853,12 +857,11 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         var _note2 = Object.assign({}, this.state);
 
         this.props.updateNote(_note2);
-      } else if (prevState.title === this.state.title) {
-        var _note3 = Object.assign({}, this.state);
-
+      } else if (oldNote.title !== this.state.title && this.props.match.path === '/tags/:tag_id/notes/:note_id') {
         this.props.updateNoteTag({
-          note_id: this.state.id,
-          tag_id: this.props.match.params.tag_id
+          id: 2,
+          tag_id: this.props.match.params.tag_id,
+          note_id: this.props.match.params.note_id
         });
       }
     }
@@ -1399,7 +1402,7 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
         var filteredNoteTags = first.filter(function (noteTag) {
           return noteTag.tag_id.toString() === _this2.props.match.params.tag_id;
         });
-        var reverse = filteredNoteTags.reverse();
+        var reverse = filteredNoteTags.reverse(); // console.log(reverse)
 
         _this2.setState({
           firstNote: reverse[0].id
