@@ -827,6 +827,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       var oldNoteTag = Object.assign({}, prevProps.noteTags);
       var oldNoteTagTwo = Object.assign({}, oldNoteTag[0]);
       var oldNote = Object.assign({}, oldNoteTagTwo.note);
+      console.log(oldNoteTag);
 
       if (this.props.match.params.note_id === 'undefined') {
         this.setState({
@@ -859,7 +860,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         this.props.updateNote(_note2);
       } else if (oldNote.title !== this.state.title && this.props.match.path === '/tags/:tag_id/notes/:note_id') {
         this.props.updateNoteTag({
-          id: 2,
+          id: oldNoteTagTwo.id,
           tag_id: this.props.match.params.tag_id,
           note_id: this.props.match.params.note_id
         });

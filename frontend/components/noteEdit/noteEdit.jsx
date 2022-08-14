@@ -52,6 +52,7 @@ class NoteEdit extends React.Component {
         let oldNoteTag = Object.assign({}, prevProps.noteTags)
         let oldNoteTagTwo = Object.assign({}, oldNoteTag[0])
         let oldNote = Object.assign({}, oldNoteTagTwo.note)
+        console.log(oldNoteTag)
         if(this.props.match.params.note_id === 'undefined'){
             this.setState({empty: true})
         }
@@ -81,7 +82,7 @@ class NoteEdit extends React.Component {
             this.props.updateNote(note)
          
          }else if( oldNote.title !== this.state.title && this.props.match.path === '/tags/:tag_id/notes/:note_id'){
-           this.props.updateNoteTag({ id: 2, tag_id: this.props.match.params.tag_id, note_id: this.props.match.params.note_id })
+           this.props.updateNoteTag({ id: oldNoteTagTwo.id, tag_id: this.props.match.params.tag_id, note_id: this.props.match.params.note_id })
          }
       
    
