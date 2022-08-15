@@ -11,12 +11,16 @@ class NoteItem extends React.Component{
 
     render(){
         return(
-            <li>
+        <div>
+            {/* {console.log(this.filteredNoteTags())} */}
+             <li>
             <Link to={`/notes/${this.props.note.id}`}>
              {this.props.note.title}
             </Link>
-             
+           
             </li>
+        </div>
+           
         )
     }
 }

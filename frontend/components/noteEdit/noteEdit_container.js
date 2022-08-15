@@ -17,6 +17,7 @@ const mapStateToProps = (state,ownProps) => ({
    notebooks: state.entities.notebooks,
     noteTag: Object.values(state.entities.noteTags).filter(noteTag => noteTag.tag_id.toString() === ownProps.match.params.tag_id).filter(noteTags => noteTags.note_id.toString() === ownProps.match.params.note_id),
     noteTags: Object.values(state.entities.noteTags).filter(noteTag => noteTag.tag_id.toString() === ownProps.match.params.tag_id),
+    noteTagsforNotes: Object.values(state.entities.noteTags),
    notes: state.entities.notes,
     currentUser: state.entities.users[state.session.id]
 })

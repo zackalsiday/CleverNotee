@@ -11,6 +11,7 @@ class Note extends React.Component{
     componentDidMount(){
         let allNotes = this.props.fetchNotes
         dispatch(allNotes())
+        this.props.fetchNoteTags()
         // dispatch(this.props.fetchNote(1))
      
     }
@@ -23,8 +24,7 @@ class Note extends React.Component{
         return(
             <ul>
                 {reversed.map((note) => (
-                    
-                        <NoteItem note={note}/>
+                        <NoteItem noteTags={this.props.noteTags} note={note}/>
                     
                 ))}
             </ul>
@@ -35,6 +35,7 @@ class Note extends React.Component{
         
         return (
         <div>
+            {/* {console.log(this.props)} */}
             {this.renderNotes()}
                
         </div>

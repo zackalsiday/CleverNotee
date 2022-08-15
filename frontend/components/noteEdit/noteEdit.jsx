@@ -23,6 +23,7 @@ class NoteEdit extends React.Component {
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
         this.createNoteTag = this.createNoteTag.bind(this)
+        this.removeTagfromNote = this.removeTagfromNote.bind(this)
     }
 
 
@@ -224,6 +225,31 @@ class NoteEdit extends React.Component {
         return lastId
     }
 
+    filteredNoteTags() {
+
+        let filtered = this.props.noteTagsforNotes.filter(noteTag => noteTag.note_id.toString() === this.props.match.params.note_id)
+        return filtered 
+    }
+    removeTagfromNote(tag){
+        dispatch(this.props.deleteNoteTag(tag.id)).then((res) => {
+            window.location.reload()
+        })
+    }
+    renderTags() {
+        if (this.filteredNoteTags().length != 0) {
+            return (
+                <ul>
+                    {this.filteredNoteTags().map((tag) =>
+                        <li> 
+                            {tag.tag.name}
+                            <button onClick={() => this.removeTagfromNote(tag)}>Delete</button>
+                        </li>
+                    )}
+                </ul>
+            )
+        }
+    }
+
 
 
     render() {
@@ -232,7 +258,8 @@ class NoteEdit extends React.Component {
 
         return (
             <div>
-            {console.log(this.props)}
+            {/* {console.log(this.props)} */}
+            {console.log(this.filteredNoteTags())}
                {/* {this.renderNewButton()} */}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
@@ -273,6 +300,7 @@ class NoteEdit extends React.Component {
                         />
                         {this.notebookOptions()}
                     </form> 
+                    {this.renderTags()}
                 </div>
                 {/* : ''} */}
                 {/* {this.renderNoteTags()} */}

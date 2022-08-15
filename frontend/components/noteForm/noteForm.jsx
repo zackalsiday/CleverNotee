@@ -67,7 +67,7 @@ class NoteForm extends React.Component {
              <form onSubmit={this.handleSubmit}>
              <input type="text" 
                 value={this.state.title}
-                placeholder='please title your note'
+                placeholder='please title your'
                 onChange={this.update('title')}
              />
             <br />

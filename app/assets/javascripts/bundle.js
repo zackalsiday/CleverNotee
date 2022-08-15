@@ -812,6 +812,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     _this.createNote = _this.createNote.bind(_assertThisInitialized(_this));
     _this.createNoteTag = _this.createNoteTag.bind(_assertThisInitialized(_this));
+    _this.removeTagfromNote = _this.removeTagfromNote.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1037,11 +1038,43 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       return lastId;
     }
   }, {
+    key: "filteredNoteTags",
+    value: function filteredNoteTags() {
+      var _this8 = this;
+
+      var filtered = this.props.noteTagsforNotes.filter(function (noteTag) {
+        return noteTag.note_id.toString() === _this8.props.match.params.note_id;
+      });
+      return filtered;
+    }
+  }, {
+    key: "removeTagfromNote",
+    value: function removeTagfromNote(tag) {
+      dispatch(this.props.deleteNoteTag(tag.id)).then(function (res) {
+        window.location.reload();
+      });
+    }
+  }, {
+    key: "renderTags",
+    value: function renderTags() {
+      var _this9 = this;
+
+      if (this.filteredNoteTags().length != 0) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, this.filteredNoteTags().map(function (tag) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, tag.tag.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+            onClick: function onClick() {
+              return _this9.removeTagfromNote(tag);
+            }
+          }, "Delete"));
+        }));
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var first = this.props.noteTag[0];
       var firstId = Object.assign({}, first).note_id;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.filteredNoteTags()), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
         to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes")
       }) : '', this.state.redirectNotebooks === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1069,7 +1102,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
-      }), this.notebookOptions())));
+      }), this.notebookOptions()), this.renderTags()));
     }
   }]);
 
@@ -1121,6 +1154,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     noteTags: Object.values(state.entities.noteTags).filter(function (noteTag) {
       return noteTag.tag_id.toString() === ownProps.match.params.tag_id;
     }),
+    noteTagsforNotes: Object.values(state.entities.noteTags),
     notes: state.entities.notes,
     currentUser: state.entities.users[state.session.id]
   };
@@ -1283,7 +1317,7 @@ var NoteForm = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
         value: this.state.title,
-        placeholder: "please title your note",
+        placeholder: "please title your",
         onChange: this.update('title')
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
@@ -1407,9 +1441,9 @@ var NoteItem = /*#__PURE__*/function (_React$Component) {
   _createClass(NoteItem, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
         to: "/notes/".concat(this.props.note.id)
-      }, this.props.note.title));
+      }, this.props.note.title)));
     }
   }]);
 
@@ -2239,15 +2273,19 @@ var Note = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var allNotes = this.props.fetchNotes;
-      dispatch(allNotes()); // dispatch(this.props.fetchNote(1))
+      dispatch(allNotes());
+      this.props.fetchNoteTags(); // dispatch(this.props.fetchNote(1))
     }
   }, {
     key: "renderNotes",
     value: function renderNotes() {
+      var _this2 = this;
+
       var notesArray = Object.values(this.props.notes);
       var reversed = notesArray.reverse();
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, reversed.map(function (note) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_noteItem_note_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          noteTags: _this2.props.noteTags,
           note: note
         });
       }));
@@ -2280,6 +2318,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _note__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./note */ "./frontend/components/notesList/note.jsx");
 /* harmony import */ var _actions_note_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/note_actions */ "./frontend/actions/note_actions.js");
+/* harmony import */ var _actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/note_tag_actions */ "./frontend/actions/note_tag_actions.js");
+
 
 
 
@@ -2288,7 +2328,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     currentUser: state.entities.users[state.session.id],
-    notes: state.entities.notes
+    notes: state.entities.notes,
+    noteTags: Object.values(state.entities.noteTags)
   };
 };
 
@@ -2299,6 +2340,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchNote: function fetchNote(noteId) {
       return (0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_2__.fetchNote)(noteId);
+    },
+    fetchNoteTags: function fetchNoteTags() {
+      return dispatch((0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNoteTags)());
     }
   };
 };
