@@ -3,8 +3,9 @@ import TagItemContainer from '../tagItem/tagItem_container'
 class TagsList extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {name: '', user_id: this.props.currentUser}
+        this.state = {name: '', user_id: this.props.currentUser, tags_visible: true}
         this.createTag = this.createTag.bind(this)
+        // this.toggleTags = this.toggleTags.bind(this)
     }
     componentDidMount(){
         dispatch(this.props.fetchTags())
@@ -15,11 +16,19 @@ class TagsList extends React.Component {
         return(
             <ul>
                 {tagsArray.map((tag) => (
-                    <TagItemContainer tag={tag} updateTag={this.props.updateTag}/>
+                     <div><TagItemContainer  toggleTags={this.props.toggleTags} tag={tag} updateTag={this.props.updateTag}/></div>
                 ))}
             </ul>
         )
     }
+
+    // toggleTags(){
+    //     if(this.state.tags_visible === true){
+    //         this.setState({tags_visible: false})
+    //     }else{
+    //         this.setState({tags_visible: true})
+    //     }
+    // }
 
     update(field) {
         return e => this.setState({
@@ -51,8 +60,9 @@ class TagsList extends React.Component {
 
         return (
             <div>
-                {this.renderTags()}
-                {this.renderTagsForm()}
+                {/* {console.log(this.state)} */}
+                {this.state.tags_visible === true ? this.renderTags() : ''}
+                {this.state.tags_visible === true? this.renderTagsForm() : ''}
             </div>
 
         )

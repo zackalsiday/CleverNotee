@@ -11,11 +11,14 @@ class NoteTags extends React.Component {
 
     renderTags() {
         return (
-            <TagsListContainer />
+            <TagsListContainer toggleTags={this.toggleTags} />
         )
     }
 
+
+
     componentDidMount(){
+        this.props.fetchNotes()
     this.props.fetchNoteTags().then((res) => {
                 let first = Object.values(this.props.noteTags)
         let filteredNoteTags = first.filter(noteTag => noteTag.tag_id.toString() === this.props.match.params.tag_id)
@@ -33,11 +36,7 @@ class NoteTags extends React.Component {
 
     }
 
-    // componentDidUpdate(prevProps, prevState){
-    //     if(prevProps.noteTags === this.props.noteTags){
-          
-    //     }
-    // }
+    
 
     toggleTags() {
         if (this.state.tagsVisible === false) {
@@ -48,11 +47,13 @@ class NoteTags extends React.Component {
 
     }
     renderNotes(){
+        let reversed = this.filteredNotes().reverse()
         return (
         <ul>
-            {this.filteredNotes().reverse().map((noteTags) => (
+            {reversed.map((noteTags) => (
                 <li>
-                    <Link to={`/tags/${this.props.match.params.tag_id}/notes/${this.props.match.params.note_id}`}>
+                    {/* {console.log(noteTags)} */}
+                    <Link to={`/tags/${this.props.match.params.tag_id}/notes/${noteTags.note_id}`}>
                     
                     {
                 
@@ -85,7 +86,7 @@ class NoteTags extends React.Component {
 
         return (
             <div>
-                {/* {console.log(this.props)} */}
+                {/* {console.log(this.props.notes)} */}
                 {this.renderNotes()}
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
                 {/* {this.state.empty === true ? (<Redirect to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNote()}`}/>) : '' } */}

@@ -609,6 +609,19 @@ var Main = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "renderCreatebutton",
+    value: function renderCreatebutton() {
+      if (this.props.location.pathname.includes('tags') === true) {
+        return null;
+      } else if (this.props.location.pathname.includes('notebooks') === true) {
+        return null;
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+          onClick: this.createNote
+        }, "New");
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hgroup", {
@@ -618,9 +631,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
       }, "Hi, ", this.props.currentUser.username, "!"), this.state.redirect ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["default"], {
         push: true,
         to: "/notes/".concat(this.firstNoteId()[this.firstNoteId().length - 1])
-      }) : null, this.props.location.pathname.includes('notebooks') === true ? '' : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-        onClick: this.createNote
-      }, " New "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      }) : null, this.renderCreatebutton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["default"], {
         to: "/"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.turnOffTags
@@ -794,10 +805,13 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       filteredNotes: '',
       empty: false,
       changed: false,
-      prevTitle: ''
+      prevTitle: '',
+      newNoteTag: false,
+      noteTagdeleted: false
     };
     _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     _this.createNote = _this.createNote.bind(_assertThisInitialized(_this));
+    _this.createNoteTag = _this.createNoteTag.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -824,10 +838,9 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate(prevProps, prevState) {
       var _this3 = this;
 
-      var oldNoteTag = Object.assign({}, prevProps.noteTags);
+      var oldNoteTag = Object.assign({}, prevProps.noteTag);
       var oldNoteTagTwo = Object.assign({}, oldNoteTag[0]);
-      var oldNote = Object.assign({}, oldNoteTagTwo.note);
-      console.log(oldNoteTag);
+      var oldNote = Object.assign({}, oldNoteTagTwo.note); // console.log(oldNote)
 
       if (this.props.match.params.note_id === 'undefined') {
         this.setState({
@@ -864,7 +877,17 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
           tag_id: this.props.match.params.tag_id,
           note_id: this.props.match.params.note_id
         });
-      }
+      } else if (oldNote.content !== this.state.content && this.props.match.path === '/tags/:tag_id/notes/:note_id') {
+        this.props.updateNoteTag({
+          id: oldNoteTagTwo.id,
+          tag_id: this.props.match.params.tag_id,
+          note_id: this.props.match.params.note_id
+        });
+      } else if (this.state.noteTagdeleted === true) {
+        this.props.fetchNoteTags();
+        window.location.reload();
+      } // delete the note_tag first then use the res to delele the note itself.
+
     }
   }, {
     key: "update",
@@ -880,12 +903,23 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "deleteNote",
     value: function deleteNote() {
-      this.props.deleteNote(this.state.id);
-      this.setState({
-        redirectNotebooks: this.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false,
-        redirectNotes: this.props.match.path === "/notes/:note_id" ? true : false,
-        empty: this.filteredFirstNoteId().length === 0 ? true : false
-      });
+      var _this5 = this;
+
+      if (this.props.match.path !== "/tags/:tag_id/notes/:note_id") {
+        this.props.deleteNote(this.state.id);
+        this.setState({
+          redirectNotebooks: this.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false,
+          redirectNotes: this.props.match.path === "/notes/:note_id" ? true : false,
+          empty: this.filteredFirstNoteId().length === 0 ? true : false
+        });
+      } else {
+        var noteTagId = Object.assign({}, this.props.noteTag[0]).id;
+        dispatch(this.props.deleteNoteTag(noteTagId)).then(function (res) {
+          _this5.setState({
+            noteTagdeleted: true
+          });
+        });
+      }
     }
   }, {
     key: "notebookOptions",
@@ -913,11 +947,11 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "filteredFirstNoteId",
     value: function filteredFirstNoteId() {
-      var _this5 = this;
+      var _this6 = this;
 
       var notesArray = Object.values(this.props.notes);
       var filteredNotes = notesArray.filter(function (note) {
-        return note.notebookId.toString() === _this5.props.match.params.notebook_id;
+        return note.notebookId.toString() === _this6.props.match.params.notebook_id;
       });
       var _final = [];
       filteredNotes.map(function (note) {
@@ -966,9 +1000,48 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       dispatch(this.props.createNote(note));
     }
   }, {
+    key: "createNoteTag",
+    value: function createNoteTag() {
+      var _this7 = this;
+
+      var note = {
+        title: 'Untitled',
+        content: '',
+        author_id: this.props.currentUser.id,
+        notebook_id: this.firstNotebookId()
+      };
+      dispatch(this.props.createNote(note)).then(function (res) {
+        var noteTag = {
+          note_id: parseInt(res.note.id),
+          tag_id: parseInt(_this7.props.match.params.tag_id)
+        };
+        dispatch(_this7.props.createNoteTag(noteTag)).then(function (res) {
+          _this7.setState({
+            title: res.note_tag.note.title,
+            content: res.note_tag.note.content,
+            notebook_id: res.note_tag.note.notebook_id
+          });
+        }).then(function (res) {
+          _this7.setState({
+            newNoteTag: true
+          });
+        });
+      }); // let note = {note_id: 1175, tag_id: 3}
+      // dispatch(this.props.createNoteTag(note))
+    }
+  }, {
+    key: "firstNoteTag",
+    value: function firstNoteTag() {
+      var last = this.props.noteTags[this.props.noteTags.length - 1];
+      var lastId = Object.assign({}, last).note_id;
+      return lastId;
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.renderNewButton(), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      var first = this.props.noteTag[0];
+      var firstId = Object.assign({}, first).note_id;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
         to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes")
       }) : '', this.state.redirectNotebooks === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -976,7 +1049,15 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       }) : '', this.state.redirectNotes === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
         to: "/notes/".concat(this.firstNoteId()[this.firstNoteId().length - 1])
-      }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      }) : null, this.state.newNoteTag === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        push: true,
+        to: "/tags/".concat(this.props.match.params.tag_id, "/notes/").concat(this.firstNoteTag())
+      }) : null, this.state.noteTagdeleted === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        push: true,
+        to: "/tags/".concat(this.props.match.params.tag_id, "/notes/").concat(this.firstNoteTag())
+      }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.props.match.path === '/tags/:tag_id/notes/:note_id' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+        onClick: this.createNoteTag
+      }, "New") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteNote
       }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
@@ -1027,9 +1108,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     notebooks: state.entities.notebooks,
+    noteTag: Object.values(state.entities.noteTags).filter(function (noteTag) {
+      return noteTag.tag_id.toString() === ownProps.match.params.tag_id;
+    }).filter(function (noteTags) {
+      return noteTags.note_id.toString() === ownProps.match.params.note_id;
+    }),
     noteTags: Object.values(state.entities.noteTags).filter(function (noteTag) {
       return noteTag.tag_id.toString() === ownProps.match.params.tag_id;
     }),
@@ -1066,6 +1154,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     updateNoteTag: function updateNoteTag(NoteTag) {
       return dispatch((0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_4__.updateNoteTag)(NoteTag));
+    },
+    createNoteTag: function createNoteTag(NoteTag) {
+      return (0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_4__.createNoteTag)(NoteTag);
+    },
+    deleteNoteTag: function deleteNoteTag(NoteTag) {
+      return (0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_4__.deleteNoteTag)(NoteTag);
     }
   };
 };
@@ -1391,13 +1485,16 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
   _createClass(NoteTags, [{
     key: "renderTags",
     value: function renderTags() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tagsList_tagsList_container__WEBPACK_IMPORTED_MODULE_1__["default"], null);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tagsList_tagsList_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        toggleTags: this.toggleTags
+      });
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
+      this.props.fetchNotes();
       this.props.fetchNoteTags().then(function (res) {
         var first = Object.values(_this2.props.noteTags);
         var filteredNoteTags = first.filter(function (noteTag) {
@@ -1420,11 +1517,7 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
           });
         }
       });
-    } // componentDidUpdate(prevProps, prevState){
-    //     if(prevProps.noteTags === this.props.noteTags){
-    //     }
-    // }
-
+    }
   }, {
     key: "toggleTags",
     value: function toggleTags() {
@@ -1443,9 +1536,10 @@ var NoteTags = /*#__PURE__*/function (_React$Component) {
     value: function renderNotes() {
       var _this3 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, this.filteredNotes().reverse().map(function (noteTags) {
+      var reversed = this.filteredNotes().reverse();
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, reversed.map(function (noteTags) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          to: "/tags/".concat(_this3.props.match.params.tag_id, "/notes/").concat(_this3.props.match.params.note_id)
+          to: "/tags/".concat(_this3.props.match.params.tag_id, "/notes/").concat(noteTags.note_id)
         }, Object.assign({}, noteTags).note.title));
       }));
     }
@@ -1494,6 +1588,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _noteTags__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./noteTags */ "./frontend/components/noteTags/noteTags.jsx");
 /* harmony import */ var _actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/note_tag_actions */ "./frontend/actions/note_tag_actions.js");
+/* harmony import */ var _actions_note_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/note_actions */ "./frontend/actions/note_actions.js");
+
 
 
 
@@ -1503,6 +1599,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     noteTags: Object.values(state.entities.noteTags).filter(function (noteTag) {
       return noteTag.tag_id.toString() === ownProps.match.params.tag_id;
     }),
+    notes: state.entities.notes,
     ownProps: ownProps
   };
 };
@@ -1511,6 +1608,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchNoteTags: function fetchNoteTags() {
       return dispatch((0,_actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_2__.fetchNoteTags)());
+    },
+    fetchNotes: function fetchNotes() {
+      return dispatch((0,_actions_note_actions__WEBPACK_IMPORTED_MODULE_3__.fetchNotes)());
     }
   };
 };
@@ -2633,9 +2733,11 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         to: "/tags/".concat(this.props.tag.id, "/notes/").concat(this.firstNote())
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, this.props.tag.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        onClick: this.props.toggleTags
+      }, this.props.tag.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteTag
       }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
         onSubmit: function onSubmit() {
@@ -2648,7 +2750,7 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "submit",
         value: "submit"
-      }))));
+      })));
     }
   }]);
 
@@ -2755,9 +2857,11 @@ var TagsList = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       name: '',
-      user_id: _this.props.currentUser
+      user_id: _this.props.currentUser,
+      tags_visible: true
     };
-    _this.createTag = _this.createTag.bind(_assertThisInitialized(_this));
+    _this.createTag = _this.createTag.bind(_assertThisInitialized(_this)); // this.toggleTags = this.toggleTags.bind(this)
+
     return _this;
   }
 
@@ -2773,12 +2877,20 @@ var TagsList = /*#__PURE__*/function (_React$Component) {
 
       var tagsArray = Object.values(this.props.tags);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, tagsArray.map(function (tag) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tagItem_tagItem_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tagItem_tagItem_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          toggleTags: _this2.props.toggleTags,
           tag: tag,
           updateTag: _this2.props.updateTag
-        });
+        }));
       }));
-    }
+    } // toggleTags(){
+    //     if(this.state.tags_visible === true){
+    //         this.setState({tags_visible: false})
+    //     }else{
+    //         this.setState({tags_visible: true})
+    //     }
+    // }
+
   }, {
     key: "update",
     value: function update(field) {
@@ -2814,7 +2926,7 @@ var TagsList = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.renderTags(), this.renderTagsForm());
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.state.tags_visible === true ? this.renderTags() : '', this.state.tags_visible === true ? this.renderTagsForm() : '');
     }
   }]);
 
@@ -3286,12 +3398,12 @@ var createNoteTag = function createNoteTag(noteTag) {
     }
   });
 };
-var updateNoteTag = function updateNoteTag(note_tag) {
+var updateNoteTag = function updateNoteTag(noteTag) {
   return $.ajax({
     method: 'PATCH',
-    url: "api/note_tags/".concat(note_tag.id),
+    url: "api/note_tags/".concat(noteTag.id),
     data: {
-      note_tag: note_tag
+      noteTag: noteTag
     }
   });
 };

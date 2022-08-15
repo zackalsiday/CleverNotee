@@ -15,11 +15,14 @@ class NoteEdit extends React.Component {
             filteredNotes : '',
             empty:  false,
             changed: false,
-            prevTitle: ''
+            prevTitle: '',
+            newNoteTag: false,
+            noteTagdeleted: false,
         } 
         
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
+        this.createNoteTag = this.createNoteTag.bind(this)
     }
 
 
@@ -49,10 +52,10 @@ class NoteEdit extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let oldNoteTag = Object.assign({}, prevProps.noteTags)
+        let oldNoteTag = Object.assign({}, prevProps.noteTag)
         let oldNoteTagTwo = Object.assign({}, oldNoteTag[0])
         let oldNote = Object.assign({}, oldNoteTagTwo.note)
-        console.log(oldNoteTag)
+        // console.log(oldNote)
         if(this.props.match.params.note_id === 'undefined'){
             this.setState({empty: true})
         }
@@ -69,7 +72,7 @@ class NoteEdit extends React.Component {
             // const note = Object.assign({}, this.state)
             // this.props.fetchNotes()
   
-        }else if(prevState.title != this.state.title) {
+        }else if(prevState.title != this.state.title ) {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note) 
             dispatch(this.props.fetchNote(this.state.id))
@@ -83,10 +86,15 @@ class NoteEdit extends React.Component {
          
          }else if( oldNote.title !== this.state.title && this.props.match.path === '/tags/:tag_id/notes/:note_id'){
            this.props.updateNoteTag({ id: oldNoteTagTwo.id, tag_id: this.props.match.params.tag_id, note_id: this.props.match.params.note_id })
-         }
+       } else if (oldNote.content !== this.state.content && this.props.match.path === '/tags/:tag_id/notes/:note_id') {
+           this.props.updateNoteTag({ id: oldNoteTagTwo.id, tag_id: this.props.match.params.tag_id, note_id: this.props.match.params.note_id })
+       }else if (this.state.noteTagdeleted === true){
+            this.props.fetchNoteTags()
+          window.location.reload()
+       }
       
    
-        
+        // delete the note_tag first then use the res to delele the note itself.
 
 
     
@@ -105,12 +113,24 @@ class NoteEdit extends React.Component {
     }
 
     deleteNote(){
-        this.props.deleteNote(this.state.id)
-        this.setState({
+     
+        if (this.props.match.path !== "/tags/:tag_id/notes/:note_id"){
+               this.props.deleteNote(this.state.id)
+               this.setState({
             redirectNotebooks: this.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false,
             redirectNotes: this.props.match.path === "/notes/:note_id" ? true : false,
             empty: this.filteredFirstNoteId().length === 0 ? true : false 
         })
+        }else{
+            let noteTagId = Object.assign({}, this.props.noteTag[0]).id
+            dispatch(this.props.deleteNoteTag(noteTagId)).then((res) => {
+                this.setState({
+                    noteTagdeleted: true
+                })
+            })
+        
+        }
+     
     }
 
 
@@ -179,15 +199,41 @@ class NoteEdit extends React.Component {
         dispatch(this.props.createNote(note))
     }
 
+    createNoteTag(){
+        let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.firstNotebookId() }
+        dispatch(this.props.createNote(note)).then((res) => {
+            let noteTag = {note_id: parseInt(res.note.id), tag_id: parseInt(this.props.match.params.tag_id)}
+            dispatch(this.props.createNoteTag(noteTag)).then((res) => {
+                this.setState({
+                    title: res.note_tag.note.title,
+                    content: res.note_tag.note.content,
+                    notebook_id: res.note_tag.note.notebook_id
+                })
+            }).then((res) =>{
+                this.setState({
+                    newNoteTag: true
+                })
+            })
+        })
+        // let note = {note_id: 1175, tag_id: 3}
+        // dispatch(this.props.createNoteTag(note))
+    }
+    firstNoteTag(){
+        let last = this.props.noteTags[this.props.noteTags.length - 1]
+        let lastId = Object.assign({},last).note_id
+        return lastId
+    }
+
 
 
     render() {
+        let first = this.props.noteTag[0]
+        let firstId = Object.assign({}, first).note_id
 
         return (
             <div>
-              
-                {console.log(this.props)}
-               {this.renderNewButton()}
+            {console.log(this.props)}
+               {/* {this.renderNewButton()} */}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
                 {/* {this.filteredFirstNoteId() === undefined  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null} */}
@@ -196,11 +242,20 @@ class NoteEdit extends React.Component {
                 {this.state.empty === true ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />): '' } 
                 {this.state.redirectNotebooks === true ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : '' }
                 {this.state.redirectNotes === true? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
-             
+                {this.state.newNoteTag === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
+                {this.state.noteTagdeleted === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
                 <div>
-                    <button onClick={this.deleteNote}>
+
+                    {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button onClick={this.createNoteTag}>New</button> : ''}
+                    <br />
+                
+                      <button onClick={this.deleteNote}>
                         Delete
-                    </button>
+                    </button> 
+                    
+
+             
+                  
 
 
                     <form >

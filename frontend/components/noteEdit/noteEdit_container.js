@@ -11,8 +11,11 @@ import { fetchNotes } from '../../actions/note_actions';
 import {createNote} from '../../actions/note_actions';
 import { fetchNoteTag } from '../../actions/note_tag_actions';
 import {updateNoteTag} from '../../actions/note_tag_actions'
+import { createNoteTag } from '../../actions/note_tag_actions';
+import { deleteNoteTag } from '../../actions/note_tag_actions';
 const mapStateToProps = (state,ownProps) => ({
    notebooks: state.entities.notebooks,
+    noteTag: Object.values(state.entities.noteTags).filter(noteTag => noteTag.tag_id.toString() === ownProps.match.params.tag_id).filter(noteTags => noteTags.note_id.toString() === ownProps.match.params.note_id),
     noteTags: Object.values(state.entities.noteTags).filter(noteTag => noteTag.tag_id.toString() === ownProps.match.params.tag_id),
    notes: state.entities.notes,
     currentUser: state.entities.users[state.session.id]
@@ -27,7 +30,9 @@ const mapDispatchToProps = dispatch => ({
     fetchNotes: () => dispatch(fetchNotes()),
     createNote: note => (createNote(note)),
     fetchNoteTag: NoteTagId => (fetchNoteTag(NoteTagId)),
-    updateNoteTag: NoteTag => dispatch(updateNoteTag(NoteTag))
+    updateNoteTag: NoteTag => dispatch(updateNoteTag(NoteTag)),
+    createNoteTag: NoteTag => (createNoteTag(NoteTag)),
+    deleteNoteTag: NoteTag => (deleteNoteTag(NoteTag))
 });
 
 export default connect(

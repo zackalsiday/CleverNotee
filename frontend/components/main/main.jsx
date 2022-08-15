@@ -23,7 +23,7 @@ class Main extends React.Component {
     }
 
     toggleTags(){
-        if(this.state.tagsVisible === false){
+        if(this.state.tagsVisible === false ){
             this.setState({tagsVisible: true})
         }else{
             this.setState({tagsVisible: false})
@@ -39,7 +39,7 @@ class Main extends React.Component {
  
 
     turnOffTags(){
-        if(this.state.tagsVisible === true){
+        if(this.state.tagsVisible === true ){
             this.setState({tagsVisible: false})
         }
     }
@@ -85,6 +85,17 @@ class Main extends React.Component {
            
     }
 
+    renderCreatebutton(){
+        if (this.props.location.pathname.includes('tags') === true){
+            return null
+        } else if (this.props.location.pathname.includes('notebooks') === true){
+            return null
+        }else{
+            return <button onClick={this.createNote}>New</button>
+        }
+            
+        }
+
 
 
 
@@ -92,12 +103,13 @@ class Main extends React.Component {
      
         return (
             <div>
-               
+               {/* {console.log(this.props)} */}
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
                     {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
-                    {this.props.location.pathname.includes('notebooks') === true ? '' : <button onClick={this.createNote}> New </button> }
-                       
+                    {/* {this.props.location.pathname.includes('tags') === true ? '' : this.renderCreatebutton()}
+                    {this.props.location.pathname.includes('notebooks') === true ? '' : this.renderCreatebutton() } */}
+                    {this.renderCreatebutton()}
                 
                     <br />
                     <Link to='/'>

@@ -5,19 +5,19 @@ export const fetchNoteTag = noteTagId => {
     })
 }
 
-export const createNoteTag = noteTag => {
-    return $.ajax({
+export const createNoteTag = noteTag => 
+     $.ajax({
         method: 'POST',
         url: 'api/note_tags',
         data: {noteTag}
     })
-}
 
-export const updateNoteTag = note_tag => {
+
+export const updateNoteTag = noteTag => {
     return $.ajax({
         method: 'PATCH',
-        url: `api/note_tags/${note_tag.id}`,
-        data: { note_tag }
+        url: `api/note_tags/${noteTag.id}`,
+        data: { noteTag }
     })
 }
 

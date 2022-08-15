@@ -41,8 +41,8 @@ class Api::NoteTagsController < ApplicationController
             render json: @note_tag.errors.full_messages, status: 422
         end
     end
-
+    private 
     def note_tag_params
-        params.require(:note_tag).permit(:note_id, :tag_id)
+        params.require(:noteTag).permit(:note_id, :tag_id)
     end
 end

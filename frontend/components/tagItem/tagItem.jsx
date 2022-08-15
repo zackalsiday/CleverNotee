@@ -36,10 +36,11 @@ class TagItem extends React.Component {
     render() {
 
         return (
-
-          <Link to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
-               <li>
-                    {this.props.tag.name}
+            <li>
+                   
+                <Link to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
+                    <div onClick={this.props.toggleTags}>{this.props.tag.name}</div>
+                </Link>
                     <button onClick={this.deleteTag}>
                              Delete
                     </button>
@@ -48,15 +49,14 @@ class TagItem extends React.Component {
                         <input type="text" 
                             value={this.state.name}
                             onChange={this.update('name')}
-                        />
+                            />
                         <input type="submit" 
                             value='submit'
-                        />
+                            />
                     </form>
 
                  </li>
     
-          </Link>
             
                  
           
