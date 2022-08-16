@@ -808,12 +808,14 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       prevTitle: '',
       newNoteTag: false,
       noteTagdeleted: false,
-      chosenTags: []
+      chosenTags: [],
+      addTag: ''
     };
     _this.deleteNote = _this.deleteNote.bind(_assertThisInitialized(_this));
     _this.createNote = _this.createNote.bind(_assertThisInitialized(_this));
     _this.createNoteTag = _this.createNoteTag.bind(_assertThisInitialized(_this));
     _this.removeTagfromNote = _this.removeTagfromNote.bind(_assertThisInitialized(_this));
+    _this.addNewTag = _this.addNewTag.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1108,6 +1110,30 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
           }
         }, tag.name);
       }));
+    }
+  }, {
+    key: "updateTagInput",
+    value: function updateTagInput(field) {
+      var _this12 = this;
+
+      return function (e) {
+        return _this12.setState(_defineProperty({}, field, e.currentTarget.value));
+      };
+    }
+  }, {
+    key: "addNewTag",
+    value: function addNewTag() {
+      var _this13 = this;
+
+      dispatch(this.props.createTag({
+        name: this.state.addTag,
+        user_id: this.props.currentUser.id
+      })).then(function (res) {
+        dispatch(_this13.props.createNoteTag({
+          note_id: _this13.props.match.params.note_id,
+          tag_id: res.tag.id
+        }));
+      });
     } //         let notebooksArray = Object.values(this.props.notebooks)
     // return (
     //     <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
@@ -1122,7 +1148,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var first = this.props.noteTag[0];
       var firstId = Object.assign({}, first).note_id;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.filteredNoteTags()), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.state), this.state.empty === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
         push: true,
         to: "/notebooks/".concat(this.props.match.params.notebook_id, "/notes")
       }) : '', this.state.redirectNotebooks === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1150,7 +1176,16 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
         value: this.state.content,
         placeholder: "take notes here",
         onChange: this.update('content')
-      }), this.notebookOptions()), this.renderTags(), this.tagOptions()));
+      }), this.notebookOptions()), this.renderTags(), this.tagOptions(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
+        onSubmit: this.addNewTag
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "text",
+        value: this.state.addTag,
+        onChange: this.updateTagInput('addTag')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+        type: "submit",
+        value: "Submit"
+      }))));
     }
   }]);
 
@@ -1178,6 +1213,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_notebook_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/notebook_actions */ "./frontend/actions/notebook_actions.js");
 /* harmony import */ var _actions_note_tag_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/note_tag_actions */ "./frontend/actions/note_tag_actions.js");
 /* harmony import */ var _actions_tag_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/tag_actions */ "./frontend/actions/tag_actions.js");
+
 
 
 
@@ -1248,6 +1284,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchTags: function fetchTags() {
       return dispatch((0,_actions_tag_actions__WEBPACK_IMPORTED_MODULE_5__.fetchTags)());
+    },
+    createTag: function createTag(tag) {
+      return (0,_actions_tag_actions__WEBPACK_IMPORTED_MODULE_5__.createTag)(tag);
     }
   };
 };

@@ -14,6 +14,7 @@ import {updateNoteTag} from '../../actions/note_tag_actions'
 import { createNoteTag } from '../../actions/note_tag_actions';
 import { deleteNoteTag } from '../../actions/note_tag_actions';
 import { fetchTags } from '../../actions/tag_actions';
+import { createTag } from '../../actions/tag_actions';
 const mapStateToProps = (state,ownProps) => ({
    notebooks: state.entities.notebooks,
     noteTag: Object.values(state.entities.noteTags).filter(noteTag => noteTag.tag_id.toString() === ownProps.match.params.tag_id).filter(noteTags => noteTags.note_id.toString() === ownProps.match.params.note_id),
@@ -36,7 +37,8 @@ const mapDispatchToProps = dispatch => ({
     updateNoteTag: NoteTag => dispatch(updateNoteTag(NoteTag)),
     createNoteTag: NoteTag => (createNoteTag(NoteTag)),
     deleteNoteTag: NoteTag => (deleteNoteTag(NoteTag)),
-    fetchTags: () => dispatch(fetchTags())
+    fetchTags: () => dispatch(fetchTags()),
+    createTag: tag => (createTag(tag))
 });
 
 export default connect(

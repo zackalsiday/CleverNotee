@@ -18,13 +18,15 @@ class NoteEdit extends React.Component {
             prevTitle: '',
             newNoteTag: false,
             noteTagdeleted: false,
-            chosenTags: []
+            chosenTags: [],
+            addTag: ''
         } 
         
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
         this.createNoteTag = this.createNoteTag.bind(this)
         this.removeTagfromNote = this.removeTagfromNote.bind(this)
+        this.addNewTag = this.addNewTag.bind(this)
     }
 
 
@@ -287,6 +289,19 @@ class NoteEdit extends React.Component {
        )
    }
 
+   updateTagInput(field){
+       return e => this.setState({
+           [field]: e.currentTarget.value 
+       })
+
+   }
+
+   addNewTag(){
+       dispatch(this.props.createTag({name: this.state.addTag, user_id: this.props.currentUser.id})).then((res) => {
+           dispatch(this.props.createNoteTag({note_id: this.props.match.params.note_id, tag_id: res.tag.id}))
+       })
+   }
+
    
    
 
@@ -306,8 +321,8 @@ class NoteEdit extends React.Component {
         return (
             <div>
             {/* {console.log(this.props)} */}
-            {console.log(this.filteredNoteTags())}
-            {/* {console.log(this.state)} */}
+            {/* {console.log(this.filteredNoteTags())} */}
+            {console.log(this.state)}
                {/* {this.renderNewButton()} */}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
@@ -350,6 +365,15 @@ class NoteEdit extends React.Component {
                     </form> 
                     {this.renderTags()}
                     {this.tagOptions()}
+                    <form onSubmit={this.addNewTag}>
+                        <input type="text" 
+                            value={this.state.addTag}
+                            onChange={this.updateTagInput('addTag')}
+                        />
+                        <input type="submit" 
+                            value='Submit'
+                        />
+                    </form>
                 </div>
                 {/* : ''} */}
                 {/* {this.renderNoteTags()} */}
