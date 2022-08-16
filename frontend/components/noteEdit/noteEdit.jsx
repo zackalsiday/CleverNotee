@@ -244,10 +244,21 @@ class NoteEdit extends React.Component {
         return filtered 
     }
     removeTagfromNote(tag){
-        dispatch(this.props.deleteNoteTag(tag.id)).then((res) => {
+        if (this.props.match.path !== "/tags/:tag_id/notes/:note_id"){
+               dispatch(this.props.deleteNoteTag(tag.id)).then((res) => {
             window.location.reload()
         })
-    }
+            }else{
+            dispatch(this.props.deleteNoteTag(tag.id)).then((res) => {
+                window.location.reload()
+            }).then((res) => {
+                this.setState({
+                    noteTagdeleted: true
+                })
+            })
+            }
+        }
+     
     renderTags() {
         if (this.filteredNoteTags().length != 0) {
             return (

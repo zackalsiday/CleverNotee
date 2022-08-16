@@ -1061,20 +1061,32 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "removeTagfromNote",
     value: function removeTagfromNote(tag) {
-      dispatch(this.props.deleteNoteTag(tag.id)).then(function (res) {
-        window.location.reload();
-      });
+      var _this9 = this;
+
+      if (this.props.match.path !== "/tags/:tag_id/notes/:note_id") {
+        dispatch(this.props.deleteNoteTag(tag.id)).then(function (res) {
+          window.location.reload();
+        });
+      } else {
+        dispatch(this.props.deleteNoteTag(tag.id)).then(function (res) {
+          window.location.reload();
+        }).then(function (res) {
+          _this9.setState({
+            noteTagdeleted: true
+          });
+        });
+      }
     }
   }, {
     key: "renderTags",
     value: function renderTags() {
-      var _this9 = this;
+      var _this10 = this;
 
       if (this.filteredNoteTags().length != 0) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, this.filteredNoteTags().map(function (tag) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, tag.tag.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
             onClick: function onClick() {
-              return _this9.removeTagfromNote(tag);
+              return _this10.removeTagfromNote(tag);
             }
           }, "Delete"));
         }));
@@ -1083,15 +1095,15 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "tagOptions",
     value: function tagOptions() {
-      var _this10 = this;
+      var _this11 = this;
 
       var allTags = Object.values(this.props.tags);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("ul", null, allTags.map(function (tag) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
           onClick: function onClick() {
-            return dispatch(_this10.props.createNoteTag({
+            return dispatch(_this11.props.createNoteTag({
               tag_id: tag.id,
-              note_id: parseInt(_this10.props.match.params.note_id)
+              note_id: parseInt(_this11.props.match.params.note_id)
             }));
           }
         }, tag.name);
