@@ -18,6 +18,7 @@ class NoteEdit extends React.Component {
             prevTitle: '',
             newNoteTag: false,
             noteTagdeleted: false,
+            chosenTags: []
         } 
         
         this.deleteNote = this.deleteNote.bind(this)
@@ -28,11 +29,21 @@ class NoteEdit extends React.Component {
 
 
     componentDidMount() {
-
+        this.props.fetchTags()
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
 
+        // this.filteredNoteTags().map((tag) => {(
+        //     this.setState({
+        //         chosenTags: this.state.chosenTags << tag.tag_id
+        //     })
+        
+        // this.filteredNoteTags().map((tag) => {
+        //           this.setState({
+        //         chosenTags: this.state.chosenTags << tag.tag_id
+        //     })
+        // })
 
                   dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
@@ -113,6 +124,7 @@ class NoteEdit extends React.Component {
          
     }
 
+ 
     deleteNote(){
      
         if (this.props.match.path !== "/tags/:tag_id/notes/:note_id"){
@@ -228,6 +240,7 @@ class NoteEdit extends React.Component {
     filteredNoteTags() {
 
         let filtered = this.props.noteTagsforNotes.filter(noteTag => noteTag.note_id.toString() === this.props.match.params.note_id)
+
         return filtered 
     }
     removeTagfromNote(tag){
@@ -250,7 +263,30 @@ class NoteEdit extends React.Component {
         }
     }
 
+   tagOptions(){
+       let allTags = Object.values(this.props.tags)
+       return (
+           <ul>
+               {allTags.map((tag) => 
+                   <li onClick={() => dispatch(this.props.createNoteTag({ tag_id: tag.id, note_id: parseInt(this.props.match.params.note_id) }))}>
+                       {tag.name}
+                   </li>
+               )}
+           </ul>
+       )
+   }
 
+   
+   
+
+//         let notebooksArray = Object.values(this.props.notebooks)
+// return (
+//     <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
+//         {notebooksArray.map((notebook) => (
+//             <option value={notebook.id}>{notebook.name}</option>
+//         ))}
+//     </select>
+// )
 
     render() {
         let first = this.props.noteTag[0]
@@ -260,6 +296,7 @@ class NoteEdit extends React.Component {
             <div>
             {/* {console.log(this.props)} */}
             {console.log(this.filteredNoteTags())}
+            {/* {console.log(this.state)} */}
                {/* {this.renderNewButton()} */}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
@@ -301,6 +338,7 @@ class NoteEdit extends React.Component {
                         {this.notebookOptions()}
                     </form> 
                     {this.renderTags()}
+                    {this.tagOptions()}
                 </div>
                 {/* : ''} */}
                 {/* {this.renderNoteTags()} */}
