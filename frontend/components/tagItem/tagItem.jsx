@@ -19,6 +19,7 @@ class TagItem extends React.Component {
 
     deleteTag(){
         this.props.deleteTag(this.props.tag.id)
+        window.location.reload()
     }
     filteredNotes() {
         let first = Object.values(this.props.noteTags)

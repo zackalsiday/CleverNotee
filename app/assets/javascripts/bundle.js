@@ -2807,6 +2807,7 @@ var TagItem = /*#__PURE__*/function (_React$Component) {
     key: "deleteTag",
     value: function deleteTag() {
       this.props.deleteTag(this.props.tag.id);
+      window.location.reload();
     }
   }, {
     key: "filteredNotes",

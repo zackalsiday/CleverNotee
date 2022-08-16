@@ -8,7 +8,8 @@ class Tag < ApplicationRecord
             
     has_many :note_tags,
         foreign_key: :tag_id,
-        class_name: "NoteTag"
+        class_name: "NoteTag",
+        dependent: :destroy
 
     has_many :notes,
         through: :note_tags,
