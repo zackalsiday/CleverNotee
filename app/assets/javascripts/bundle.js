@@ -624,7 +624,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hgroup", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(this.props), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("hgroup", {
         className: "header-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
         className: "header-name"
@@ -856,7 +856,7 @@ var NoteEdit = /*#__PURE__*/function (_React$Component) {
       var oldNoteTagTwo = Object.assign({}, oldNoteTag[0]);
       var oldNote = Object.assign({}, oldNoteTagTwo.note); // console.log(oldNote)
 
-      if (this.props.match.params.note_id === 'undefined') {
+      if (this.props.match.params.note_id === 'undefined' && this.props.location.pathname != "/notes/undefined") {
         this.setState({
           empty: true
         });
@@ -2594,9 +2594,18 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this3 = this;
+
       e.preventDefault();
       var user = Object.assign({}, this.state);
-      this.props.processForm(user);
+      this.props.processForm(user).then(function (res) {
+        if (_this3.props.formType === "signup") {
+          dispatch(_this3.props.createNotebook({
+            name: 'first notebook',
+            user_id: res.currentUser.id
+          }));
+        }
+      });
     }
   }, {
     key: "renderErrors",
@@ -2679,9 +2688,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Link.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/Link.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session_form */ "./frontend/components/splash/session_form.jsx");
+/* harmony import */ var _actions_notebook_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/notebook_actions */ "./frontend/actions/notebook_actions.js");
+
 
 
 
@@ -2691,8 +2702,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     errors: state.errors.session,
-    formType: "singup",
-    navLink: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    formType: "signup",
+    navLink: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["default"], {
       to: "/login"
     }, "log in instead")
   };
@@ -2702,6 +2713,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
       return dispatch((0,_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__.signup)(user));
+    },
+    createNotebook: function createNotebook(notebook) {
+      return (0,_actions_notebook_actions__WEBPACK_IMPORTED_MODULE_4__.createNotebook)(notebook);
     }
   };
 };

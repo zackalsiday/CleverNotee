@@ -20,7 +20,11 @@ class SessionForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const user = Object.assign({}, this.state);
-        this.props.processForm(user);
+        this.props.processForm(user).then((res) => {
+            if(this.props.formType === "signup"){
+                dispatch(this.props.createNotebook({name: 'first notebook', user_id: res.currentUser.id}))
+            }
+        });
     }
 
     renderErrors() {
