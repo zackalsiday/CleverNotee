@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { fetchNote } from "./actions/note_actions";
 import configureStore from './store/store';
