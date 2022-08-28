@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
-class NoteEdit extends React.Component {
+// import ReactQuill, {Quill} from 'react-quill';
+// import "../../../node_modules/react-quill/dist/quill.snow.css"
+// import { EditorState}  from "draft-js";
+// // import {getCurrentContent} from "draft-js"
+// import { convertToRaw } from 'draft-js'
+// import { Editor } from "react-draft-wysiwyg";
+import EditorContainer from '../EditorContainer';
+class NoteEdit extends Component {
     constructor(props) {
         super(props)
         this.state =   {title: '',
@@ -19,9 +26,9 @@ class NoteEdit extends React.Component {
             newNoteTag: false,
             noteTagdeleted: false,
             chosenTags: [],
-            addTag: ''
+            addTag: '',
+            // editorState: EditorState.createEmpty()
         } 
-        
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
         this.createNoteTag = this.createNoteTag.bind(this)
@@ -30,12 +37,14 @@ class NoteEdit extends React.Component {
     }
 
 
+
+
+
     componentDidMount() {
         this.props.fetchTags()
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
-
         // this.filteredNoteTags().map((tag) => {(
         //     this.setState({
         //         chosenTags: this.state.chosenTags << tag.tag_id
@@ -69,6 +78,7 @@ class NoteEdit extends React.Component {
         let oldNoteTag = Object.assign({}, prevProps.noteTag)
         let oldNoteTagTwo = Object.assign({}, oldNoteTag[0])
         let oldNote = Object.assign({}, oldNoteTagTwo.note)
+        // console.log(this.state.editorState)
         // console.log(oldNote)
         if (this.props.match.params.note_id === 'undefined' && this.props.location.pathname != "/notes/undefined"){
             this.setState({empty: true})
@@ -301,8 +311,18 @@ class NoteEdit extends React.Component {
            dispatch(this.props.createNoteTag({note_id: this.props.match.params.note_id, tag_id: res.tag.id}))
        })
    }
-
    
+//    updateEditorState(editorState){
+//        this.setState({editorState})
+//    }
+
+    // onEditorStateChange = (editorState) => {
+    //     // console.log(editorState)
+    //     this.setState({
+    //         editorState,
+    //     });
+    // };
+
    
 
 //         let notebooksArray = Object.values(this.props.notebooks)
@@ -317,12 +337,14 @@ class NoteEdit extends React.Component {
     render() {
         let first = this.props.noteTag[0]
         let firstId = Object.assign({}, first).note_id
-
+        const { editorState } = this.state;
         return (
+           
             <div>
             {/* {console.log(this.props)} */}
             {/* {console.log(this.filteredNoteTags())} */}
-            {console.log(this.state)}
+                {console.log(this.state.editorState)}
+                {/* {console.log(EditorState.getCurrentContent())} */}
                {/* {this.renderNewButton()} */}
                 {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
                 // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
@@ -342,12 +364,21 @@ class NoteEdit extends React.Component {
                       <button onClick={this.deleteNote}>
                         Delete
                     </button> 
-                    
-
              
-                  
+                    {/* <Editor
+                        editorState={editorState}
+                        onEditorStateChange={this.onEditorStateChange}
+                        toolbar={{
+                            inline: { inDropdown: true },
+                            list: { inDropdown: true },
+                            textAlign: { inDropdown: true },
+                            link: { inDropdown: true },
+                            history: { inDropdown: true },
+                            // image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
+                        }}
+                    /> */}
 
-
+                    <EditorContainer/>
                     <form >
                         <input type="text"
                             value={ this.state.title}

@@ -150,6 +150,7 @@ class Main extends React.Component {
                 </hgroup>
 
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
+                
                 <Switch>
                     <Route exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
                     <Route path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />

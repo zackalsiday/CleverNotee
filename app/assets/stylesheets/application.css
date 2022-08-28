@@ -212,3 +212,7 @@ body {
 
 
 }
+.rdw-editor-toolbar {
+    display: flex;
+    justify-content: space-evenly;
+}
