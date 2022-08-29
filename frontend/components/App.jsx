@@ -16,10 +16,15 @@ import {
     Link,
     HashRouter
 } from 'react-router-dom';
+class App extends React.Component{
+    constructor(props){
+        super(props)
+    }
+    
 
-const App = () => (
+    render(){
+        return(
     <div>
-   
         <AuthRoute exact path="/" component={Welcome} />
         <AuthRoute path="/login" component={LogInFormContainer} />
         <AuthRoute path="/signup" component={SignUpFormContainer} />
@@ -27,7 +32,10 @@ const App = () => (
     
     
     </div>
-)
+        )
+    }
+}
+
 
        
 export default App

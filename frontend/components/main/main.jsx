@@ -103,7 +103,7 @@ class Main extends React.Component {
      
         return (
             <div>
-               {console.log(this.props)}
+               {/* {console.log(this.props)} */}
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
                     {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
