@@ -5,7 +5,6 @@ import { RiLightbulbFill } from 'react-icons/ri'
 const Welcome = () => {
     return (
         <div className="welcome-page">
-
             <div className='welcome-header'>
                 {/* most likely will change the main-title to a logo */}
                 <span className='main-logo'>
