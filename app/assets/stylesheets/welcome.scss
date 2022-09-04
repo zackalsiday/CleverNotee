@@ -2,6 +2,8 @@
     display: flex;
     justify-content: space-between;
     padding-left: 5.5rem;
+ 
+    // margin-left: 10rem ;
     padding-right: 15.5rem;
     /* padding-left: 23.1rem;
     padding-right: 33.3rem;
@@ -44,12 +46,14 @@
     font-size: 24px;
     font-weight: 400;
     line-height: 150%;
-    width: 65rem;
+     width: 65rem;
     letter-spacing: 1px;
-    padding-left: 3rem ;
+    margin: auto;
     text-align: center;
+   
     font-family: "Soleil", Helvetica, Arial, sans-serif;
 }
+
 
 .login-form-link {
     text-decoration: none;

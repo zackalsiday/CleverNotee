@@ -42,7 +42,7 @@ class RichEditor extends Component {
             }).then((res) => {
                 console.log(this.props)
             }).then((res) => {
-                window.location.reload()
+                      window.location.reload()
             })
         }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { RiLightbulbFill } from 'react-icons/ri'
-
 const Welcome = () => {
     return (
         <div className="welcome-page">
@@ -10,8 +9,9 @@ const Welcome = () => {
                 <span className='main-logo'>
                     <div className='test'> < RiLightbulbFill size="2.5em" color="#29A82C" /></div>
                     <h2 className='main-title'>Clevernote</h2>
+                          
                 </span>
-                <Link className='login-form-link' to="/login"> <div id='login-form-link'>Login</div></Link>
+          <Link className='login-form-link' to="/login"> <div id='login-form-link'>Login</div></Link>
             </div>
             <div className='welcome-body'>
                 <div className='phase-one'>
@@ -29,7 +29,7 @@ const Welcome = () => {
                 </div>
 
             </div>
-            {/* <img src="/Users/zackalsiday/Desktop/CleverNotee/frontend/images/Screen Shot 2022-08-29 at 4.54.29 PM.png" alt="" /> */}
+      
         </div>
     )
 }
