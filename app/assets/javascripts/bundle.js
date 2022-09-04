@@ -509,6 +509,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! draft-js-export-html */ "./node_modules/draft-js-export-html/esm/main.js");
 /* harmony import */ var _noteEdit_noteEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../noteEdit/noteEdit */ "./frontend/components/noteEdit/noteEdit.jsx");
+/* harmony import */ var draftjs_to_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! draftjs-to-html */ "./node_modules/draftjs-to-html/lib/draftjs-to-html.js");
+/* harmony import */ var draftjs_to_html__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(draftjs_to_html__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var html_to_draftjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! html-to-draftjs */ "./node_modules/html-to-draftjs/dist/html-to-draftjs.js");
+/* harmony import */ var html_to_draftjs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(html_to_draftjs__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -540,6 +544,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
  // import './EditorContainer.css'
 
 var RichEditor = /*#__PURE__*/function (_Component) {
@@ -562,65 +568,53 @@ var RichEditor = /*#__PURE__*/function (_Component) {
       });
 
       _this.props.updateNote({
-        content: (0,draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__.stateToHTML)(_this.state.editorState.getCurrentContent()),
+        content: draftjs_to_html__WEBPACK_IMPORTED_MODULE_5___default()((0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertToRaw)(_this.state.editorState.getCurrentContent())),
         id: _this.props.noteId
       });
     });
 
-    var blocksFromHTML = (0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertFromHTML)(_this.props.content);
-    var state = draft_js__WEBPACK_IMPORTED_MODULE_1__.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+    var blocksFromHTML = html_to_draftjs__WEBPACK_IMPORTED_MODULE_6___default()(_this.props.content);
+    var contentBlocks = blocksFromHTML.contentBlocks,
+        entityMap = blocksFromHTML.entityMap;
+    var contentState = draft_js__WEBPACK_IMPORTED_MODULE_1__.ContentState.createFromBlockArray(contentBlocks, entityMap);
     _this.state = {
-      editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createWithContent(state),
+      editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createWithContent(contentState),
       body: _this.props.content
     };
     return _this;
   } // componentDidMount(){
-  //     console.log(this.state)
   // }
   // componentDidUpdate(prevState, prevProps){
-  //     if (prevState == this.state){
-  //         dispatch(this.props.updateNote(noteId)).then((res) => {
-  //             const blocksFromHTML = convertFromHTML(res.note.content);
-  //             const state = ContentState.createFromBlockArray(
-  //                 blocksFromHTML.contentBlocks,
-  //                 blocksFromHTML.entityMap,
-  //             );
-  //             this.setState({editorState: EditorState.createWithContent(state)})
-  //         })
-  //     }else if (prevProps === this.props){
-  //         dispatch(this.props.fetchNote(noteId)).then((res) => {
-  //             dispatch(this.props.updateNote(noteId)).then((res) => {
-  //                 const blocksFromHTML = convertFromHTML(res.note.content);
-  //                 const state = ContentState.createFromBlockArray(
-  //                     blocksFromHTML.contentBlocks,
-  //                     blocksFromHTML.entityMap,
-  //                 );
-  //                 this.setState({ editorState: EditorState.createWithContent(state) })
-  //             })
-  //         })
-  //     }
   // }
 
 
   _createClass(RichEditor, [{
     key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
+    value: function componentDidUpdate(prevProps, prevState) {
       var _this2 = this;
 
-      // console.log(prevProps.noteId )
-      // console.log(this.props.noteId)
+      console.log(draftjs_to_html__WEBPACK_IMPORTED_MODULE_5___default()((0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertToRaw)(prevState.editorState.getCurrentContent())));
+
       if (prevProps.noteId !== this.props.noteId) {
         dispatch(this.props.fetchNote(this.props.noteId)).then(function (res) {
-          var blocksFromHTML = (0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertFromHTML)(res.note.content);
-          var state = draft_js__WEBPACK_IMPORTED_MODULE_1__.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+          var blocksFromHTML = html_to_draftjs__WEBPACK_IMPORTED_MODULE_6___default()(_this2.props.content);
+          var contentBlocks = blocksFromHTML.contentBlocks,
+              entityMap = blocksFromHTML.entityMap;
+          var contentState = draft_js__WEBPACK_IMPORTED_MODULE_1__.ContentState.createFromBlockArray(contentBlocks, entityMap);
 
           _this2.setState({
-            editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createWithContent(state)
+            editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createWithContent(contentState)
           });
         }).then(function (res) {
           console.log(_this2.props);
+        }).then(function (res) {
+          window.location.reload();
         });
       }
+
+      console.log(draftjs_to_html__WEBPACK_IMPORTED_MODULE_5___default()((0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertToRaw)(this.state.editorState.getCurrentContent()))); // const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
+      // const markup = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+      // console.log(markup)
     } //     if(prevProps === this.props) {
     //     dispatch(this.props.fetchNote(noteId)).then((res) => {
     //         dispatch(this.props.updateNote(noteId)).then((res) => {
@@ -648,7 +642,7 @@ var RichEditor = /*#__PURE__*/function (_Component) {
         action: ""
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
-        value: (0,draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__.stateToHTML)(this.state.editorState.getCurrentContent()) // onChange={ () => this.props.updateNote({content: stateToHTML(this.state.editorState.getCurrentContent()), id:this.props.noteId})}
+        value: draftjs_to_html__WEBPACK_IMPORTED_MODULE_5___default()((0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertToRaw)(this.state.editorState.getCurrentContent())) // onChange={ () => this.props.updateNote({content: stateToHTML(this.state.editorState.getCurrentContent()), id:this.props.noteId})}
         // value={this.state.editorState.getCurrentContent().blocks[0].text}
 
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2__.Editor, {
@@ -19627,6 +19621,737 @@ module.exports = uuid;
 
 /***/ }),
 
+/***/ "./node_modules/draftjs-to-html/lib/draftjs-to-html.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/draftjs-to-html/lib/draftjs-to-html.js ***!
+  \*************************************************************/
+/***/ (function(module) {
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  0;
+}(this, (function () { 'use strict';
+
+  /**
+  * Utility function to execute callback for eack key->value pair.
+  */
+  function forEach(obj, callback) {
+    if (obj) {
+      for (var key in obj) {
+        // eslint-disable-line no-restricted-syntax
+        if ({}.hasOwnProperty.call(obj, key)) {
+          callback(key, obj[key]);
+        }
+      }
+    }
+  }
+  /**
+  * The function returns true if the string passed to it has no content.
+  */
+
+  function isEmptyString(str) {
+    if (str === undefined || str === null || str.length === 0 || str.trim().length === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+  * Mapping block-type to corresponding html tag.
+  */
+
+  var blockTypesMapping = {
+    unstyled: 'p',
+    'header-one': 'h1',
+    'header-two': 'h2',
+    'header-three': 'h3',
+    'header-four': 'h4',
+    'header-five': 'h5',
+    'header-six': 'h6',
+    'unordered-list-item': 'ul',
+    'ordered-list-item': 'ol',
+    blockquote: 'blockquote',
+    code: 'pre'
+  };
+  /**
+  * Function will return HTML tag for a block.
+  */
+
+  function getBlockTag(type) {
+    return type && blockTypesMapping[type];
+  }
+  /**
+  * Function will return style string for a block.
+  */
+
+  function getBlockStyle(data) {
+    var styles = '';
+    forEach(data, function (key, value) {
+      if (value) {
+        styles += "".concat(key, ":").concat(value, ";");
+      }
+    });
+    return styles;
+  }
+  /**
+  * The function returns an array of hashtag-sections in blocks.
+  * These will be areas in block which have hashtags applicable to them.
+  */
+
+  function getHashtagRanges(blockText, hashtagConfig) {
+    var sections = [];
+
+    if (hashtagConfig) {
+      var counter = 0;
+      var startIndex = 0;
+      var text = blockText;
+      var trigger = hashtagConfig.trigger || '#';
+      var separator = hashtagConfig.separator || ' ';
+
+      for (; text.length > 0 && startIndex >= 0;) {
+        if (text[0] === trigger) {
+          startIndex = 0;
+          counter = 0;
+          text = text.substr(trigger.length);
+        } else {
+          startIndex = text.indexOf(separator + trigger);
+
+          if (startIndex >= 0) {
+            text = text.substr(startIndex + (separator + trigger).length);
+            counter += startIndex + separator.length;
+          }
+        }
+
+        if (startIndex >= 0) {
+          var endIndex = text.indexOf(separator) >= 0 ? text.indexOf(separator) : text.length;
+          var hashtag = text.substr(0, endIndex);
+
+          if (hashtag && hashtag.length > 0) {
+            sections.push({
+              offset: counter,
+              length: hashtag.length + trigger.length,
+              type: 'HASHTAG'
+            });
+          }
+
+          counter += trigger.length;
+        }
+      }
+    }
+
+    return sections;
+  }
+  /**
+  * The function returns an array of entity-sections in blocks.
+  * These will be areas in block which have same entity or no entity applicable to them.
+  */
+
+
+  function getSections(block, hashtagConfig) {
+    var sections = [];
+    var lastOffset = 0;
+    var sectionRanges = block.entityRanges.map(function (range) {
+      var offset = range.offset,
+          length = range.length,
+          key = range.key;
+      return {
+        offset: offset,
+        length: length,
+        key: key,
+        type: 'ENTITY'
+      };
+    });
+    sectionRanges = sectionRanges.concat(getHashtagRanges(block.text, hashtagConfig));
+    sectionRanges = sectionRanges.sort(function (s1, s2) {
+      return s1.offset - s2.offset;
+    });
+    sectionRanges.forEach(function (r) {
+      if (r.offset > lastOffset) {
+        sections.push({
+          start: lastOffset,
+          end: r.offset
+        });
+      }
+
+      sections.push({
+        start: r.offset,
+        end: r.offset + r.length,
+        entityKey: r.key,
+        type: r.type
+      });
+      lastOffset = r.offset + r.length;
+    });
+
+    if (lastOffset < block.text.length) {
+      sections.push({
+        start: lastOffset,
+        end: block.text.length
+      });
+    }
+
+    return sections;
+  }
+  /**
+  * Function to check if the block is an atomic entity block.
+  */
+
+
+  function isAtomicEntityBlock(block) {
+    if (block.entityRanges.length > 0 && (isEmptyString(block.text) || block.type === 'atomic')) {
+      return true;
+    }
+
+    return false;
+  }
+  /**
+  * The function will return array of inline styles applicable to the block.
+  */
+
+
+  function getStyleArrayForBlock(block) {
+    var text = block.text,
+        inlineStyleRanges = block.inlineStyleRanges;
+    var inlineStyles = {
+      BOLD: new Array(text.length),
+      ITALIC: new Array(text.length),
+      UNDERLINE: new Array(text.length),
+      STRIKETHROUGH: new Array(text.length),
+      CODE: new Array(text.length),
+      SUPERSCRIPT: new Array(text.length),
+      SUBSCRIPT: new Array(text.length),
+      COLOR: new Array(text.length),
+      BGCOLOR: new Array(text.length),
+      FONTSIZE: new Array(text.length),
+      FONTFAMILY: new Array(text.length),
+      length: text.length
+    };
+
+    if (inlineStyleRanges && inlineStyleRanges.length > 0) {
+      inlineStyleRanges.forEach(function (range) {
+        var offset = range.offset;
+        var length = offset + range.length;
+
+        for (var i = offset; i < length; i += 1) {
+          if (range.style.indexOf('color-') === 0) {
+            inlineStyles.COLOR[i] = range.style.substring(6);
+          } else if (range.style.indexOf('bgcolor-') === 0) {
+            inlineStyles.BGCOLOR[i] = range.style.substring(8);
+          } else if (range.style.indexOf('fontsize-') === 0) {
+            inlineStyles.FONTSIZE[i] = range.style.substring(9);
+          } else if (range.style.indexOf('fontfamily-') === 0) {
+            inlineStyles.FONTFAMILY[i] = range.style.substring(11);
+          } else if (inlineStyles[range.style]) {
+            inlineStyles[range.style][i] = true;
+          }
+        }
+      });
+    }
+
+    return inlineStyles;
+  }
+  /**
+  * The function will return inline style applicable at some offset within a block.
+  */
+
+
+  function getStylesAtOffset(inlineStyles, offset) {
+    var styles = {};
+
+    if (inlineStyles.COLOR[offset]) {
+      styles.COLOR = inlineStyles.COLOR[offset];
+    }
+
+    if (inlineStyles.BGCOLOR[offset]) {
+      styles.BGCOLOR = inlineStyles.BGCOLOR[offset];
+    }
+
+    if (inlineStyles.FONTSIZE[offset]) {
+      styles.FONTSIZE = inlineStyles.FONTSIZE[offset];
+    }
+
+    if (inlineStyles.FONTFAMILY[offset]) {
+      styles.FONTFAMILY = inlineStyles.FONTFAMILY[offset];
+    }
+
+    if (inlineStyles.UNDERLINE[offset]) {
+      styles.UNDERLINE = true;
+    }
+
+    if (inlineStyles.ITALIC[offset]) {
+      styles.ITALIC = true;
+    }
+
+    if (inlineStyles.BOLD[offset]) {
+      styles.BOLD = true;
+    }
+
+    if (inlineStyles.STRIKETHROUGH[offset]) {
+      styles.STRIKETHROUGH = true;
+    }
+
+    if (inlineStyles.CODE[offset]) {
+      styles.CODE = true;
+    }
+
+    if (inlineStyles.SUBSCRIPT[offset]) {
+      styles.SUBSCRIPT = true;
+    }
+
+    if (inlineStyles.SUPERSCRIPT[offset]) {
+      styles.SUPERSCRIPT = true;
+    }
+
+    return styles;
+  }
+  /**
+  * Function returns true for a set of styles if the value of these styles at an offset
+  * are same as that on the previous offset.
+  */
+
+  function sameStyleAsPrevious(inlineStyles, styles, index) {
+    var sameStyled = true;
+
+    if (index > 0 && index < inlineStyles.length) {
+      styles.forEach(function (style) {
+        sameStyled = sameStyled && inlineStyles[style][index] === inlineStyles[style][index - 1];
+      });
+    } else {
+      sameStyled = false;
+    }
+
+    return sameStyled;
+  }
+  /**
+  * Function returns html for text depending on inline style tags applicable to it.
+  */
+
+  function addInlineStyleMarkup(style, content) {
+    if (style === 'BOLD') {
+      return "<strong>".concat(content, "</strong>");
+    }
+
+    if (style === 'ITALIC') {
+      return "<em>".concat(content, "</em>");
+    }
+
+    if (style === 'UNDERLINE') {
+      return "<ins>".concat(content, "</ins>");
+    }
+
+    if (style === 'STRIKETHROUGH') {
+      return "<del>".concat(content, "</del>");
+    }
+
+    if (style === 'CODE') {
+      return "<code>".concat(content, "</code>");
+    }
+
+    if (style === 'SUPERSCRIPT') {
+      return "<sup>".concat(content, "</sup>");
+    }
+
+    if (style === 'SUBSCRIPT') {
+      return "<sub>".concat(content, "</sub>");
+    }
+
+    return content;
+  }
+  /**
+  * The function returns text for given section of block after doing required character replacements.
+  */
+
+  function getSectionText(text) {
+    if (text && text.length > 0) {
+      var chars = text.map(function (ch) {
+        switch (ch) {
+          case '\n':
+            return '<br>';
+
+          case '&':
+            return '&amp;';
+
+          case '<':
+            return '&lt;';
+
+          case '>':
+            return '&gt;';
+
+          default:
+            return ch;
+        }
+      });
+      return chars.join('');
+    }
+
+    return '';
+  }
+  /**
+  * Function returns html for text depending on inline style tags applicable to it.
+  */
+
+
+  function addStylePropertyMarkup(styles, text) {
+    if (styles && (styles.COLOR || styles.BGCOLOR || styles.FONTSIZE || styles.FONTFAMILY)) {
+      var styleString = 'style="';
+
+      if (styles.COLOR) {
+        styleString += "color: ".concat(styles.COLOR, ";");
+      }
+
+      if (styles.BGCOLOR) {
+        styleString += "background-color: ".concat(styles.BGCOLOR, ";");
+      }
+
+      if (styles.FONTSIZE) {
+        styleString += "font-size: ".concat(styles.FONTSIZE).concat(/^\d+$/.test(styles.FONTSIZE) ? 'px' : '', ";");
+      }
+
+      if (styles.FONTFAMILY) {
+        styleString += "font-family: ".concat(styles.FONTFAMILY, ";");
+      }
+
+      styleString += '"';
+      return "<span ".concat(styleString, ">").concat(text, "</span>");
+    }
+
+    return text;
+  }
+  /**
+  * Function will return markup for Entity.
+  */
+
+  function getEntityMarkup(entityMap, entityKey, text, customEntityTransform) {
+    var entity = entityMap[entityKey];
+
+    if (typeof customEntityTransform === 'function') {
+      var html = customEntityTransform(entity, text);
+
+      if (html) {
+        return html;
+      }
+    }
+
+    if (entity.type === 'MENTION') {
+      return "<a href=\"".concat(entity.data.url, "\" class=\"wysiwyg-mention\" data-mention data-value=\"").concat(entity.data.value, "\">").concat(text, "</a>");
+    }
+
+    if (entity.type === 'LINK') {
+      var targetOption = entity.data.targetOption || '_self';
+      return "<a href=\"".concat(entity.data.url, "\" target=\"").concat(targetOption, "\">").concat(text, "</a>");
+    }
+
+    if (entity.type === 'IMAGE') {
+      var alignment = entity.data.alignment;
+
+      if (alignment && alignment.length) {
+        return "<div style=\"text-align:".concat(alignment, ";\"><img src=\"").concat(entity.data.src, "\" alt=\"").concat(entity.data.alt, "\" style=\"height: ").concat(entity.data.height, ";width: ").concat(entity.data.width, "\"/></div>");
+      }
+
+      return "<img src=\"".concat(entity.data.src, "\" alt=\"").concat(entity.data.alt, "\" style=\"height: ").concat(entity.data.height, ";width: ").concat(entity.data.width, "\"/>");
+    }
+
+    if (entity.type === 'EMBEDDED_LINK') {
+      return "<iframe width=\"".concat(entity.data.width, "\" height=\"").concat(entity.data.height, "\" src=\"").concat(entity.data.src, "\" frameBorder=\"0\"></iframe>");
+    }
+
+    return text;
+  }
+  /**
+  * For a given section in a block the function will return a further list of sections,
+  * with similar inline styles applicable to them.
+  */
+
+
+  function getInlineStyleSections(block, styles, start, end) {
+    var styleSections = [];
+    var text = Array.from(block.text);
+
+    if (text.length > 0) {
+      var inlineStyles = getStyleArrayForBlock(block);
+      var section;
+
+      for (var i = start; i < end; i += 1) {
+        if (i !== start && sameStyleAsPrevious(inlineStyles, styles, i)) {
+          section.text.push(text[i]);
+          section.end = i + 1;
+        } else {
+          section = {
+            styles: getStylesAtOffset(inlineStyles, i),
+            text: [text[i]],
+            start: i,
+            end: i + 1
+          };
+          styleSections.push(section);
+        }
+      }
+    }
+
+    return styleSections;
+  }
+  /**
+  * Replace leading blank spaces by &nbsp;
+  */
+
+
+  function trimLeadingZeros(sectionText) {
+    if (sectionText) {
+      var replacedText = sectionText;
+
+      for (var i = 0; i < replacedText.length; i += 1) {
+        if (sectionText[i] === ' ') {
+          replacedText = replacedText.replace(' ', '&nbsp;');
+        } else {
+          break;
+        }
+      }
+
+      return replacedText;
+    }
+
+    return sectionText;
+  }
+  /**
+  * Replace trailing blank spaces by &nbsp;
+  */
+
+  function trimTrailingZeros(sectionText) {
+    if (sectionText) {
+      var replacedText = sectionText;
+
+      for (var i = replacedText.length - 1; i >= 0; i -= 1) {
+        if (replacedText[i] === ' ') {
+          replacedText = "".concat(replacedText.substring(0, i), "&nbsp;").concat(replacedText.substring(i + 1));
+        } else {
+          break;
+        }
+      }
+
+      return replacedText;
+    }
+
+    return sectionText;
+  }
+  /**
+  * The method returns markup for section to which inline styles
+  * like BOLD, ITALIC, UNDERLINE, STRIKETHROUGH, CODE, SUPERSCRIPT, SUBSCRIPT are applicable.
+  */
+
+  function getStyleTagSectionMarkup(styleSection) {
+    var styles = styleSection.styles,
+        text = styleSection.text;
+    var content = getSectionText(text);
+    forEach(styles, function (style, value) {
+      content = addInlineStyleMarkup(style, content);
+    });
+    return content;
+  }
+  /**
+  * The method returns markup for section to which inline styles
+  like color, background-color, font-size are applicable.
+  */
+
+
+  function getInlineStyleSectionMarkup(block, styleSection) {
+    var styleTagSections = getInlineStyleSections(block, ['BOLD', 'ITALIC', 'UNDERLINE', 'STRIKETHROUGH', 'CODE', 'SUPERSCRIPT', 'SUBSCRIPT'], styleSection.start, styleSection.end);
+    var styleSectionText = '';
+    styleTagSections.forEach(function (stylePropertySection) {
+      styleSectionText += getStyleTagSectionMarkup(stylePropertySection);
+    });
+    styleSectionText = addStylePropertyMarkup(styleSection.styles, styleSectionText);
+    return styleSectionText;
+  }
+  /*
+  * The method returns markup for an entity section.
+  * An entity section is a continuous section in a block
+  * to which same entity or no entity is applicable.
+  */
+
+
+  function getSectionMarkup(block, entityMap, section, customEntityTransform) {
+    var entityInlineMarkup = [];
+    var inlineStyleSections = getInlineStyleSections(block, ['COLOR', 'BGCOLOR', 'FONTSIZE', 'FONTFAMILY'], section.start, section.end);
+    inlineStyleSections.forEach(function (styleSection) {
+      entityInlineMarkup.push(getInlineStyleSectionMarkup(block, styleSection));
+    });
+    var sectionText = entityInlineMarkup.join('');
+
+    if (section.type === 'ENTITY') {
+      if (section.entityKey !== undefined && section.entityKey !== null) {
+        sectionText = getEntityMarkup(entityMap, section.entityKey, sectionText, customEntityTransform); // eslint-disable-line max-len
+      }
+    } else if (section.type === 'HASHTAG') {
+      sectionText = "<a href=\"".concat(sectionText, "\" class=\"wysiwyg-hashtag\">").concat(sectionText, "</a>");
+    }
+
+    return sectionText;
+  }
+  /**
+  * Function will return the markup for block preserving the inline styles and
+  * special characters like newlines or blank spaces.
+  */
+
+
+  function getBlockInnerMarkup(block, entityMap, hashtagConfig, customEntityTransform) {
+    var blockMarkup = [];
+    var sections = getSections(block, hashtagConfig);
+    sections.forEach(function (section, index) {
+      var sectionText = getSectionMarkup(block, entityMap, section, customEntityTransform);
+
+      if (index === 0) {
+        sectionText = trimLeadingZeros(sectionText);
+      }
+
+      if (index === sections.length - 1) {
+        sectionText = trimTrailingZeros(sectionText);
+      }
+
+      blockMarkup.push(sectionText);
+    });
+    return blockMarkup.join('');
+  }
+  /**
+  * Function will return html for the block.
+  */
+
+  function getBlockMarkup(block, entityMap, hashtagConfig, directional, customEntityTransform) {
+    var blockHtml = [];
+
+    if (isAtomicEntityBlock(block)) {
+      blockHtml.push(getEntityMarkup(entityMap, block.entityRanges[0].key, undefined, customEntityTransform));
+    } else {
+      var blockTag = getBlockTag(block.type);
+
+      if (blockTag) {
+        blockHtml.push("<".concat(blockTag));
+        var blockStyle = getBlockStyle(block.data);
+
+        if (blockStyle) {
+          blockHtml.push(" style=\"".concat(blockStyle, "\""));
+        }
+
+        if (directional) {
+          blockHtml.push(' dir = "auto"');
+        }
+
+        blockHtml.push('>');
+        blockHtml.push(getBlockInnerMarkup(block, entityMap, hashtagConfig, customEntityTransform));
+        blockHtml.push("</".concat(blockTag, ">"));
+      }
+    }
+
+    blockHtml.push('\n');
+    return blockHtml.join('');
+  }
+
+  /**
+  * Function to check if a block is of type list.
+  */
+
+  function isList(blockType) {
+    return blockType === 'unordered-list-item' || blockType === 'ordered-list-item';
+  }
+  /**
+  * Function will return html markup for a list block.
+  */
+
+  function getListMarkup(listBlocks, entityMap, hashtagConfig, directional, customEntityTransform) {
+    var listHtml = [];
+    var nestedListBlock = [];
+    var previousBlock;
+    listBlocks.forEach(function (block) {
+      var nestedBlock = false;
+
+      if (!previousBlock) {
+        listHtml.push("<".concat(getBlockTag(block.type), ">\n"));
+      } else if (previousBlock.type !== block.type) {
+        listHtml.push("</".concat(getBlockTag(previousBlock.type), ">\n"));
+        listHtml.push("<".concat(getBlockTag(block.type), ">\n"));
+      } else if (previousBlock.depth === block.depth) {
+        if (nestedListBlock && nestedListBlock.length > 0) {
+          listHtml.push(getListMarkup(nestedListBlock, entityMap, hashtagConfig, directional, customEntityTransform));
+          nestedListBlock = [];
+        }
+      } else {
+        nestedBlock = true;
+        nestedListBlock.push(block);
+      }
+
+      if (!nestedBlock) {
+        listHtml.push('<li');
+        var blockStyle = getBlockStyle(block.data);
+
+        if (blockStyle) {
+          listHtml.push(" style=\"".concat(blockStyle, "\""));
+        }
+
+        if (directional) {
+          listHtml.push(' dir = "auto"');
+        }
+
+        listHtml.push('>');
+        listHtml.push(getBlockInnerMarkup(block, entityMap, hashtagConfig, customEntityTransform));
+        listHtml.push('</li>\n');
+        previousBlock = block;
+      }
+    });
+
+    if (nestedListBlock && nestedListBlock.length > 0) {
+      listHtml.push(getListMarkup(nestedListBlock, entityMap, hashtagConfig, directional, customEntityTransform));
+    }
+
+    listHtml.push("</".concat(getBlockTag(previousBlock.type), ">\n"));
+    return listHtml.join('');
+  }
+
+  /**
+  * The function will generate html markup for given draftjs editorContent.
+  */
+
+  function draftToHtml(editorContent, hashtagConfig, directional, customEntityTransform) {
+    var html = [];
+
+    if (editorContent) {
+      var blocks = editorContent.blocks,
+          entityMap = editorContent.entityMap;
+
+      if (blocks && blocks.length > 0) {
+        var listBlocks = [];
+        blocks.forEach(function (block) {
+          if (isList(block.type)) {
+            listBlocks.push(block);
+          } else {
+            if (listBlocks.length > 0) {
+              var listHtml = getListMarkup(listBlocks, entityMap, hashtagConfig, customEntityTransform); // eslint-disable-line max-len
+
+              html.push(listHtml);
+              listBlocks = [];
+            }
+
+            var blockHtml = getBlockMarkup(block, entityMap, hashtagConfig, directional, customEntityTransform);
+            html.push(blockHtml);
+          }
+        });
+
+        if (listBlocks.length > 0) {
+          var listHtml = getListMarkup(listBlocks, entityMap, hashtagConfig, directional, customEntityTransform); // eslint-disable-line max-len
+
+          html.push(listHtml);
+          listBlocks = [];
+        }
+      }
+    }
+
+    return html.join('');
+  }
+
+  return draftToHtml;
+
+})));
+
+
+/***/ }),
+
 /***/ "./node_modules/fbjs/lib/DataTransfer.js":
 /*!***********************************************!*\
   !*** ./node_modules/fbjs/lib/DataTransfer.js ***!
@@ -23983,6 +24708,16 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/react-is.development.js */ "./node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/html-to-draftjs/dist/html-to-draftjs.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/html-to-draftjs/dist/html-to-draftjs.js ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+!function(e,t){ true?module.exports=t(__webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.js"),__webpack_require__(/*! draft-js */ "./node_modules/draft-js/lib/Draft.js")):0}(window,function(n,r){return o={},i.m=a=[function(e,t){e.exports=n},function(e,t){e.exports=r},function(e,t,n){e.exports=n(3)},function(e,t,n){"use strict";n.r(t);var v=n(1),u=n(0),s=function(e){var t,n=null;return document.implementation&&document.implementation.createHTMLDocument&&((t=document.implementation.createHTMLDocument("foo")).documentElement.innerHTML=e,n=t.getElementsByTagName("body")[0]),n},x=function(e,t,n){var r,i=e.textContent;return""===i.trim()?{chunk:(r=n,{text:" ",inlines:[new u.OrderedSet],entities:[r],blocks:[]})}:{chunk:{text:i,inlines:Array(i.length).fill(t),entities:Array(i.length).fill(n),blocks:[]}}},M=function(){return{text:"\n",inlines:[new u.OrderedSet],entities:new Array(1),blocks:[]}},k=function(){return{text:"",inlines:[],entities:[],blocks:[]}},E=function(e,t){return{text:"",inlines:[],entities:[],blocks:[{type:e,depth:0,data:t||new u.Map({})}]}},w=function(e,t,n){return{text:"\r",inlines:[],entities:[],blocks:[{type:e,depth:Math.max(0,Math.min(4,t)),data:n||new u.Map({})}]}},T=function(e){return{text:"\r ",inlines:[new u.OrderedSet],entities:[e],blocks:[{type:"atomic",depth:0,data:new u.Map({})}]}},L=function(e,t){return{text:e.text+t.text,inlines:e.inlines.concat(t.inlines),entities:e.entities.concat(t.entities),blocks:e.blocks.concat(t.blocks)}},A=new u.Map({"header-one":{element:"h1"},"header-two":{element:"h2"},"header-three":{element:"h3"},"header-four":{element:"h4"},"header-five":{element:"h5"},"header-six":{element:"h6"},"unordered-list-item":{element:"li",wrapper:"ul"},"ordered-list-item":{element:"li",wrapper:"ol"},blockquote:{element:"blockquote"},code:{element:"pre"},atomic:{element:"figure"},unstyled:{element:"p",aliasedElements:["div"]}});var O={code:"CODE",del:"STRIKETHROUGH",em:"ITALIC",strong:"BOLD",ins:"UNDERLINE",sub:"SUBSCRIPT",sup:"SUPERSCRIPT"};function S(e){return e.style.textAlign?new u.Map({"text-align":e.style.textAlign}):e.style.marginLeft?new u.Map({"margin-left":e.style.marginLeft}):void 0}var _=function(e){var t=void 0;if(e instanceof HTMLAnchorElement){var n={};t=e.dataset&&void 0!==e.dataset.mention?(n.url=e.href,n.text=e.innerHTML,n.value=e.dataset.value,v.Entity.__create("MENTION","IMMUTABLE",n)):(n.url=e.getAttribute&&e.getAttribute("href")||e.href,n.title=e.innerHTML,n.targetOption=e.target,v.Entity.__create("LINK","MUTABLE",n))}return t};n.d(t,"default",function(){return r});var d=" ",f=new RegExp("&nbsp;","g"),j=!0;function I(e,t,n,r,i,a){var o=e.nodeName.toLowerCase();if(a){var l=a(o,e);if(l){var c=v.Entity.__create(l.type,l.mutability,l.data||{});return{chunk:T(c)}}}if("#text"===o&&"\n"!==e.textContent)return x(e,t,i);if("br"===o)return{chunk:M()};if("img"===o&&e instanceof HTMLImageElement){var u={};u.src=e.getAttribute&&e.getAttribute("src")||e.src,u.alt=e.alt,u.height=e.style.height,u.width=e.style.width,e.style.float&&(u.alignment=e.style.float);var s=v.Entity.__create("IMAGE","MUTABLE",u);return{chunk:T(s)}}if("video"===o&&e instanceof HTMLVideoElement){var d={};d.src=e.getAttribute&&e.getAttribute("src")||e.src,d.alt=e.alt,d.height=e.style.height,d.width=e.style.width,e.style.float&&(d.alignment=e.style.float);var f=v.Entity.__create("VIDEO","MUTABLE",d);return{chunk:T(f)}}if("iframe"===o&&e instanceof HTMLIFrameElement){var m={};m.src=e.getAttribute&&e.getAttribute("src")||e.src,m.height=e.height,m.width=e.width;var p=v.Entity.__create("EMBEDDED_LINK","MUTABLE",m);return{chunk:T(p)}}var h,y=function(t,n){var e=A.filter(function(e){return e.element===t&&(!e.wrapper||e.wrapper===n)||e.wrapper===t||e.aliasedElements&&-1<e.aliasedElements.indexOf(t)}).keySeq().toSet().toArray();if(1===e.length)return e[0]}(o,r);y&&("ul"===o||"ol"===o?(r=o,n+=1):("unordered-list-item"!==y&&"ordered-list-item"!==y&&(r="",n=-1),j?(h=E(y,S(e)),j=!1):h=w(y,n,S(e)))),h=h||k(),t=function(e,t,n){var r,i=O[e];if(i)r=n.add(i).toOrderedSet();else if(t instanceof HTMLElement){var c=t;r=(r=n).withMutations(function(e){var t=c.style.color,n=c.style.backgroundColor,r=c.style.fontSize,i=c.style.fontFamily.replace(/^"|"$/g,""),a=c.style.fontWeight,o=c.style.textDecoration,l=c.style.fontStyle;t&&e.add("color-".concat(t.replace(/ /g,""))),n&&e.add("bgcolor-".concat(n.replace(/ /g,""))),r&&e.add("fontsize-".concat(r.replace(/px$/g,""))),i&&e.add("fontfamily-".concat(i)),"bold"===a&&e.add(O.strong),"underline"===o&&e.add(O.ins),"italic"===l&&e.add(O.em)}).toOrderedSet()}return r}(o,e,t);for(var b=e.firstChild;b;){var g=I(b,t,n,r,_(b)||i,a).chunk;h=L(h,g),b=b.nextSibling}return{chunk:h}}function r(e,t){var n,r,i,a=(n=t,r=e.trim().replace(f,d),(i=s(r))?(j=!0,{chunk:I(i,new u.OrderedSet,-1,"",void 0,n).chunk}):null);if(a){var o=a.chunk,l=new u.OrderedMap({});o.entities&&o.entities.forEach(function(e){e&&(l=l.set(e,v.Entity.__get(e)))});var c=0;return{contentBlocks:o.text.split("\r").map(function(e,t){var n=c+e.length,r=o&&o.inlines.slice(c,n),i=o&&o.entities.slice(c,n),a=new u.List(r.map(function(e,t){var n={style:e,entity:null};return i[t]&&(n.entity=i[t]),v.CharacterMetadata.create(n)}));return c=n,new v.ContentBlock({key:Object(v.genKey)(),type:o&&o.blocks[t]&&o.blocks[t].type||"unstyled",depth:o&&o.blocks[t]&&o.blocks[t].depth,data:o&&o.blocks[t]&&o.blocks[t].data||new u.Map({}),text:e,characterList:a})}),entityMap:l}}return null}}],i.c=o,i.d=function(e,t,n){i.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},i.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)i.d(n,r,function(e){return t[e]}.bind(null,r));return n},i.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return i.d(t,"a",t),t},i.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},i.p="",i(i.s=2);function i(e){if(o[e])return o[e].exports;var t=o[e]={i:e,l:!1,exports:{}};return a[e].call(t.exports,t,t.exports,i),t.l=!0,t.exports}var a,o});
 
 /***/ }),
 

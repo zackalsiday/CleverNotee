@@ -6,67 +6,51 @@ import { convertFromHTML } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html'
 import NoteEdit from '../noteEdit/noteEdit';
 import {ContentState} from "draft-js"
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 // import './EditorContainer.css'
 class RichEditor extends Component {
     constructor(props) {
         super(props);
-        const blocksFromHTML = convertFromHTML(this.props.content);
-        const state = ContentState.createFromBlockArray(
-            blocksFromHTML.contentBlocks,
-            blocksFromHTML.entityMap,
-        );
-
+        const blocksFromHTML = htmlToDraft(this.props.content);
+        const { contentBlocks, entityMap } = blocksFromHTML;
+        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)
         this.state = {
-            editorState: EditorState.createWithContent(state),
+            editorState: EditorState.createWithContent(contentState),
             body: this.props.content 
         };
       
     }
     // componentDidMount(){
-    //     console.log(this.state)
+     
     // }
 
     // componentDidUpdate(prevState, prevProps){
-    //     if (prevState == this.state){
-    //         dispatch(this.props.updateNote(noteId)).then((res) => {
-    //             const blocksFromHTML = convertFromHTML(res.note.content);
-    //             const state = ContentState.createFromBlockArray(
-    //                 blocksFromHTML.contentBlocks,
-    //                 blocksFromHTML.entityMap,
-    //             );
-    //             this.setState({editorState: EditorState.createWithContent(state)})
-    //         })
-    //     }else if (prevProps === this.props){
-    //         dispatch(this.props.fetchNote(noteId)).then((res) => {
-    //             dispatch(this.props.updateNote(noteId)).then((res) => {
-    //                 const blocksFromHTML = convertFromHTML(res.note.content);
-    //                 const state = ContentState.createFromBlockArray(
-    //                     blocksFromHTML.contentBlocks,
-    //                     blocksFromHTML.entityMap,
-    //                 );
-    //                 this.setState({ editorState: EditorState.createWithContent(state) })
-    //             })
-    //         })
-    //     }
+     
     // }
 
-    componentDidUpdate(prevProps){
-        // console.log(prevProps.noteId )
-        // console.log(this.props.noteId)
+    componentDidUpdate(prevProps,prevState){
+        console.log(draftToHtml(convertToRaw(prevState.editorState.getCurrentContent())))
+        
         if (prevProps.noteId !== this.props.noteId) {
             dispatch(this.props.fetchNote(this.props.noteId)).then((res) => {
-               
-                    const blocksFromHTML = convertFromHTML(res.note.content);
-                    const state = ContentState.createFromBlockArray(
-                        blocksFromHTML.contentBlocks,
-                        blocksFromHTML.entityMap,
-                    );
-                    this.setState({ editorState: EditorState.createWithContent(state) })
+                const blocksFromHTML = htmlToDraft(this.props.content);
+                const { contentBlocks, entityMap } = blocksFromHTML;
+                const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)
+                    this.setState({ editorState: EditorState.createWithContent(contentState) })
                     
             }).then((res) => {
                 console.log(this.props)
+            }).then((res) => {
+                window.location.reload()
             })
-        } 
+        }
+
+        console.log(draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())))
+        // const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
+
+        // const markup = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
+        // console.log(markup)
     }
 
 //     if(prevProps === this.props) {
@@ -89,7 +73,7 @@ class RichEditor extends Component {
         this.setState({
             editorState
         })
-              this.props.updateNote({ content: stateToHTML(this.state.editorState.getCurrentContent()), id: this.props.noteId })
+        this.props.updateNote({ content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())), id: this.props.noteId })
     
      
         
@@ -107,7 +91,7 @@ class RichEditor extends Component {
         // <NoteEdit editorState={this.state.editorState}/>
         return (
             <div className='editor'>
-                {/* {console.log(this.props.noteId)} */}
+                {/* {console.log(this.state.editorState.getCurrentContent().getSelectionAfter())} */}
                 
                 {/* {console.log(this.state.editorState.getCurrentInlineStyle().blocks)} */}
                 {
@@ -117,7 +101,7 @@ class RichEditor extends Component {
                 <form action="">
 
                     <input type="text"
-                        value={stateToHTML(this.state.editorState.getCurrentContent())}
+                        value={draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())) }
                         // onChange={ () => this.props.updateNote({content: stateToHTML(this.state.editorState.getCurrentContent()), id:this.props.noteId})}
                         // value={this.state.editorState.getCurrentContent().blocks[0].text}
                     />
