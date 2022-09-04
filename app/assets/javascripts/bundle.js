@@ -3037,7 +3037,7 @@ var Welcome = function Welcome() {
   }, "Clevernote")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "login-form-link",
     to: "/login"
-  }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     id: "login-form-link"
   }, "Login"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "welcome-body"
@@ -3055,7 +3055,33 @@ var Welcome = function Welcome() {
   }, "Sign up for free"), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
     className: "link-to-login-form",
     to: "/login"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Already have an account? Log in"))))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Already have an account? Log in"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "body-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "mid-page-image"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    className: "screenshot-image",
+    src: "/images/Screen_shot.png",
+    alt: ""
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "text-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "title"
+  }, "WORK ANYWHERE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "description"
+  }, "Keep important info handy-your notes sync automatically to all your devices."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "title"
+  }, "REMEBER EVERYTHING"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "description"
+  }, "Make notes more useful by adding text, images, audio, scans, PDFs, and documents."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "title"
+  }, "TURN TO-DO INTO DONE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "description"
+  }, "Bring your notes, tasks, and schedules together to get things done more easily."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "title"
+  }, "FIND THINGS FAST"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    id: "description"
+  }, "Get what you need, when you need it with powerful, flexible search capabilities."))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Welcome);

@@ -1,13 +1,13 @@
 .welcome-header {
     display: flex;
-    justify-content: space-between;
-    padding-left: 5.5rem;
+    justify-content: center;
+    // padding-left: 5.5rem;
  
-    // margin-left: 10rem ;
-    padding-right: 15.5rem;
-    /* padding-left: 23.1rem;
-    padding-right: 33.3rem;
-    padding-top: 0.5rem; */
+    // // margin-left: 10rem ;
+    // padding-right: 15.5rem;
+    // /* padding-left: 23.1rem;
+    // padding-right: 33.3rem;
+    // padding-top: 0.5rem; */
 
 
 }
@@ -58,6 +58,7 @@
 .login-form-link {
     text-decoration: none;
     color: #000;
+    padding-left: 54rem;
     padding-top: 1rem;
     transition: .1s;
 }
@@ -84,7 +85,39 @@
     text-align: center;
     transition: .3s;
 }
+.body-info{
+    display: flex;
+    justify-content: center;
+}
+.mid-page-image{
+    width: fit-content;
+}
 
+
+.text-info{
+    text-align: left;
+    max-width: 13.952rem;
+    position: relative;
+    top: 4rem;
+    left: 1rem;
+    
+   
+}
+
+#title{
+    font-family: "Soleil_Bold",Helvetica Arial,sans-serif;
+     font-weight: bold;
+     line-height: 27px;
+     size: 18px;
+     letter-spacing: 1.5px;
+}
+
+#description{
+    font-family: "Soleil",Helvetica Arial,sans-serif;
+    line-height: 24px;
+    font-weight: 400;
+    size: 16px;
+}
 #signup-form-link:hover {
     background: rgb(49, 190, 86);
 }
