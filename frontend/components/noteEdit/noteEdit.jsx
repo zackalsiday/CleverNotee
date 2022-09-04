@@ -9,11 +9,12 @@ import { EditorState}  from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import RichEditor from '../RichEditor/RichEditor';
 import { stateToHTML } from 'draft-js-export-html'
+import { convertToRaw } from 'draft-js'
 class NoteEdit extends Component {
     constructor(props) {
         super(props)
         this.state =   {title: '',
-            content: '',
+            // content: '',
             author_id: '',
             notebook_id: '',
             id: '',
@@ -35,6 +36,7 @@ class NoteEdit extends Component {
         this.createNoteTag = this.createNoteTag.bind(this)
         this.removeTagfromNote = this.removeTagfromNote.bind(this)
         this.addNewTag = this.addNewTag.bind(this)
+        this.changeContent = this.changeContent.bind(this)
     }
 
 
@@ -65,14 +67,7 @@ class NoteEdit extends Component {
                 notebook_id: res.note.notebookId,
                 id: res.note.id
             })
-         })
-    
-        
-  
-     
-    
-       
-        // this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? this.setState({url: `/notebooks/${this.props.match.params.notebook_id}/notes`}) : this.setState({url: `/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`})
+                  })
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -105,6 +100,7 @@ class NoteEdit extends Component {
         }else if(prevState.content != this.state.content){
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
+           
         }else if (prevState.notebook_id != this.state.notebook_id){
             const note = Object.assign({}, this.state)
             this.props.updateNote(note)
@@ -121,7 +117,8 @@ class NoteEdit extends Component {
    
         // delete the note_tag first then use the res to delele the note itself.
 
-
+         
+       
     
  
     }
@@ -137,7 +134,10 @@ class NoteEdit extends Component {
          
     }
 
-   
+//    renderRichEditor(content){
+//         return  < RichEditor changeContent={this.changeContent} updateNote={this.props.updateNote} noteId={this.props.ownProps.match.params.note_id} content={content} />
+  
+//    }
 
  
     deleteNote(){
@@ -314,7 +314,11 @@ class NoteEdit extends Component {
            dispatch(this.props.createNoteTag({note_id: this.props.match.params.note_id, tag_id: res.tag.id}))
        })
    }
-   
+
+
+   changeContent(newContent){
+      return () => this.setState({content: newContent})
+   }
 //    updateEditorState(editorState){
 //        this.setState({editorState})
 //    }
@@ -345,7 +349,7 @@ class NoteEdit extends Component {
            
             <div>
 
-            {/* {console.log(this.filteredNoteTags())} */}
+            {/* {console.log(this.props)} */}
                 {/* {console.log(this.state.editorState)} */}
                 {/* {console.log(EditorState.getCurrentContent())} */}
                {/* {this.renderNewButton()} */}
@@ -364,7 +368,7 @@ class NoteEdit extends Component {
                     {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button onClick={this.createNoteTag}>New</button> : ''}
                     <br />
                 
-                      <button onClick={this.deleteNote}>
+                      <button onClick={this.deleteNote} >
                         Delete
                     </button> 
              
@@ -381,8 +385,9 @@ class NoteEdit extends Component {
                         }}
                     /> */}
 
-                    <RichEditor/> 
-                    
+                    {/* { () => this.renderRichEditor} */}
+                    {this.state.content != undefined ?  < RichEditor changeContent={this.changeContent} updateNote={this.props.updateNote} fetchNote={this.props.fetchNote} noteId={this.props.ownProps.match.params.note_id} content= {this.state.content}  /> : ''} 
+                   
                     <form >
                         <input type="text"
                             value={ this.state.title}

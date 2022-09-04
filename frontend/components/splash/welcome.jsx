@@ -19,14 +19,17 @@ const Welcome = () => {
                     <h5 className='second-sent'>
                         Remember everything and tackle any project with your notes, tasks, and schedule all in one place.
                     </h5>
+                 
+                  
                     <p>
                    
                             <Link className='signup-form-link' to="/signup"><span id='signup-form-link'>Sign up for free</span> </Link>
-                          
+                        <Link className='link-to-login-form' to='/login'><p>Already have an account? Log in</p></Link>
                     </p>
                 </div>
 
             </div>
+            {/* <img src="/Users/zackalsiday/Desktop/CleverNotee/frontend/images/Screen Shot 2022-08-29 at 4.54.29 PM.png" alt="" /> */}
         </div>
     )
 }

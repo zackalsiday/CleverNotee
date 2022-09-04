@@ -1,7 +1,8 @@
 .welcome-header {
     display: flex;
     justify-content: space-between;
-
+    padding-left: 5.5rem;
+    padding-right: 15.5rem;
     /* padding-left: 23.1rem;
     padding-right: 33.3rem;
     padding-top: 0.5rem; */
@@ -42,13 +43,23 @@
 .second-sent {
     font-size: 24px;
     font-weight: 400;
-    line-height: 150%
+    line-height: 150%;
+    width: 65rem;
+    letter-spacing: 1px;
+    padding-left: 3rem ;
+    text-align: center;
+    font-family: "Soleil", Helvetica, Arial, sans-serif;
 }
 
 .login-form-link {
     text-decoration: none;
-    color: inherit;
-    padding-top: 1rem
+    color: #000;
+    padding-top: 1rem;
+    transition: .1s;
+}
+
+.login-form-link:hover{
+    color: #00a82d
 }
 
 .signup-form-link {
@@ -67,5 +78,19 @@
     letter-spacing: 1.5px;
     line-height: 1;
     text-align: center;
-
+    transition: .3s;
 }
+
+#signup-form-link:hover {
+    background: rgb(49, 190, 86);
+}
+
+.link-to-login-form{
+    color:#000;
+    transition: .1s
+}
+
+.link-to-login-form:hover {
+    color: #00a82d
+}
+

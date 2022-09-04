@@ -508,6 +508,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-draft-wysiwyg */ "./node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.js");
 /* harmony import */ var react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! draft-js-export-html */ "./node_modules/draft-js-export-html/esm/main.js");
+/* harmony import */ var _noteEdit_noteEdit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../noteEdit/noteEdit */ "./frontend/components/noteEdit/noteEdit.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -536,6 +537,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
  // import './EditorContainer.css'
 
 var RichEditor = /*#__PURE__*/function (_Component) {
@@ -552,29 +556,100 @@ var RichEditor = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "onEditorStateChange", function (editorState) {
       // console.log(editorState)
+      //  this.props.changeContent(stateToHTML(this.state.editorState.getCurrentContent()))
       _this.setState({
         editorState: editorState
       });
+
+      _this.props.updateNote({
+        content: (0,draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__.stateToHTML)(_this.state.editorState.getCurrentContent()),
+        id: _this.props.noteId
+      });
     });
 
+    var blocksFromHTML = (0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertFromHTML)(_this.props.content);
+    var state = draft_js__WEBPACK_IMPORTED_MODULE_1__.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
     _this.state = {
-      editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createEmpty(),
-      body: 'fasdfasd'
+      editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createWithContent(state),
+      body: _this.props.content
     };
     return _this;
-  }
+  } // componentDidMount(){
+  //     console.log(this.state)
+  // }
+  // componentDidUpdate(prevState, prevProps){
+  //     if (prevState == this.state){
+  //         dispatch(this.props.updateNote(noteId)).then((res) => {
+  //             const blocksFromHTML = convertFromHTML(res.note.content);
+  //             const state = ContentState.createFromBlockArray(
+  //                 blocksFromHTML.contentBlocks,
+  //                 blocksFromHTML.entityMap,
+  //             );
+  //             this.setState({editorState: EditorState.createWithContent(state)})
+  //         })
+  //     }else if (prevProps === this.props){
+  //         dispatch(this.props.fetchNote(noteId)).then((res) => {
+  //             dispatch(this.props.updateNote(noteId)).then((res) => {
+  //                 const blocksFromHTML = convertFromHTML(res.note.content);
+  //                 const state = ContentState.createFromBlockArray(
+  //                     blocksFromHTML.contentBlocks,
+  //                     blocksFromHTML.entityMap,
+  //                 );
+  //                 this.setState({ editorState: EditorState.createWithContent(state) })
+  //             })
+  //         })
+  //     }
+  // }
+
 
   _createClass(RichEditor, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var _this2 = this;
+
+      // console.log(prevProps.noteId )
+      // console.log(this.props.noteId)
+      if (prevProps.noteId !== this.props.noteId) {
+        dispatch(this.props.fetchNote(this.props.noteId)).then(function (res) {
+          var blocksFromHTML = (0,draft_js__WEBPACK_IMPORTED_MODULE_1__.convertFromHTML)(res.note.content);
+          var state = draft_js__WEBPACK_IMPORTED_MODULE_1__.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+
+          _this2.setState({
+            editorState: draft_js__WEBPACK_IMPORTED_MODULE_1__.EditorState.createWithContent(state)
+          });
+        }).then(function (res) {
+          console.log(_this2.props);
+        });
+      }
+    } //     if(prevProps === this.props) {
+    //     dispatch(this.props.fetchNote(noteId)).then((res) => {
+    //         dispatch(this.props.updateNote(noteId)).then((res) => {
+    //             const blocksFromHTML = convertFromHTML(res.note.content);
+    //             const state = ContentState.createFromBlockArray(
+    //                 blocksFromHTML.contentBlocks,
+    //                 blocksFromHTML.entityMap,
+    //             );
+    //             this.setState({ editorState: EditorState.createWithContent(state) })
+    //         })
+    //     })
+    // }
+
+  }, {
     key: "render",
-    value: function render() {
-      var editorState = this.state.editorState;
+    value: // updateNote(newContent){
+    //   this.props.updateNote({id: this.props.noteId, content: newContent })
+    // }
+    function render() {
+      var editorState = this.state.editorState; // <NoteEdit editorState={this.state.editorState}/>
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: "editor"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
         action: ""
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
-        value: (0,draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__.stateToHTML)(this.state.editorState.getCurrentContent()) // value={this.state.editorState.getCurrentContent().blocks[0].text}
+        value: (0,draft_js_export_html__WEBPACK_IMPORTED_MODULE_3__.stateToHTML)(this.state.editorState.getCurrentContent()) // onChange={ () => this.props.updateNote({content: stateToHTML(this.state.editorState.getCurrentContent()), id:this.props.noteId})}
+        // value={this.state.editorState.getCurrentContent().blocks[0].text}
 
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_draft_wysiwyg__WEBPACK_IMPORTED_MODULE_2__.Editor, {
         editorState: editorState,
@@ -593,7 +668,7 @@ var RichEditor = /*#__PURE__*/function (_Component) {
             inDropdown: true
           },
           history: {
-            inDropdown: true
+            inDropdown: false
           } // image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
 
         }
@@ -953,6 +1028,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var NoteEdit = /*#__PURE__*/function (_Component) {
   _inherits(NoteEdit, _Component);
 
@@ -966,7 +1042,7 @@ var NoteEdit = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       title: '',
-      content: '',
+      // content: '',
       author_id: '',
       notebook_id: '',
       id: '',
@@ -987,6 +1063,7 @@ var NoteEdit = /*#__PURE__*/function (_Component) {
     _this.createNoteTag = _this.createNoteTag.bind(_assertThisInitialized(_this));
     _this.removeTagfromNote = _this.removeTagfromNote.bind(_assertThisInitialized(_this));
     _this.addNewTag = _this.addNewTag.bind(_assertThisInitialized(_this));
+    _this.changeContent = _this.changeContent.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1016,7 +1093,7 @@ var NoteEdit = /*#__PURE__*/function (_Component) {
           notebook_id: res.note.notebookId,
           id: res.note.id
         });
-      }); // this.props.match.path == "/notebooks/:notebook_id/notes/:note_id" ? this.setState({url: `/notebooks/${this.props.match.params.notebook_id}/notes`}) : this.setState({url: `/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`})
+      });
     }
   }, {
     key: "componentDidUpdate",
@@ -1085,7 +1162,10 @@ var NoteEdit = /*#__PURE__*/function (_Component) {
 
         return _this4.setState((_this4$setState = {}, _defineProperty(_this4$setState, field, e.currentTarget.value), _defineProperty(_this4$setState, "redirectNotebooks", _this4.props.match.path === "/notebooks/:notebook_id/notes/:note_id" ? true : false), _defineProperty(_this4$setState, "redirectNotes", _this4.props.match.path === "/notes/:note_id" ? true : false), _defineProperty(_this4$setState, "changed", _this4.props.match.path === "/tags/:tag_id/notes/:note_id" ? true : false), _this4$setState));
       };
-    }
+    } //    renderRichEditor(content){
+    //         return  < RichEditor changeContent={this.changeContent} updateNote={this.props.updateNote} noteId={this.props.ownProps.match.params.note_id} content={content} />
+    //    }
+
   }, {
     key: "deleteNote",
     value: function deleteNote() {
@@ -1306,6 +1386,17 @@ var NoteEdit = /*#__PURE__*/function (_Component) {
           tag_id: res.tag.id
         }));
       });
+    }
+  }, {
+    key: "changeContent",
+    value: function changeContent(newContent) {
+      var _this14 = this;
+
+      return function () {
+        return _this14.setState({
+          content: newContent
+        });
+      };
     } //    updateEditorState(editorState){
     //        this.setState({editorState})
     //    }
@@ -1348,7 +1439,13 @@ var NoteEdit = /*#__PURE__*/function (_Component) {
         onClick: this.createNoteTag
       }, "New") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
         onClick: this.deleteNote
-      }, "Delete"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_RichEditor_RichEditor__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      }, "Delete"), this.state.content != undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_RichEditor_RichEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        changeContent: this.changeContent,
+        updateNote: this.props.updateNote,
+        fetchNote: this.props.fetchNote,
+        noteId: this.props.ownProps.match.params.note_id,
+        content: this.state.content
+      }) : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
         type: "text",
         value: this.state.title,
         placeholder: "please title your note",
@@ -2961,7 +3058,10 @@ var Welcome = function Welcome() {
     to: "/signup"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     id: "signup-form-link"
-  }, "Sign up for free"), " ")))));
+  }, "Sign up for free"), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "link-to-login-form",
+    to: "/login"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Already have an account? Log in"))))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Welcome);
