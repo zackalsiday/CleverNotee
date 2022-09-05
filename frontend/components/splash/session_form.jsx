@@ -1,6 +1,7 @@
 import React from 'react'
 // import { FaRegLightbulb } from 'react-icons/fa'
 import { RiLightbulbFill } from 'react-icons/ri'
+import { Link } from 'react-router-dom'
 
 class SessionForm extends React.Component {
     constructor(props) {
@@ -42,14 +43,14 @@ class SessionForm extends React.Component {
     render() {
         return (
 
-            <div className="login-signup-page">
+            <div className="login-signup-page" >
                 {/* <div className='test'> < RiLightbulbFill size="2em" color="#29A82C4F" repeat='repeat'/></div> */}
 
                 <div className='login-signup-form-box'>
                     <form onSubmit={this.handleSubmit} className="login-signup-form">
                         <div className='from-heading'>
-                            <div className='form-logo'> < RiLightbulbFill size="3.5em" color="#29A82C" /></div>
-                            <h2 className='form-title'>Clevernote</h2>
+                            <Link to='/'><div className='form-logo'> < RiLightbulbFill size="3.5em" color="#29A82C" /></div></Link>
+                            <Link to='/' className='form-title-link' ><h2 className='form-title'>Clevernote</h2></Link>
                             <p className='form-intro'>Remember everything important.</p>
                         </div>
                         <br />

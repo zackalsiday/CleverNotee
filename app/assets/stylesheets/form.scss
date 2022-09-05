@@ -1,5 +1,11 @@
 
-
+.login-signup-page{
+    overflow: hidden;
+    background: url('/images/form_background.png');
+    background-position: center;
+    height: 1300px;
+    
+}
 #the-link-on-bottom-of-form {
     margin-left: 4px;
 
@@ -12,9 +18,9 @@
 }
 
 
-.login-signup-form-container {
-    background-image: url("/Users/zackalsiday/Desktop/CleverNote/Freepik.png")
-}
+// .login-signup-form-container {
+//     background-image: url("/Users/zackalsiday/Desktop/CleverNote/Freepik.png")
+// }
 
 .login-signup-form-box {
     position: absolute;
@@ -23,7 +29,8 @@
     transform: translate(-50%, -50%);
     width: 511px;
     height: 686px;
-    // box-shadow: 0px 4px 24px rgb(0 0 0 / 10%);
+    background-color: white;
+    box-shadow:  0px 4px 24px rgba(0, 0, 0, 10%)
 }
 
 .login-signup-form {
@@ -46,7 +53,10 @@
     position: relative;
     bottom: 2.5rem;
 
-
+}
+.form-title-link{
+    text-decoration: none;
+    color: black;
 }
 
 .form-intro {
