@@ -132,7 +132,7 @@ class Main extends React.Component {
                     <br />
                      <Link className='notes-link'to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
                         <button className='notes-but' onClick={this.turnOffTags} >
-                                <TbNotes  fill='#cccccc'  size='1.5em' color='black' /><p className='notes-text'>Notes</p> 
+                                <TbNotes  id='notes-logo' fill='#cccccc'  size='1.5em' color='black' /><p className='notes-text'>Notes</p> 
                         </button>
                     </Link>
                     <br />
