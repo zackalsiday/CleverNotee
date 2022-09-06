@@ -8,7 +8,7 @@ import { createNotebook } from '../../actions/notebook_actions';
 const mapStateToProps = state => ({
     errors: state.errors.session,
     formType: "signup",
-    navLink: <Link to="/login">log in instead</Link>,
+    navLink: <Link className='nav-link' to="/login">log in instead</Link>,
 })
 
 const mapDispatchToProps = dispatch => ({

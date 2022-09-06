@@ -11,6 +11,11 @@ import NotebookShowContainer from '../notebookShow/notebookShow_container'
 import TagsListContainer from '../tagsList/tagsList_container'
 import { Redirect } from 'react-router-dom'
 import NoteTagsContainer from '../noteTags/noteTags_container'
+import { AiFillHome } from 'react-icons/ai'
+import { TbNotes } from 'react-icons/tb'
+import {TbNotebook} from 'react-icons/tb'
+import {RiPriceTagFill} from 'react-icons/ri'
+import { RiLogoutBoxFill} from 'react-icons/ri'
 class Main extends React.Component {
     
     constructor(props){
@@ -91,7 +96,7 @@ class Main extends React.Component {
         } else if (this.props.location.pathname.includes('notebooks') === true){
             return null
         }else{
-            return <button onClick={this.createNote}>New</button>
+            return <button className='new-button' onClick={this.createNote}> &#43; New</button>
         }
             
         }
@@ -109,31 +114,36 @@ class Main extends React.Component {
                     {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
                     {/* {this.props.location.pathname.includes('tags') === true ? '' : this.renderCreatebutton()}
                     {this.props.location.pathname.includes('notebooks') === true ? '' : this.renderCreatebutton() } */}
-                    {this.renderCreatebutton()}
+                 
                 
                     <br />
-                    <Link to='/'>
-                        <button onClick={this.turnOffTags}>
-                            Home
+                <div className='side-nav'>
+                    <p className='side-nav-name'>{this.props.currentUser.username}</p>
+                     {this.renderCreatebutton()}
+                     <br />
+                    <Link className='home-link' to='/'>
+                        <button className='home-but'onClick={this.turnOffTags}>
+                             <AiFillHome size='1.5em' stroke='currentColor' color='#cccccc'/> <p className='home-text'>Home</p>
+                        </button>
+                        
+                    </Link>
+                    <br />
+                     <Link className='notes-link'to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
+                        <button className='notes-but' onClick={this.turnOffTags} >
+                                <TbNotes  fill='#cccccc'  size='1.5em' color='black' /><p className='notes-text'>Notes</p> 
                         </button>
                     </Link>
                     <br />
-                     <Link to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
-                        <button onClick={this.turnOffTags} >
-                            Notes 
-                        </button>
-                    </Link>
-                    <br />
-                    <Link to='/notebooks'>
-                        <button onClick={this.turnOffTags}>
-                            Notebooks
+                    <Link className='notebooks-link'to='/notebooks'>
+                            <button className='notebooks-but' onClick={this.turnOffTags}>
+                                <TbNotebook  fill='#cccccc' size='1.5em' color='black'  /><p className='notebooks-text'>Notebooks</p> 
                         </button>
                     </Link>
                     <br />
                    {this.props.location.pathname.includes('tags') === false ? 
-                   <button onClick={this.toggleTags}>
-                            Tags 
-                        </button> : ''
+                            <button className='tags-but' onClick={this.toggleTags}>
+                                <RiPriceTagFill size='1.5em' color='#cccccc' /><p className='tags-text'>Tags</p> 
+                            </button> : ''
                 }
                        
                   
@@ -145,7 +155,10 @@ class Main extends React.Component {
                   
 
                     <br />
-                    <button className="header-button" onClick={this.props.logout}>Log Out</button>
+                    <button className="logout-but" onClick={this.props.logout}>
+                            <RiLogoutBoxFill size='1.5em' color='#cccccc' /><p className='logout-text'>Log out</p>
+                    </button>
+                </div>
                    
                 </hgroup>
 
