@@ -20,18 +20,27 @@ class Main extends React.Component {
     
     constructor(props){
         super(props)
-        this.state = {tagsVisible: false, redirect: false}
+        this.state = {tagsVisible: false, 
+                    redirect: false,
+                    homeClick: true,
+                    notesClick: false,
+                    notebooksClick: false,
+                    tagsClick: false,
+                    lastState: ''
+                }
         this.toggleTags = this.toggleTags.bind(this)
         this.turnOffTags = this.turnOffTags.bind(this)
         this.createNote = this.createNote.bind(this)
-      
+        this.homeButClicked = this.homeButClicked.bind(this)
+        this.notesButClick = this.notesButClick.bind(this)
+        this.notebooksButClick = this.notebooksButClick.bind(this)
     }
 
     toggleTags(){
         if(this.state.tagsVisible === false ){
-            this.setState({tagsVisible: true})
+            this.setState({homeClick: false, notesClick: false, notebooksClick: false,tagsVisible: true, tagsClick: true, lastState: this.state})
         }else{
-            this.setState({tagsVisible: false})
+            this.setState(this.state.lastState)
         }
    
     }
@@ -47,6 +56,7 @@ class Main extends React.Component {
         if(this.state.tagsVisible === true ){
             this.setState({tagsVisible: false})
         }
+
     }
     
     
@@ -54,6 +64,7 @@ class Main extends React.Component {
         return(
             <TagsListContainer/>
         )
+      
     }
 
     firstNoteId(){
@@ -100,6 +111,23 @@ class Main extends React.Component {
         }
             
         }
+    
+
+    homeButClicked(){
+        this.turnOffTags()
+        this.setState({ homeClick: true, notesClick: false, notebooksClick: false, tagsClick: false })
+    }
+
+    notesButClick(){
+        this.turnOffTags()
+        this.setState({ homeClick: false, notesClick: true, notebooksClick: false, tagsClick: false})
+    }
+
+    notebooksButClick(){
+        this.turnOffTags()
+        this.setState({ homeClick: false, notesClick: false, notebooksClick: true, tagsClick: false })
+    }
+
 
 
 
@@ -108,7 +136,7 @@ class Main extends React.Component {
      
         return (
             <div>
-               {/* {console.log(this.props)} */}
+               {console.log(this.props)}
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
                     {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
@@ -124,26 +152,26 @@ class Main extends React.Component {
                      {this.renderCreatebutton()}
                      <br />
                     <Link className='home-link' to='/'>
-                        <button className='home-but'onClick={this.turnOffTags}>
+                                <button className='home-but' onClick={ this.homeButClicked} style={{ backgroundColor: this.props.location.pathname === '/' ? '#404040' :'transparent'  }}>
                              <AiFillHome size='1.5em' stroke='currentColor' color='#cccccc'/> <p className='home-text'>Home</p>
                         </button>
                         
                     </Link>
                     <br />
                      <Link className='notes-link'to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
-                        <button className='notes-but' onClick={this.turnOffTags} >
+                                <button className='notes-but' onClick={this.notesButClick} style={{ backgroundColor: this.props.location.pathname.includes('notes') === true ? '#404040' : 'transparent' }}>
                                 <TbNotes  id='notes-logo' fill='#cccccc'  size='1.5em' color='black' /><p className='notes-text'>Notes</p> 
                         </button>
                     </Link>
                     <br />
                     <Link className='notebooks-link'to='/notebooks'>
-                            <button className='notebooks-but' onClick={this.turnOffTags}>
+                                <button className='notebooks-but' onClick={this.notebooksButClick} style={{ backgroundColor: this.props.location.pathname.includes('notebooks') === true ? '#404040'  : 'transparent'}}>
                                 <TbNotebook  fill='#cccccc' size='1.5em' color='black'  /><p className='notebooks-text'>Notebooks</p> 
                         </button>
                     </Link>
                     <br />
                    {this.props.location.pathname.includes('tags') === false ? 
-                            <button className='tags-but' onClick={this.toggleTags}>
+                                <button className='tags-but' onClick={this.toggleTags} style={{ backgroundColor: this.state.tagsClick === false ? 'transparent' : '#404040' }} >
                                 <RiPriceTagFill size='1.5em' color='#cccccc' /><p className='tags-text'>Tags</p> 
                             </button> : ''
                 }
