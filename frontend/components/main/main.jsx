@@ -118,6 +118,8 @@ class Main extends React.Component {
                 
                     <br />
                 <div className='side-nav'>
+                    <div className='side-nav-content'>
+
                     <p className='side-nav-name'>{this.props.currentUser.username}</p>
                      {this.renderCreatebutton()}
                      <br />
@@ -160,6 +162,7 @@ class Main extends React.Component {
                     </button>
                 </div>
                    
+                    </div>
                 </hgroup>
 
                 {this.state.tagsVisible === true ? this.renderTags() : ''}

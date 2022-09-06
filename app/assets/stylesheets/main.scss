@@ -1,14 +1,25 @@
 .header-name{
     margin-left: 19.7rem;
 }
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
 
 .side-nav{
     background-color: #1A1A1A;
+    position: absolute;
+    bottom: 0rem;
+    // min-width: fit-content;
+    width: 18.2rem;
+    height: 100%;
+}
+.side-nav-content{
     position: relative;
-    bottom: 1rem;
-    min-width: fit-content;
-    max-width: 18.2rem;
-    height: 39rem;
+    top: 4.25rem;
 }
 
 .side-nav-name{
@@ -116,6 +127,7 @@
     bottom: 10px;
     font-size: 14px;
     color: #cccccc;
+    margin-left: 2px;
 }
 
 .logout-but{
