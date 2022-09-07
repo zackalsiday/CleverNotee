@@ -135,7 +135,7 @@ class Main extends React.Component {
     render(){
      
         return (
-            <div>
+            <div className='main' style={{backgroundImage: 'url("images/evernote_mug.png")'}}>
                {console.log(this.props)}
                 <hgroup className="header-group">
                     <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
@@ -147,8 +147,11 @@ class Main extends React.Component {
                     <br />
                 <div className='side-nav'>
                     <div className='side-nav-content'>
-
-                    <p className='side-nav-name'>{this.props.currentUser.username}</p>
+                    <div className='side-nav-name'>
+                        <img className='side-nav-name-logo' src={`letters/${Array.from(this.props.currentUser.username)[0].toLowerCase()}.png`} alt="" />
+                        <p className='side-nav-name-text'>{this.props.currentUser.username}</p>
+                    </div>
+                    
                      {this.renderCreatebutton()}
                      <br />
                     <Link className='home-link' to='/'>
