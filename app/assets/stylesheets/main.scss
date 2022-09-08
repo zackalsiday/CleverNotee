@@ -231,5 +231,54 @@ body {
     margin-left: 2px;
     color: #cccccc;
 }
+.recent-notes-container{
+    // // display: flex;
+    // justify-content: right;
+    // right: 1.7rem;
+    // top: 2.5rem;
+    margin-left: 20.4rem;
+    margin-top: 2.7rem;
+}
 
+.recent-notes{
+    display: flex;
+    position: absolute;
+    list-style: none;
+    border-style: none;
+    background-color: #ffffff;
+    width: 41.2rem;
+    height: 22.8rem;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    border-radius: 17px;
+    padding-left: 0;
+}
+
+.recent-notes:hover{
+    overflow-x: scroll;
+}
+
+
+.recent-notes li{
+    display: inline;
+      padding-left: 0.8rem;
+    padding-top: 5.2rem;
+}
+
+.recent-note-but{
+    height: 16.3rem;
+    width: 11rem;
+    border-radius: 8px;
+    border-style: solid;
+    background-color: #ffffff;
+    border-color: #f3f3f3;
+    transition: .1s;
+}
+
+
+
+.recent-note-but:hover{
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.14902)
+}
 

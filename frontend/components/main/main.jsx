@@ -127,7 +127,23 @@ class Main extends React.Component {
         this.turnOffTags()
         this.setState({ homeClick: false, notesClick: false, notebooksClick: true, tagsClick: false })
     }
+    renderNotes() {
+        let notesArray = Object.values(this.props.notes)
+        let reversed = notesArray.reverse()
 
+
+        return (
+            <div className='recent-notes-container'>
+                <ul className='recent-notes'>
+                {reversed.map((note) => (
+
+                    <li><div className='recent-note-but'>{note.title}</div></li>
+                ))}
+                </ul>
+            </div>
+            
+        )
+    }
 
 
 
@@ -197,7 +213,7 @@ class Main extends React.Component {
                 </hgroup>
 
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
-                
+                {this.props.location.pathname === '/' ? this.renderNotes() : ''}
                 <Switch>
                     <Route exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
                     <Route path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
