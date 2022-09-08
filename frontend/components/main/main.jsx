@@ -137,7 +137,7 @@ class Main extends React.Component {
                 <ul className='recent-notes'>
                 {reversed.map((note) => (
 
-                    <li><div className='recent-note-but'>{note.title}</div></li>
+                    <li><div className='recent-note-but'><span className='recent-note-title'>{note.title}</span></div></li>
                 ))}
                 </ul>
             </div>
@@ -151,94 +151,98 @@ class Main extends React.Component {
     render(){
      
         return (
-            <div className='main' style={{backgroundImage: 'url("images/evernote_mug.png")'}}>
-               {console.log(this.props)}
-                <hgroup className="header-group">
-                    <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
-                    {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
-                    {/* {this.props.location.pathname.includes('tags') === true ? '' : this.renderCreatebutton()}
-                    {this.props.location.pathname.includes('notebooks') === true ? '' : this.renderCreatebutton() } */}
-                 
-                
-                    <br />
-                <div className='side-nav'>
-                    <div className='side-nav-content'>
-                    <div className='side-nav-name'>
-                        <img className='side-nav-name-logo' src={`letters/${Array.from(this.props.currentUser.username)[0].toLowerCase()}.png`} alt="" />
-                        <p className='side-nav-name-text'>{this.props.currentUser.username}</p>
-                    </div>
-                    
-                     {this.renderCreatebutton()}
-                     <br />
-                    <Link className='home-link' to='/'>
-                                <button className='home-but' onClick={ this.homeButClicked} style={{ backgroundColor: this.props.location.pathname === '/' ? '#404040' :'transparent'  }}>
-                             <AiFillHome size='1.5em' stroke='currentColor' color='#cccccc'/> <p className='home-text'>Home</p>
-                        </button>
-                        
-                    </Link>
-                    <br />
-                     <Link className='notes-link'to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
-                                <button className='notes-but' onClick={this.notesButClick} style={{ backgroundColor: this.props.location.pathname.includes('notes') === true ? '#404040' : 'transparent' }}>
-                                <TbNotes  id='notes-logo' fill='#cccccc'  size='1.5em' color='black' /><p className='notes-text'>Notes</p> 
-                        </button>
-                    </Link>
-                    <br />
-                    <Link className='notebooks-link'to='/notebooks'>
-                                <button className='notebooks-but' onClick={this.notebooksButClick} style={{ backgroundColor: this.props.location.pathname.includes('notebooks') === true ? '#404040'  : 'transparent'}}>
-                                <TbNotebook  fill='#cccccc' size='1.5em' color='black'  /><p className='notebooks-text'>Notebooks</p> 
-                        </button>
-                    </Link>
-                    <br />
-                   {this.props.location.pathname.includes('tags') === false ? 
-                                <button className='tags-but' onClick={this.toggleTags} style={{ backgroundColor: this.state.tagsClick === false ? 'transparent' : '#404040' }} >
-                                <RiPriceTagFill size='1.5em' color='#cccccc' /><p className='tags-text'>Tags</p> 
-                            </button> : ''
-                }
-                       
-                  
-                  {this.props.location.pathname.includes('tags') === true ?  this.turnOffTags() : null
-                    }
-                     
+            <div className='main'>
               
-                            
-                  
-
-                    <br />
-                    <button className="logout-but" onClick={this.props.logout}>
-                            <RiLogoutBoxFill size='1.5em' color='#cccccc' /><p className='logout-text'>Log out</p>
-                    </button>
+                <div className='main-content' style={{backgroundImage: 'url("images/evernote_mug.png")'}}>
+                    {console.log(this.props)}
+                    <hgroup className="header-group">
+                        <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
+                        {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
+                        {/* {this.props.location.pathname.includes('tags') === true ? '' : this.renderCreatebutton()}
+                        {this.props.location.pathname.includes('notebooks') === true ? '' : this.renderCreatebutton() } */}
+                        <br />
+                    </hgroup>
+                    {this.state.tagsVisible === true ? this.renderTags() : ''}
+                    {this.props.location.pathname === '/' ? this.renderNotes() : ''}
+                    <Switch>
+                        <Route exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
+                        <Route path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
+                        <Route path="/notebooks" component={NotebookListContainer}/>
+                    </Switch>
+                        <Route path="/notes" component={NoteContainer}/>
+                        {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
+                        <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
+                    <Route path="/tags/:tag_id/notes/:note_id" component={NoteTagsContainer}/> 
+                    <Route path="/tags/:tag_id/notes/:note_id" component={NoteEditContainer}/>
+                    <Switch>
+                        <Route path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
+                        <Route path="/notes/:note_id" component={NoteEditContainer} />
+                        <Route path="/notes" component={NoteFormContainer} />
+                    </Switch>
                 </div>
-                   
-                    </div>
-                </hgroup>
-
-                {this.state.tagsVisible === true ? this.renderTags() : ''}
-                {this.props.location.pathname === '/' ? this.renderNotes() : ''}
-                <Switch>
-                    <Route exact path="/notebooks/:notebook_id/notes" component={NotebookShowContainer} />
-                    <Route path="/notebooks/:notebook_id/notes/:note_id" component={NotebookShowContainer} />
-                    <Route path="/notebooks" component={NotebookListContainer}/>
-                </Switch>
-
-                    <Route path="/notes" component={NoteContainer}/>
-                    {/* <ProtectedRoute path="/tags/:tag_id/notes" component={NoteContainer}/>
-                    <ProtectedRoute path="/tags/:tag_id/notes" component={NoteFormContainer} /> */}
-                <Route path="/tags/:tag_id/notes/:note_id" component={NoteTagsContainer}/> 
-                <Route path="/tags/:tag_id/notes/:note_id" component={NoteEditContainer}/>
-                <Switch>
-                 <Route path="/notebooks/:notebook_id/notes/:note_id" component={NoteEditContainer}/>
-                 <Route path="/notes/:note_id" component={NoteEditContainer} />
-                 <Route path="/notes" component={NoteFormContainer} />
-                </Switch>
-
-          
-        
-
-        
-                
+                        <div className='side-nav'>
+                            <div className='side-nav-content'>
+                                <div className='side-nav-name'>
+                                    <img className='side-nav-name-logo' src={`letters/${Array.from(this.props.currentUser.username)[0].toLowerCase()}.png`} alt="" />
+                                    <p className='side-nav-name-text'>{this.props.currentUser.username}</p>
+                                </div>
+                                {this.renderCreatebutton()}
+                                <br />
+                            
+                                <Link className='home-link' to='/'>
+                                    <button className='home-but' onClick={ this.homeButClicked} style={{ backgroundColor: this.props.location.pathname === '/' ? '#404040' :'transparent'  }}>
+                                    <AiFillHome size='1.5em' stroke='currentColor' color='#cccccc'/> <p className='home-text'>Home</p>
+                                    </button>
+                                </Link>
+                                
+                                <br />
+                                <Link className='notes-link'to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}> 
+                                    <button className='notes-but' onClick={this.notesButClick} style={{ backgroundColor: this.props.location.pathname.includes('notes') === true ? '#404040' : 'transparent' }}>
+                                    <TbNotes  id='notes-logo' fill='#cccccc'  size='1.5em' color='black' /><p className='notes-text'>Notes</p> 
+                                    </button>
+                                </Link>
+                                <br />
+                                <Link className='notebooks-link'to='/notebooks'>
+                                    <button className='notebooks-but' onClick={this.notebooksButClick} style={{ backgroundColor: this.props.location.pathname.includes('notebooks') === true ? '#404040'  : 'transparent'}}>
+                                    <TbNotebook  fill='#cccccc' size='1.5em' color='black'  /><p className='notebooks-text'>Notebooks</p> 
+                                    </button>
+                                </Link>
+                                <br />
+                                {this.props.location.pathname.includes('tags') === false ? 
+                                    <button className='tags-but' onClick={this.toggleTags} style={{ backgroundColor: this.state.tagsClick === false ? 'transparent' : '#404040' }} >
+                                    <RiPriceTagFill size='1.5em' color='#cccccc' /><p className='tags-text'>Tags</p> 
+                                    </button> : ''
+                                }
+                                {this.props.location.pathname.includes('tags') === true ?  this.turnOffTags() : null}
+                                <br />
+                                <button className="logout-but" onClick={this.props.logout}>
+                                        <RiLogoutBoxFill size='1.5em' color='#cccccc' /><p className='logout-text'>Log out</p>
+                                </button>
+                            </div>
+                        </div>
             </div>
         )
     }
 }
 
 export default Main 
+                            
+                        
+                    
+                
+                        
+                            
+                    
+                                
+                        
+
+                        
+
+
+            
+        
+
+        
+                
+
+        

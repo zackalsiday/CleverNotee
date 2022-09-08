@@ -12,14 +12,14 @@ body {
     padding: 0;
     // position: fixed;
     height: 1rem;
-      background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
-.main{
+
+.main-content{
     position: relative;
     bottom: 1.3rem;
     background-position-x: 6.5rem;
     background-position-y: 52.8%;
-  
     background-repeat: no-repeat;
     background-size: cover;
     height: 16.4rem;
@@ -43,7 +43,9 @@ body {
     top: 0rem;
     // min-width: fit-content;
     width: 18.7rem;
-    height: 500%;
+    // min-height: 300%;
+    // max-height: 800%;
+    height: 100%;
     // margin: 0;
 }
 .side-nav-content{
@@ -237,7 +239,7 @@ body {
     // right: 1.7rem;
     // top: 2.5rem;
     margin-left: 20.4rem;
-    margin-top: 2.7rem;
+    margin-top: 1.7%;
 }
 
 .recent-notes{
@@ -246,7 +248,7 @@ body {
     list-style: none;
     border-style: none;
     background-color: #ffffff;
-    width: 41.2rem;
+    width: 46.7%;
     height: 22.8rem;
     overflow: scroll;
     overflow-y: hidden;
@@ -274,6 +276,14 @@ body {
     background-color: #ffffff;
     border-color: #f3f3f3;
     transition: .1s;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: left;
+}
+.recent-note-title{
+    position: relative;
+    top: 1rem;
+    left: 1rem;
 }
 
 
