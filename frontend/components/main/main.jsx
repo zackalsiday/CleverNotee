@@ -133,14 +133,24 @@ class Main extends React.Component {
 
 
         return (
-            <div className='recent-notes-container'>
-                <ul className='recent-notes'>
-                {reversed.map((note) => (
+        
+            <div>
 
-                    <li><div className='recent-note-but'><span className='recent-note-title'>{note.title}</span></div></li>
-                ))}
-                </ul>
+                <div className='recent-notes-container'>
+                    <ul className='recent-notes'>
+                    <Link to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}><button className='rec-note-head-but'><span className='recent-notes-header'>NOTES </span><i class="arrow right"></i></button></Link>
+                    {reversed.map((note) => (
+    
+                        <Link className='recent-note-link'to={`/notes/${note.id}`}><li><div className='recent-note-but'><span className='recent-note-title'>{note.title}</span></div></li></Link>
+                    ))}
+                    </ul>
+                </div>
+                <div>
+                    
+                </div>
+                    
             </div>
+        
             
         )
     }
