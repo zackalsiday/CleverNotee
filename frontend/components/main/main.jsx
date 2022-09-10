@@ -144,10 +144,10 @@ class Main extends React.Component {
                     <Link className='recent-note-link'to={`/notes/${note.id}`}><li><div className='recent-note-but'><span className='recent-note-title'>{note.title}</span></div></li></Link>
                     ))}
                     </ul>
-                </div>
                 <div className='scratch-pad'>
                     SCRATCH PAD
                     <textarea className='scratch-pad-text' cols="30" rows="10"></textarea>
+                </div>
                 </div>
             </div>
         
