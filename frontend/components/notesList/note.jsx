@@ -3,6 +3,7 @@ import { fetchNotes } from '../../actions/note_actions'
 import NoteItem from '../noteItem/note_item'
 import Link from 'react-router-dom'
 import NoteForm from '../noteForm/noteForm'
+import { TbNotes } from 'react-icons/tb'
 class Note extends React.Component{
     constructor(props){
         super(props)
@@ -22,12 +23,16 @@ class Note extends React.Component{
 
         
         return(
-            <ul>
-                {reversed.map((note) => (
-                        <NoteItem noteTags={this.props.noteTags} note={note}/>
-                    
-                ))}
-            </ul>
+            <div className='notes-list'>
+                <TbNotes fill='#cccccc' size='1.5em' color='black' /><p>Notes</p>
+                <ul>
+                    {reversed.map((note) => (
+                        <li className='note-item'><NoteItem noteTags={this.props.noteTags} note={note}/></li>
+                        
+                    ))}
+                </ul>
+            </div>
+
         )
     }
 

@@ -344,21 +344,11 @@ class NoteEdit extends Component {
     render() {
         let first = this.props.noteTag[0]
         let firstId = Object.assign({}, first).note_id
-        // const { editorState } = this.state;
         return (
            
             <div>
 
-            {/* {console.log(this.props)} */}
-                {/* {console.log(this.state.editorState)} */}
-                {/* {console.log(EditorState.getCurrentContent())} */}
-               {/* {this.renderNewButton()} */}
-                {/* {this.state.redirectNotes ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null} 
-                // this.state.redirectNotebooks  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : null 
-                {/* {this.filteredFirstNoteId() === undefined  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null} */}
-                {/* {this.props.match.path === '/notebooks/notebook_id/notes/note_id' ? this.filteredFirstNoteId().length === 0 ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />) : null : null } */}
-                {/* {this.props.match.params.note_id != 'undefined' ?  */}
-                {this.state.empty === true  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />): '' } 
+                {/* {this.state.empty === true  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />): '' } 
                 {this.state.redirectNotebooks === true ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : '' }
                 {this.state.redirectNotes === true? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
                 {this.state.newNoteTag === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
@@ -372,20 +362,6 @@ class NoteEdit extends Component {
                         Delete
                     </button> 
              
-                    {/* <Editor
-                        editorState={editorState}
-                        onEditorStateChange={this.onEditorStateChange}
-                        toolbar={{
-                            inline: { inDropdown: true },
-                            list: { inDropdown: true },
-                            textAlign: { inDropdown: true },
-                            link: { inDropdown: true },
-                            history: { inDropdown: true },
-                            // image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
-                        }}
-                    /> */}
-
-                    {/* { () => this.renderRichEditor} */}
                     {this.state.content != undefined ?  < RichEditor changeContent={this.changeContent} updateNote={this.props.updateNote} fetchNote={this.props.fetchNote} noteId={this.props.ownProps.match.params.note_id} content= {this.state.content}  /> : ''} 
                    
                     <form >
@@ -415,8 +391,7 @@ class NoteEdit extends Component {
                         />
                     </form>
                 </div>
-                {/* : ''} */}
-                {/* {this.renderNoteTags()} */}
+             */}
              
             </div>
 

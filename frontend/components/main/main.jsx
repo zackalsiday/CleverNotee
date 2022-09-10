@@ -141,7 +141,7 @@ class Main extends React.Component {
                     <Link to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}><button className='rec-note-head-but'><span className='recent-notes-header'>NOTES </span><i class="arrow right"></i></button></Link>
                     {reversed.map((note) => (
     
-                        <Link className='recent-note-link'to={`/notes/${note.id}`}><li><div className='recent-note-but'><span className='recent-note-title'>{note.title}</span></div></li></Link>
+                    <Link className='recent-note-link'to={`/notes/${note.id}`}><li><div className='recent-note-but'><span className='recent-note-title'>{note.title}</span></div></li></Link>
                     ))}
                     </ul>
                 </div>
@@ -166,7 +166,7 @@ class Main extends React.Component {
                 <div className='main-content' style={this.props.location.pathname === '/' ? {backgroundImage: 'url("images/evernote_mug.png")'}: null}>
                     {console.log(this.props)}
                     <hgroup className="header-group">
-                        <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
+                        {this.props.location.pathname === '/' ? <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2> : ''}
                         {this.state.redirect ? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
                         {/* {this.props.location.pathname.includes('tags') === true ? '' : this.renderCreatebutton()}
                         {this.props.location.pathname.includes('notebooks') === true ? '' : this.renderCreatebutton() } */}
