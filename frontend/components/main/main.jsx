@@ -163,7 +163,7 @@ class Main extends React.Component {
         return (
             <div className='main'>
               
-                <div className='main-content' style={{backgroundImage: 'url("images/evernote_mug.png")'}}>
+                <div className='main-content' style={this.props.location.pathname === '/' ? {backgroundImage: 'url("images/evernote_mug.png")'}: null}>
                     {console.log(this.props)}
                     <hgroup className="header-group">
                         <h2 className="header-name">Hi, {this.props.currentUser.username}!</h2>
