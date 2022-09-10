@@ -145,10 +145,10 @@ class Main extends React.Component {
                     ))}
                     </ul>
                 </div>
-                <div>
-                    
+                <div className='scratch-pad'>
+                    SCRATCH PAD
+                    <textarea className='scratch-pad-text' cols="30" rows="10"></textarea>
                 </div>
-                    
             </div>
         
             
