@@ -23,11 +23,14 @@ class Note extends React.Component{
 
         
         return(
-            <div className='notes-list'>
-                <TbNotes fill='#cccccc' size='1.5em' color='black' /><p>Notes</p>
+            <div className='notes-list-container'>
+            <div className='notes-list-header'>
+                <TbNotes className='notes-list-logo'stroke='white' fill='black' size='1.4em' color='black' />
+                <p>Notes</p>
+            </div>
                 <ul>
                     {reversed.map((note) => (
-                        <li className='note-item'><NoteItem noteTags={this.props.noteTags} note={note}/></li>
+                        <li><NoteItem noteTags={this.props.noteTags} note={note}/></li>
                         
                     ))}
                 </ul>

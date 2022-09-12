@@ -15,7 +15,7 @@ class NoteItem extends React.Component{
             {/* {console.log(this.filteredNoteTags())} */}
              <li>
             <Link to={`/notes/${this.props.note.id}`}>
-             {this.props.note.title}
+             <button className='note-item'>{this.props.note.title}</button>
             </Link>
            
             </li>
