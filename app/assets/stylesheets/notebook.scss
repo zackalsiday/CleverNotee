@@ -1,0 +1,49 @@
+.notebooks-container{
+     position: fixed;
+    background-color: #ffffff ;
+    height: 100%;
+    width: 100%;
+}
+
+.notebooks-content{
+    padding-left: 18.9rem;
+}
+
+.notebooks-header{
+    color: #333;
+    font-size: 20px;
+    margin: 1.8rem;
+}
+
+.notebooks-count-create{
+    display: flex;
+    justify-content: space-between;
+    margin: 1.8rem;
+    position: relative;
+    top: 0.7rem;
+    font-size: 15px;
+    color: #333;
+
+}
+
+.notebook-create-input{
+    margin-right: 0.5rem;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #04A72E;
+    outline: none;
+    padding-left: 1rem;
+}
+
+.notebook-create-but{
+    color: white;
+    background-color: #04A72E;
+    border: none;
+    height: 2rem;
+    border-radius: 15px;
+    transition: .1s;
+}
+
+.notebook-create-but:hover{
+    background-color: #04a72db9;
+}

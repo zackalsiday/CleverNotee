@@ -67,9 +67,27 @@ class NotebookList extends React.Component {
 
 
     render() {
+        let notebooksArray = Object.values(this.props.notebooks)
         return (
-            <div>
-                <form onSubmit={this.createNote}>
+            <div className='notebooks-container'>
+                <div className='notebooks-content'>
+
+                <div className='notebooks-header'>Notebooks</div>
+                <div className='notebooks-count-create'>
+                    {notebooksArray.length} notebook(s)
+                    <form className='notebook-create-form' onSubmit={this.createNote}>
+                        <input
+                            className='notebook-create-input'
+                            type="text"
+                            value={this.state.name}
+                            onChange={this.update('name')}
+                        />
+                        <input className='notebook-create-but' type="submit" value='Create Notebook' />
+                    </form>
+                </div>
+                </div>
+                
+                {/* <form onSubmit={this.createNote}>
                     <input 
                     type="text" 
                     value={this.state.name}
@@ -77,7 +95,7 @@ class NotebookList extends React.Component {
                     />
                     <input type="submit" value='submit' />
                 </form>
-                 <div>{this.renderNotebooks()}</div>
+                 <div>{this.renderNotebooks()}</div> */}
             </div>
                
 
