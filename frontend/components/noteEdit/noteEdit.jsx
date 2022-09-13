@@ -346,7 +346,7 @@ class NoteEdit extends Component {
         let firstId = Object.assign({}, first).note_id
         return (
            
-            <div>
+            <div className='note-edit-container'>
 
                 {this.state.empty === true  ? (<Redirect push to={`/notebooks/${this.props.match.params.notebook_id}/notes`} />): '' } 
                 {this.state.redirectNotebooks === true ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.filteredFirstNoteId()[this.filteredFirstNoteId().length - 1]}`} />) : '' }
@@ -358,11 +358,11 @@ class NoteEdit extends Component {
                     {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button onClick={this.createNoteTag}>New</button> : ''}
                     <br />
                 
-                      <button onClick={this.deleteNote} >
+                      <button className='delete-note-but' onClick={this.deleteNote} >
                         Delete
-                    </button> 
+                      </button> 
              
-                    {this.state.content != undefined ?  < RichEditor changeContent={this.changeContent} updateNote={this.props.updateNote} fetchNote={this.props.fetchNote} noteId={this.props.ownProps.match.params.note_id} content= {this.state.content}  /> : ''} 
+                    {this.state.content != undefined ? < RichEditor  changeContent={this.changeContent} updateNote={this.props.updateNote} fetchNote={this.props.fetchNote} noteId={this.props.ownProps.match.params.note_id} content= {this.state.content}  /> : ''} 
                    
                     <form >
                         <input type="text"
