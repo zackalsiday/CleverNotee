@@ -353,7 +353,7 @@ class NoteEdit extends Component {
                 {this.state.redirectNotes === true? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
                 {this.state.newNoteTag === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
                 {this.state.noteTagdeleted === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
-                <div>
+                <div className='note-edit-form'>
 
                     {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button onClick={this.createNoteTag}>New</button> : ''}
                     <br />
@@ -371,12 +371,12 @@ class NoteEdit extends Component {
                             onChange={this.update('title')}
                         />
                         <br />
-                        <input
+                        {/* <input
                             type="text"
                             value={this.state.content}
                             placeholder='take notes here'
                             onChange={this.update('content')}
-                        />
+                        /> */}
                         {this.notebookOptions()}
                     </form> 
                     {this.renderTags()}

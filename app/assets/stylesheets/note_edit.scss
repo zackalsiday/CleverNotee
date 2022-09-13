@@ -1,8 +1,15 @@
 .note-edit-container{
     position: relative;
     left: 42rem;
-}
 
+}
+.note-edit-form{
+    position: fixed;
+}
 .delete-note-but{
-   
+    color: white;
+    background-color: red;
+    border: none;
+    height: 2rem;
+    width: 4rem;
 }

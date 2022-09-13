@@ -97,14 +97,14 @@ class RichEditor extends Component {
                     // console.log(stateToHTML(this.state.editorState.getCurrentContent()))
                     // console.log(convertToRaw(this.state.editorState.getCurrentContent()).blocks[0].text)
                 }
-                <form action="">
+                {/* <form action="">
 
                     <input type="text"
                         value={draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())) }
                         // onChange={ () => this.props.updateNote({content: stateToHTML(this.state.editorState.getCurrentContent()), id:this.props.noteId})}
                         // value={this.state.editorState.getCurrentContent().blocks[0].text}
                     />
-                </form>
+                </form> */}
                 <Editor
                     editorState={editorState}
                     onEditorStateChange={this.onEditorStateChange}

@@ -26,8 +26,9 @@ body {
 
 
 .rdw-editor-toolbar {
-    display: flex;
+    display:flex;
     justify-content: space-evenly;
+    position: fixed;
     width: 50%;
     /* position: relative;
     left: 40rem;
