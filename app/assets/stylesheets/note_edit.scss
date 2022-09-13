@@ -41,3 +41,24 @@
     left: 6rem;
 }
 
+.chosen-tags li{
+    display: inline;
+    margin-left: 1rem;
+    border: solid;
+    background-color: #e6e6e6;
+    padding: 3px;
+    border-radius: 16px;
+}
+.delete-tag-but{
+    display: none;
+}
+ .chose-tag-name:hover + .delete-tag-but{
+ display: inline;
+position: relative;
+bottom: 1.8rem;
+right: 2rem;
+color: white;
+background-color: red;
+border: none;
+ }
+

@@ -279,12 +279,14 @@ class NoteEdit extends Component {
     renderTags() {
         if (this.filteredNoteTags().length != 0) {
             return (
-                <ul>
+                <ul className='chosen-tags'>
                     {this.filteredNoteTags().map((tag) =>
+                
                         <li> 
-                            {tag.tag.name}
-                            <button onClick={() => this.removeTagfromNote(tag)}>Delete</button>
+                            <span className='chose-tag-name'>{tag.tag.name}</span>
+                            <button className='delete-tag-but' onClick={() => this.removeTagfromNote(tag)}>Delete</button>
                         </li>
+                   
                     )}
                 </ul>
             )
@@ -383,9 +385,9 @@ class NoteEdit extends Component {
                         /> */}
                         {this.notebookOptions()}
                         </form> 
-                        {/* {this.renderTags()}
-                        {this.tagOptions()} */}
-                        {/* <form onSubmit={this.addNewTag}>
+                        {this.renderTags()}
+                        {this.tagOptions()}
+                        <form onSubmit={this.addNewTag}>
                             <input type="text" 
                                 value={this.state.addTag}
                                 onChange={this.updateTagInput('addTag')}
@@ -393,7 +395,7 @@ class NoteEdit extends Component {
                             <input type="submit" 
                                 value='Submit'
                             />
-                        </form> */}
+                        </form>
                     </div>
                 </div>
             
