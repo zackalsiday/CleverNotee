@@ -30,7 +30,7 @@ class RichEditor extends Component {
     // }
 
     componentDidUpdate(prevProps,prevState){
-        console.log(draftToHtml(convertToRaw(prevState.editorState.getCurrentContent())))
+        // console.log(draftToHtml(convertToRaw(prevState.editorState.getCurrentContent())))
         
         if (prevProps.noteId !== this.props.noteId) {
             dispatch(this.props.fetchNote(this.props.noteId)).then((res) => {
@@ -40,13 +40,12 @@ class RichEditor extends Component {
                     this.setState({ editorState: EditorState.createWithContent(contentState) })
                     
             }).then((res) => {
-                console.log(this.props)
-            }).then((res) => {
+        
                       window.location.reload()
             })
         }
 
-        console.log(draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())))
+  
         // const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
 
         // const markup = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));

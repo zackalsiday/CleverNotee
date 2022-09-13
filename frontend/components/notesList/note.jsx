@@ -54,7 +54,7 @@ class Note extends React.Component{
                 </div>
                 <ul>
                     {reversed.map((note) => (
-                        <li><NoteItem noteTags={this.props.noteTags} note={note} /></li>
+                        <li><NoteItem noteTags={this.props.noteTags} note={note} pathname={this.props.location.pathname}/></li>
 
                     ))}
                 </ul>
