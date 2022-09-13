@@ -8,6 +8,7 @@ import NoteEdit from '../noteEdit/noteEdit';
 import {ContentState} from "draft-js"
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 // import './EditorContainer.css'
 class RichEditor extends Component {
     constructor(props) {
@@ -106,6 +107,7 @@ class RichEditor extends Component {
                     />
                 </form> */}
                 <Editor
+                    editorStyle={{ position: 'relative', top: '4.6rem', left: '2.4rem', height: '25rem'}}
                     editorState={editorState}
                     onEditorStateChange={this.onEditorStateChange}
                     toolbar={{

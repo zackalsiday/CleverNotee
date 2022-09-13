@@ -166,11 +166,13 @@ class NoteEdit extends Component {
     notebookOptions() {
         let notebooksArray = Object.values(this.props.notebooks)
         return (
-            <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
-                {notebooksArray.map((notebook) => (
-                    <option value={notebook.id}>{notebook.name}</option>
-                ))}
-            </select>
+            <div>
+                <select className='notebook-options'  style={{outline: 'none'}}value={this.state.notebook_id} onChange={this.update('notebook_id')} >
+                        {notebooksArray.map((notebook) => (
+                        <option value={notebook.id}>{notebook.name}</option>
+                    ))}
+                </select>
+            </div>
         )
 
     }
@@ -353,7 +355,7 @@ class NoteEdit extends Component {
                 {this.state.redirectNotes === true? (<Redirect push to={`/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`} />) : null}
                 {this.state.newNoteTag === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
                 {this.state.noteTagdeleted === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
-                <div className='note-edit-form'>
+                <div className='note-edit-form-container'>
 
                     {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button onClick={this.createNoteTag}>New</button> : ''}
                     <br />
@@ -363,12 +365,14 @@ class NoteEdit extends Component {
                       </button> 
              
                     {this.state.content != undefined ? < RichEditor  changeContent={this.changeContent} updateNote={this.props.updateNote} fetchNote={this.props.fetchNote} noteId={this.props.ownProps.match.params.note_id} content= {this.state.content}  /> : ''} 
-                   
-                    <form >
+                    <div className='note-edit-form'>
+
+                    <form>
                         <input type="text"
                             value={ this.state.title}
                             placeholder='please title your note'
                             onChange={this.update('title')}
+                            className='note-title'
                         />
                         <br />
                         {/* <input
@@ -378,18 +382,19 @@ class NoteEdit extends Component {
                             onChange={this.update('content')}
                         /> */}
                         {this.notebookOptions()}
-                    </form> 
-                    {this.renderTags()}
-                    {this.tagOptions()}
-                    <form onSubmit={this.addNewTag}>
-                        <input type="text" 
-                            value={this.state.addTag}
-                            onChange={this.updateTagInput('addTag')}
-                        />
-                        <input type="submit" 
-                            value='Submit'
-                        />
-                    </form>
+                        </form> 
+                        {/* {this.renderTags()}
+                        {this.tagOptions()} */}
+                        {/* <form onSubmit={this.addNewTag}>
+                            <input type="text" 
+                                value={this.state.addTag}
+                                onChange={this.updateTagInput('addTag')}
+                            />
+                            <input type="submit" 
+                                value='Submit'
+                            />
+                        </form> */}
+                    </div>
                 </div>
             
              

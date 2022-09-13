@@ -1,15 +1,43 @@
 .note-edit-container{
-    position: relative;
-    left: 42rem;
+    position: fixed;
+    left: 42.7rem;
+    background-color: #ffffff ;
+    height: 100%;
+    width: 100%;
 
 }
-.note-edit-form{
-    position: fixed;
-}
+
 .delete-note-but{
     color: white;
     background-color: red;
     border: none;
     height: 2rem;
     width: 4rem;
+    letter-spacing: 1px;
+    position: relative;
+    left: 1rem;
+    bottom: 0.6rem;
 }
+
+.note-edit-form{
+    position: relative;
+    top: 2rem
+}
+
+.note-title{
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+    outline: none;
+    position: relative;
+    left: 2.3rem;
+    bottom: 25.9rem;
+    font-weight: 600;
+}
+
+.notebook-options{
+    position: relative;
+    bottom: 34rem;
+    left: 6rem;
+}
+
