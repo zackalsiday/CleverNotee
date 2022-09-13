@@ -40,11 +40,26 @@
     bottom: 34rem;
     left: 6rem;
 }
+.chosen-tags{
+    display: flex;
+    border: none;
+    overflow: hidden;
+    max-width: 20rem;
+    position: relative;
+    bottom: 1.5rem;
+    left: 2rem;
+    padding-left: 0;
+}
+
+.chosen-tags:hover{
+    overflow-x: scroll;
+}
+
+
 
 .chosen-tags li{
     display: inline;
     margin-left: 1rem;
-    // border: solid;
     // background-color: #e6e6e6;
     // padding-top: 1.9px;
     // padding-bottom: 1.9px;
@@ -74,8 +89,8 @@
 .delete-tag-but{
     display: none;
     // z-index: 2;
-    // position: relative;
-    // right: 3rem;
+    position: relative;
+    right: 1rem;
 }
  .chose-tag-name:hover + .delete-tag-but{
     display: inline;
