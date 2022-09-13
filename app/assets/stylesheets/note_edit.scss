@@ -44,21 +44,90 @@
 .chosen-tags li{
     display: inline;
     margin-left: 1rem;
-    border: solid;
+    // border: solid;
+    // background-color: #e6e6e6;
+    // padding-top: 1.9px;
+    // padding-bottom: 1.9px;
+    // padding-left: 1rem;
+    // padding-right: 1rem;
+    // border-radius: 16px;
+    
+}
+
+.chose-tag-name{
+    font-size: 13px;
     background-color: #e6e6e6;
-    padding: 3px;
+    padding-top: 1.9px;
+    padding-bottom: 1.9px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     border-radius: 16px;
+    border: none;
+    position: relative;
+    right: 1rem;
+}
+
+.chose-tag-name:hover{
+    background: red;
+    color: white
 }
 .delete-tag-but{
     display: none;
+    // z-index: 2;
+    // position: relative;
+    // right: 3rem;
 }
  .chose-tag-name:hover + .delete-tag-but{
- display: inline;
-position: relative;
-bottom: 1.8rem;
-right: 2rem;
-color: white;
-background-color: red;
-border: none;
+    display: inline;
+    z-index: 2;
+    position: relative;
+    font-size: 13px;
+    // right: 1rem;
+    color: white;
+    background-color: red;
+    border: none;
+        padding-top: 1.9px;
+        padding-bottom: 1.9px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        border-radius: 16px;
+
  }
+
+ .note-edit-tags{
+     position: relative;
+     top: 4rem;
+     left: 1rem;
+     display: flex;
+    
+ }
+
+ .tag-options{
+     border: solid 2px;
+     height: 1.5rem;
+     padding-left: 1rem;
+    padding-right: 1rem;
+     width: fit-content;
+     overflow: hidden;
+     border-radius: 10px;
+     transition: .2s;
+     position: relative;
+     left: 1rem;
+     border-color: #e6e6e6
+ }
+
+ .tag-options:hover{
+     overflow-y: scroll;
+ }
+
+.create-new-tag-in-note{
+    border-radius: 16px;
+    border: solid 2px;
+    padding-left: 1rem;
+    position: relative;
+    top: 1.1rem;
+    padding-top: 1.9px;
+    padding-bottom: 1.9px;
+    border-color: #e6e6e6
+}
 

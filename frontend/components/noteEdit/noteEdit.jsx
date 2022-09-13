@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 // import ReactQuill, {Quill} from 'react-quill';
 // import "../../../node_modules/react-quill/dist/quill.snow.css"
-import { EditorState}  from "draft-js";
+import { EditorState, KeyBindingUtil}  from "draft-js";
 // // import {getCurrentContent} from "draft-js"
 // import { convertToRaw } from 'draft-js'
 import { Editor } from "react-draft-wysiwyg";
@@ -283,7 +283,7 @@ class NoteEdit extends Component {
                     {this.filteredNoteTags().map((tag) =>
                 
                         <li> 
-                            <span className='chose-tag-name'>{tag.tag.name}</span>
+                            <button className='chose-tag-name' onClick={() => this.removeTagfromNote(tag)}>{tag.tag.name}</button> 
                             <button className='delete-tag-but' onClick={() => this.removeTagfromNote(tag)}>Delete</button>
                         </li>
                    
@@ -296,8 +296,10 @@ class NoteEdit extends Component {
    tagOptions(){
        let allTags = Object.values(this.props.tags)
        return (
-           <ul>
+           <ul className='tag-options'>
+               <li>choose a tag</li>
                {allTags.map((tag) => 
+                    
                    <li onClick={() => dispatch(this.props.createNoteTag({ tag_id: tag.id, note_id: parseInt(this.props.match.params.note_id) }))}>
                        {tag.name}
                    </li>
@@ -305,6 +307,20 @@ class NoteEdit extends Component {
            </ul>
        )
    }
+
+    // notebookOptions() {
+    //     let notebooksArray = Object.values(this.props.notebooks)
+    //     return (
+    //         <div>
+    //             <select className='notebook-options' style={{ outline: 'none' }} value={this.state.notebook_id} onChange={this.update('notebook_id')} >
+    //                 {notebooksArray.map((notebook) => (
+    //                     <option value={notebook.id}>{notebook.name}</option>
+    //                 ))}
+    //             </select>
+    //         </div>
+    //     )
+
+    // }
 
    updateTagInput(field){
        return e => this.setState({
@@ -385,17 +401,23 @@ class NoteEdit extends Component {
                         /> */}
                         {this.notebookOptions()}
                         </form> 
-                        {this.renderTags()}
-                        {this.tagOptions()}
+                        <div className='note-edit-tags'>
+
                         <form onSubmit={this.addNewTag}>
                             <input type="text" 
                                 value={this.state.addTag}
                                 onChange={this.updateTagInput('addTag')}
-                            />
-                            <input type="submit" 
+                                placeholder='Create a new Tag'
+                                className='create-new-tag-in-note'
+                                />
+                            {/* <input type="submit" 
                                 value='Submit'
-                            />
+                            /> */}
                         </form>
+                
+                            {this.tagOptions()}
+                            {this.renderTags()}
+                        </div>
                     </div>
                 </div>
             
