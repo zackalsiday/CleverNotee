@@ -28,7 +28,7 @@ class NotebookItem extends React.Component {
 
     deleteButton(){
         return(
-            <button onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button>
+            <button className='notebook-delete-but'onClick={() => this.deleteNotebook(this.props.notebook.id)}>Delete</button>
         )
     }
 
@@ -47,28 +47,36 @@ class NotebookItem extends React.Component {
     render() {
         return (
             // this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`
-            <li>
-    
-                <Link to={this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}>
-                    {this.props.notebook.name}
-                </Link>
-                <br />
-                {this.props.notebook.name != 'first notebook' ? this.deleteButton() : ''}
-                {this.props.notebook.name != 'first notebook' ? 
-                        <form onSubmit={() => this.props.updateNotebook(this.state)}>
-                        <input 
-                        type="text" 
-                        value={this.state.name}
-                        onChange={this.update('name')}
-                        />
-                        <input 
-                        type="submit" 
-                        value="submit"
-                        />
-                    </form>
-                : '' }
-               
-            </li>
+            <div className='notebooks-list'>
+
+                <li className='notebook-option-container'>
+        
+                    <Link className='notebook-name' to={this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`}>
+                        {this.props.notebook.name}
+                    </Link>
+                    <br />
+                    <div className='notebook-author'>{this.props.currentUser.username}</div>
+                    <div className='notebook-action'>
+
+                        {this.props.notebook.name != 'first notebook' ? this.deleteButton() : ''}
+                        {this.props.notebook.name != 'first notebook' ? 
+                                <form onSubmit={() => this.props.updateNotebook(this.state)}>
+                                <input 
+                                type="text" 
+                                value={this.state.name}
+                                onChange={this.update('name')}
+                                />
+                                <input 
+                                type="submit" 
+                                value="Rename"
+                                />
+                            </form>
+                        : '' }
+                    </div>
+                
+                </li>
+            </div>
+            
         )
     }
 }

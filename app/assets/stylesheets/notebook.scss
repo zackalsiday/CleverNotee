@@ -5,6 +5,10 @@
     width: 100%;
 }
 
+.notebooks-list{
+    padding-bottom: 2rem;
+}
+
 .notebooks-content{
     padding-left: 18.9rem;
 }
@@ -46,4 +50,74 @@
 
 .notebook-create-but:hover{
     background-color: #04a72db9;
+}
+
+.notebooks-table-header{
+    display: flex;
+    position: relative;
+    bottom: 1.2rem;
+    justify-content: space-around;
+    background-color: #f8f8f8;
+    height: 1.8rem;
+    padding-top: 0.7rem;
+    border-top: solid 2px;
+}
+
+.notebooks-table-header:hover{
+    background-color: #f2f2f2;
+}
+
+#title-header{
+    color: #b3b3b3;
+    font-size: 11px;
+}
+
+#author-header{
+    color: #b3b3b3;
+    font-size: 11px;
+}
+
+#action-header{
+    color: #b3b3b3;
+    font-size: 11px;
+}
+
+.notebook-name{
+    position: relative;
+    left: 15%;
+    font-size: 1em;
+    text-decoration: none;
+    color: black;
+    width: 7rem;
+}
+
+.notebook-author{
+    font-size: 14px;
+    position: relative;
+    left: 45%;
+}
+
+.notebook-option-container{
+    display: flex;
+    position: relative;
+    // left: 30%;
+    height: 2.8rem;
+    // padding-bottom: 2rem;
+   
+}
+
+.notebook-option-container:hover{
+    background-color: #f2f2f2;
+}
+
+
+.notebook-action{
+    display: flex;
+    justify-content: right;
+    position: absolute;
+    left: 75%;
+}
+
+.notebook-delete-but{
+    height: 1.5rem;
 }
