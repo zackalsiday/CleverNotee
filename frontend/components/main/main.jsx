@@ -30,7 +30,8 @@ class Main extends React.Component {
                 }
         this.toggleTags = this.toggleTags.bind(this)
         this.turnOffTags = this.turnOffTags.bind(this)
-        this.createNote = this.createNote.bind(this)
+        this.createNoteInNote = this.createNoteInNote.bind(this)
+        this.createNoteInNotebook = this.createNoteInNotebook.bind(this)
         this.homeButClicked = this.homeButClicked.bind(this)
         this.notesButClick = this.notesButClick.bind(this)
         this.notebooksButClick = this.notebooksButClick.bind(this)
@@ -85,7 +86,7 @@ class Main extends React.Component {
         return final 
     }
 
-    createNote(){
+    createNoteInNote(){
     
         let noteOne = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
        
@@ -101,13 +102,20 @@ class Main extends React.Component {
            
     }
 
+    createNoteInNotebook() {
+        let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.props.location.pathname.match(/(\d+)/)[0][0] }
+        dispatch(this.props.createNote(note)).then((res) => {
+            this.setState({ newNoteId: res.note.id })
+        })
+    }
+
     renderCreatebutton(){
         if (this.props.location.pathname.includes('tags') === true){
             return null
         } else if (this.props.location.pathname.includes('notebooks') === true){
-            return null
+            return <button className='new-button' onClick={this.createNoteInNotebook}> &#43; New</button>
         }else{
-            return <button className='new-button' onClick={this.createNote}> &#43; New</button>
+            return <button className='new-button' onClick={this.createNoteInNote}> &#43; New</button>
         }
             
         }
@@ -163,7 +171,7 @@ class Main extends React.Component {
      
         return (
             <div className='main'>
-              
+              {console.log(this.props)}
                 <div className='main-content' style={this.props.location.pathname === '/' ? {backgroundImage: 'url("images/evernote_mug.png")'}: null}>
         
                     <hgroup className="header-group">

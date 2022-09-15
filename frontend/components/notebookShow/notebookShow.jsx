@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
+import { TbNotes } from 'react-icons/tb'
 class NotebookShow extends React.Component {
     constructor(props) {
         super(props)
@@ -13,7 +14,7 @@ class NotebookShow extends React.Component {
             newNoteId: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
-        this.createNote = this.createNote.bind(this)
+        // this.createNote = this.createNote.bind(this)
     }
 
     componentDidMount(){
@@ -30,15 +31,28 @@ class NotebookShow extends React.Component {
         let filteredNotes = notesArray.filter(note => note.notebookId.toString() === this.props.match.params.notebook_id.toString())
         let reversed = filteredNotes.reverse()
         return(
-            <ul>
-                {reversed.map((note) => (
-                    <li>
-                        <Link to={`/notebooks/${note.notebookId}/notes/${note.id}`}>{note.title}</Link>   
-                    </li>
-                ))}
-            </ul>
+            <div className = 'notes-list-container'>
+                <div className='notes-list-header'>
+                    <TbNotes className='notes-list-logo' stroke='white' fill='black' size='1.4em' color='black' />
+                    <p>Notes</p>
+                    <p className='notes-count'>{reversed.length} notes</p>
+                </div>
+                <ul>
+                    {reversed.map((note) => (
+                    <div>
+
+                        <li>
+                            <Link to={`/notebooks/${note.notebookId}/notes/${note.id}`}>
+                                    <button className='note-item' style={{ backgroundColor: this.props.location.pathname.includes(note.id) ? '#ffffff' : '#f8f8f8' }}>{note.title}</button>
+                            </Link>   
+                        </li>
+                    </div>
+                    ))}
+                </ul>
+            </div>
         )
     }
+
 
     update(field) {
         return e => this.setState({
@@ -94,20 +108,21 @@ class NotebookShow extends React.Component {
         return final
     }
 
-    createNote(){
-        let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.props.match.params.notebook_id }
-        dispatch(this.props.createNote(note)).then((res) => {
-            this.setState({newNoteId: res.note.id})
-        })
-    }
+    // createNoteInNotebook(){
+    //     let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.props.match.params.notebook_id }
+    //     dispatch(this.props.createNote(note)).then((res) => {
+    //         this.setState({newNoteId: res.note.id})
+    //     })
+    // }
 
     render() {
 
         return (
             <div>
-             <button onClick={this.createNote}>
+                
+                {/* <button className='new-button' onClick={this.createNote}>
                  New
-              </button>
+              </button> */}
             {this.state.newNoteId != '' ? (<Redirect to={`/notebooks/${this.props.match.params.notebook_id}/notes/${this.state.newNoteId}`}/>) : ''}
                {this.renderNotes()}
             {this.filteredFirstNoteId().length === 0 ? `Your ${this.state.currentNotebookName} is empty. Simply click the New button to create a new note in this Notebook` : ''}
