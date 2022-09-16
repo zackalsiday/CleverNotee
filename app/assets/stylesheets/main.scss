@@ -235,12 +235,12 @@ body {
     color: #cccccc;
 }
 .recent-notes-container{
-    // // display: flex;
-    // justify-content: right;
-    // right: 1.7rem;
-    // top: 2.5rem;
-    margin-left: 20.4rem;
-    margin-top: 1.7%;
+    position: absolute;
+    width: 80%;
+    top: 50%;
+    left: 20.4rem;
+    z-index: 0;
+
 }
 
 .recent-notes{

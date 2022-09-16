@@ -112,7 +112,7 @@ class Main extends React.Component {
     renderCreatebutton(){
         if (this.props.location.pathname.includes('tags') === true){
             return null
-        } else if (this.props.location.pathname.includes('notebooks') === true){
+        } else if (this.props.location.pathname.includes('notebooks/') === true){
             return <button className='new-button' onClick={this.createNoteInNotebook}> &#43; New</button>
         }else{
             return <button className='new-button' onClick={this.createNoteInNote}> &#43; New</button>

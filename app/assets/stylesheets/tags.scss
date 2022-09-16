@@ -1,0 +1,31 @@
+.tags-container {
+    position: fixed;
+    z-index: 1;
+    left: 18.7rem;
+    bottom: 0rem;
+    background-color: #ffffff;
+
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.14902);
+    width: 24rem;
+    height: 100%;
+    overflow: hidden;
+}
+
+.tags-container:hover {
+    overflow-y: scroll;
+}
+
+.tags-header{
+    color: #333;
+    font-size: 20px;
+    margin: 1.5rem;
+    position: relative;
+    top: 0.5rem;
+    border-bottom: solid 2px;
+    padding-bottom: 0.6rem;
+}
+
+.new-tag-input{
+    border: solid 1px #ccc;
+    outline: none;
+}

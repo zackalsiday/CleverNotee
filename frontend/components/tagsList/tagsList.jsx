@@ -45,13 +45,14 @@ class TagsList extends React.Component {
     renderTagsForm(){
         return(
             <form onSubmit={this.createTag}>
-            <input type="text" 
-                    value={this.state.name}
-                    onChange={this.update('name')}
-                    />
-            <input type="submit" 
-                    value='submit'
-            />
+                <input type="text" 
+                        value={this.state.name}
+                        onChange={this.update('name')}
+                        className='new-tag-input'
+                        />
+                <input type="submit" 
+                        value='submit'
+                />
             </form>
         )
     }
@@ -59,10 +60,11 @@ class TagsList extends React.Component {
     render() {
 
         return (
-            <div>
+            <div className='tags-container'>
                 {/* {console.log(this.state)} */}
-                {this.state.tags_visible === true ? this.renderTags() : ''}
+                <div className='tags-header'>Tags</div>
                 {this.state.tags_visible === true? this.renderTagsForm() : ''}
+                {this.state.tags_visible === true ? this.renderTags() : ''}
             </div>
 
         )
