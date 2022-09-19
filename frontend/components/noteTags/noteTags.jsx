@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import TagsListContainer from '../tagsList/tagsList_container'
 import { Redirect } from 'react-router-dom'
+import { TbNotes } from 'react-icons/tb'
 class NoteTags extends React.Component {
     constructor(props) {
         super(props)
@@ -49,22 +50,29 @@ class NoteTags extends React.Component {
     renderNotes(){
         let reversed = this.filteredNotes().reverse()
         return (
-        <ul>
-            {reversed.map((noteTags) => (
-                <li>
-                    {/* {console.log(noteTags)} */}
-                    <Link to={`/tags/${this.props.match.params.tag_id}/notes/${noteTags.note_id}`}>
+            <div className='notes-list-container'>
+                <div className='notes-list-header'>
+                    <TbNotes className='notes-list-logo' stroke='white' fill='black' size='1.4em' color='black' />
+                    <p>Notes</p>
+                    <p className='notes-count'>{reversed.length} notes</p>
+                </div>
+            <ul>
+                {reversed.map((noteTags) => (
+                    <li>
+                        {/* {console.log(noteTags)} */}
+                        <Link to={`/tags/${this.props.match.params.tag_id}/notes/${noteTags.note_id}`}>
+                        
+                        {
                     
-                    {
-                
-                   Object.assign({}, noteTags).note.title
-                }
-                </Link>
-                    </li>
-                 
-           
-        ))}
-        </ul>
+                                <button className='note-item' style={{ backgroundColor: parseInt(this.props.match.params.note_id) === Object.assign({}, noteTags).note_id ? '#ffffff' : '#f8f8f8' }}>{Object.assign({}, noteTags).note.title}</button>
+                    }
+                    </Link>
+                        </li>
+                    
+            
+            ))}
+            </ul>
+        </div>
         )
     }
 
@@ -86,7 +94,7 @@ class NoteTags extends React.Component {
 
         return (
             <div>
-                {/* {console.log(this.props.notes)} */}
+                {/* {console.log(this.props)} */}
                 {this.renderNotes()}
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
                 {/* {this.state.empty === true ? (<Redirect to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNote()}`}/>) : '' } */}

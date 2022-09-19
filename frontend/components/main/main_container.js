@@ -5,6 +5,7 @@ import Main from './main';
 import { fetchNotes } from '../../actions/note_actions';
 import {createNote} from '../../actions/note_actions'
 import { fetchNotebooks } from '../../actions/notebook_actions';
+import { createNoteTag } from '../../actions/note_tag_actions';
 const mapStateToProps = (state, ownProps) => ({
     currentUser: state.entities.users[state.session.id],
     notes: state.entities.notes,
@@ -16,7 +17,8 @@ const mapDispatchToProps = dispatch => ({
     logout: () => dispatch(logout()),
     fetchNotes: () => dispatch(fetchNotes()),
     createNote: note => (createNote(note)),
-    fetchNotebooks: () => dispatch(fetchNotebooks())
+    fetchNotebooks: () => dispatch(fetchNotebooks()),
+    createNoteTag : NoteTag => (createNoteTag(NoteTag))
     
 });
 

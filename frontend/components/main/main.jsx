@@ -35,6 +35,8 @@ class Main extends React.Component {
         this.homeButClicked = this.homeButClicked.bind(this)
         this.notesButClick = this.notesButClick.bind(this)
         this.notebooksButClick = this.notebooksButClick.bind(this)
+        this.createNoteTag = this.createNoteTag.bind(this)
+        this.firstNotebookIdforTags = this.firstNotebookIdforTags.bind(this)
     }
 
     toggleTags(){
@@ -49,6 +51,26 @@ class Main extends React.Component {
     componentDidMount(){
        this.props.fetchNotes()
        this.props.fetchNotebooks()
+    }
+
+    createNoteTag() {
+        let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.firstNotebookIdforTags() }
+        dispatch(this.props.createNote(note)).then((res) => {
+            let noteTag = { note_id: parseInt(res.note.id), tag_id: this.props.location.pathname.match(/(\d+)/)[0][0]}
+            dispatch(this.props.createNoteTag(noteTag)).then((res) => {
+                this.setState({
+                    title: res.note_tag.note.title,
+                    content: res.note_tag.note.content,
+                    notebook_id: res.note_tag.note.notebook_id
+                })
+            }).then((res) => {
+                this.setState({
+                    newNoteTag: true
+                })
+            })
+        })
+        // let note = {note_id: 1175, tag_id: 3}
+        // dispatch(this.props.createNoteTag(note))
     }
 
  
@@ -86,6 +108,15 @@ class Main extends React.Component {
         return final 
     }
 
+    firstNotebookIdforTags() {
+        let notebooksArray = Object.values(this.props.notebooks)
+        let final = []
+        notebooksArray.map((notebook) => (
+            final.push(notebook.id)
+        ))
+        return final[final.length - 1]
+    }
+
     createNoteInNote(){
     
         let noteOne = {title: 'Untitled', content: '', author_id: this.props.currentUser.id , notebook_id: this.firstNotebookId()[0] }
@@ -110,8 +141,9 @@ class Main extends React.Component {
     }
 
     renderCreatebutton(){
+        console.log(this.props)
         if (this.props.location.pathname.includes('tags') === true){
-            return null
+            return  <button className='new-button' onClick={this.createNoteTag}>New</button>
         } else if (this.props.location.pathname.includes('notebooks/') === true){
             return <button className='new-button' onClick={this.createNoteInNotebook}> &#43; New</button>
         }else{

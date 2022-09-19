@@ -33,7 +33,7 @@ class NoteEdit extends Component {
         } 
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
-        this.createNoteTag = this.createNoteTag.bind(this)
+        // this.createNoteTag = this.createNoteTag.bind(this)
         this.removeTagfromNote = this.removeTagfromNote.bind(this)
         this.addNewTag = this.addNewTag.bind(this)
         this.changeContent = this.changeContent.bind(this)
@@ -210,14 +210,14 @@ class NoteEdit extends Component {
         return final
     }
 
-    firstNotebookId() {
-        let notebooksArray = Object.values(this.props.notebooks)
-        let final = []
-        notebooksArray.map((notebook) => (
-            final.push(notebook.id)
-        ))
-        return final[final.length - 1]
-    }
+    // firstNotebookIdforTags() {
+    //     let notebooksArray = Object.values(this.props.notebooks)
+    //     let final = []
+    //     notebooksArray.map((notebook) => (
+    //         final.push(notebook.id)
+    //     ))
+    //     return final[final.length - 1]
+    // }
     renderNewButton(){
         if (this.props.match.path === '/notebooks/:notebook_id/notes/:note_id') {
             return (<button onClick={this.createNote}>New</button>)
@@ -229,25 +229,25 @@ class NoteEdit extends Component {
         dispatch(this.props.createNote(note))
     }
 
-    createNoteTag(){
-        let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.firstNotebookId() }
-        dispatch(this.props.createNote(note)).then((res) => {
-            let noteTag = {note_id: parseInt(res.note.id), tag_id: parseInt(this.props.match.params.tag_id)}
-            dispatch(this.props.createNoteTag(noteTag)).then((res) => {
-                this.setState({
-                    title: res.note_tag.note.title,
-                    content: res.note_tag.note.content,
-                    notebook_id: res.note_tag.note.notebook_id
-                })
-            }).then((res) =>{
-                this.setState({
-                    newNoteTag: true
-                })
-            })
-        })
-        // let note = {note_id: 1175, tag_id: 3}
-        // dispatch(this.props.createNoteTag(note))
-    }
+    // createNoteTag(){
+    //     let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.firstNotebookId() }
+    //     dispatch(this.props.createNote(note)).then((res) => {
+    //         let noteTag = {note_id: parseInt(res.note.id), tag_id: parseInt(this.props.match.params.tag_id)}
+    //         dispatch(this.props.createNoteTag(noteTag)).then((res) => {
+    //             this.setState({
+    //                 title: res.note_tag.note.title,
+    //                 content: res.note_tag.note.content,
+    //                 notebook_id: res.note_tag.note.notebook_id
+    //             })
+    //         }).then((res) =>{
+    //             this.setState({
+    //                 newNoteTag: true
+    //             })
+    //         })
+    //     })
+    //     // let note = {note_id: 1175, tag_id: 3}
+    //     // dispatch(this.props.createNoteTag(note))
+    // }
     firstNoteTag(){
         let last = this.props.noteTags[this.props.noteTags.length - 1]
         let lastId = Object.assign({},last).note_id
@@ -375,7 +375,7 @@ class NoteEdit extends Component {
                 {this.state.noteTagdeleted === true ? (<Redirect push to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNoteTag()}`} />) : null}
                 <div className='note-edit-form-container'>
 
-                    {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button onClick={this.createNoteTag}>New</button> : ''}
+                    {/* {this.props.match.path === '/tags/:tag_id/notes/:note_id' ? <button className='new-button' onClick={this.createNoteTag}>New</button> : ''} */}
                     <br />
                 
                       <button className='delete-note-but' onClick={this.deleteNote} >
