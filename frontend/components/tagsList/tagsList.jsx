@@ -49,10 +49,11 @@ class TagsList extends React.Component {
                         value={this.state.name}
                         onChange={this.update('name')}
                         className='new-tag-input'
+                        placeholder='Create new Tag then click "Enter"'
                         />
-                <input type="submit" 
+                {/* <input type="submit" 
                         value='submit'
-                />
+                /> */}
             </form>
         )
     }

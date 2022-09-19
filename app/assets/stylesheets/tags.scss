@@ -26,6 +26,11 @@
 }
 
 .new-tag-input{
-    border: solid 1px #ccc;
-    outline: none;
+    border:  thin 0.5px #ccc;
+    position: relative;
+    padding-left: 1rem;
+    left: 1.4rem;
+    height: 2.2rem;
+    width: 19.5rem;
+    font-size: 14px;
 }
