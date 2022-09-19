@@ -14,10 +14,11 @@ class TagsList extends React.Component {
     renderTags(){
         let tagsArray = Object.values(this.props.tags)
         return(
-            <ul>
+            <ul >
                 {tagsArray.map((tag) => (
                      <div><TagItemContainer  toggleTags={this.props.toggleTags} tag={tag} updateTag={this.props.updateTag}/></div>
                 ))}
+                <br />
             </ul>
         )
     }

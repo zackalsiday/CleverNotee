@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { RiDeleteBin6Line} from 'react-icons/ri'
 class TagItem extends React.Component {
     constructor(props) {
         super(props)
@@ -37,22 +38,26 @@ class TagItem extends React.Component {
     render() {
 
         return (
-            <li>
-                   
-                <Link to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
-                    <div onClick={this.props.toggleTags}>{this.props.tag.name}</div>
+            <li className='tags-list-container'>
+            <div className='tags-list'>
+                    <Link className='tags-list-link' to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
+                    <div className='tags-list-name' onClick={this.props.toggleTags}>{this.props.tag.name}</div>
                 </Link>
-                    <button onClick={this.deleteTag}>
-                             Delete
+                    <button className='tag-list-delete-but' onClick={this.deleteTag}>
+                             <RiDeleteBin6Line color='red' size='1rem'/>
                     </button>
+            </div>
+            
 
-                    <form onSubmit={() => this.props.updateTag(this.state)}>
+                    <form className='edit-tag-form'onSubmit={() => this.props.updateTag(this.state)}>
                         <input type="text" 
                             value={this.state.name}
                             onChange={this.update('name')}
+                            className='rename-tag-input'
                             />
                         <input type="submit" 
-                            value='submit'
+                            value='rename'
+                            className='rename-tag-but'
                             />
                     </form>
 
