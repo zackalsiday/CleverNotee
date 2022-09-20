@@ -259,12 +259,12 @@ class Main extends React.Component {
                                     </button>
                                 </Link>
                                 <br />
-                                {this.props.location.pathname.includes('tags') === false ? 
+                               
                                     <button className='tags-but' onClick={this.toggleTags} style={{ backgroundColor: this.state.tagsClick === false ? 'transparent' : '#404040' }} >
                                     <RiPriceTagFill size='1.5em' color='#cccccc' /><p className='tags-text'>Tags</p> 
-                                    </button> : ''
-                                }
-                                {this.props.location.pathname.includes('tags') === true ?  this.turnOffTags() : null}
+                                    </button> 
+            
+                                {/* {this.props.location.pathname.includes('tags') === true ?  this.turnOffTags() : null} */}
                                 <br />
                                 <button className="logout-but" onClick={this.props.logout}>
                                         <RiLogoutBoxFill size='1.5em' color='#cccccc' /><p className='logout-text'>Log out</p>

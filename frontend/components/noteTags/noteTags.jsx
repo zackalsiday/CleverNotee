@@ -98,9 +98,9 @@ class NoteTags extends React.Component {
                 {this.renderNotes()}
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
                 {/* {this.state.empty === true ? (<Redirect to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNote()}`}/>) : '' } */}
-                <button onClick={this.toggleTags}>
+                {/* <button onClick={this.toggleTags}>
                     Tags
-                </button> 
+                </button>  */}
             </div>
 
         )
