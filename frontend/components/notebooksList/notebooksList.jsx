@@ -14,12 +14,6 @@ class NotebookList extends React.Component {
         this.props.fetchNotes()
     }
 
-    // componentDidUpdate(prevProps, prevState){
-    //     if(prevProps == this.props){
-    //         dispatch(this.props.fetchNotebooks())
-    //     }
-    // }
-
  
  
 

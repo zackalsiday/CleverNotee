@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
-// import ReactQuill, {Quill} from 'react-quill';
-// import "../../../node_modules/react-quill/dist/quill.snow.css"
 import { EditorState, KeyBindingUtil}  from "draft-js";
-// // import {getCurrentContent} from "draft-js"
-// import { convertToRaw } from 'draft-js'
 import { Editor } from "react-draft-wysiwyg";
 import RichEditor from '../RichEditor/RichEditor';
 import { stateToHTML } from 'draft-js-export-html'
@@ -14,7 +10,6 @@ class NoteEdit extends Component {
     constructor(props) {
         super(props)
         this.state =   {title: '',
-            // content: '',
             author_id: '',
             notebook_id: '',
             id: '',
@@ -33,7 +28,6 @@ class NoteEdit extends Component {
         } 
         this.deleteNote = this.deleteNote.bind(this)
         this.createNote = this.createNote.bind(this)
-        // this.createNoteTag = this.createNoteTag.bind(this)
         this.removeTagfromNote = this.removeTagfromNote.bind(this)
         this.addNewTag = this.addNewTag.bind(this)
         this.changeContent = this.changeContent.bind(this)
@@ -48,16 +42,6 @@ class NoteEdit extends Component {
         this.props.fetchNotes()
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
-        // this.filteredNoteTags().map((tag) => {(
-        //     this.setState({
-        //         chosenTags: this.state.chosenTags << tag.tag_id
-        //     })
-        
-        // this.filteredNoteTags().map((tag) => {
-        //           this.setState({
-        //         chosenTags: this.state.chosenTags << tag.tag_id
-        //     })
-        // })
 
                   dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
             this.setState({
@@ -74,8 +58,6 @@ class NoteEdit extends Component {
         let oldNoteTag = Object.assign({}, prevProps.noteTag)
         let oldNoteTagTwo = Object.assign({}, oldNoteTag[0])
         let oldNote = Object.assign({}, oldNoteTagTwo.note)
-        // console.log(this.state.editorState)
-        // console.log(oldNote)
         if (this.props.match.params.note_id === 'undefined' && this.props.location.pathname != "/notes/undefined"){
             this.setState({empty: true})
         }
@@ -89,8 +71,6 @@ class NoteEdit extends Component {
                     id: res.note.id
                 })
             })
-            // const note = Object.assign({}, this.state)
-            // this.props.fetchNotes()
   
         }else if(prevState.title != this.state.title ) {
             const note = Object.assign({}, this.state)
@@ -111,11 +91,9 @@ class NoteEdit extends Component {
            this.props.updateNoteTag({ id: oldNoteTagTwo.id, tag_id: this.props.match.params.tag_id, note_id: this.props.match.params.note_id })
        }else if (this.state.noteTagdeleted === true){
             this.props.fetchNoteTags()
-          window.location.reload()
+         
        }
       
-   
-        // delete the note_tag first then use the res to delele the note itself.
 
          
        
@@ -134,10 +112,12 @@ class NoteEdit extends Component {
          
     }
 
-//    renderRichEditor(content){
-//         return  < RichEditor changeContent={this.changeContent} updateNote={this.props.updateNote} noteId={this.props.ownProps.match.params.note_id} content={content} />
-  
-//    }
+    updateTitle(field){
+        return e => this.setState({
+            [field]: e.currentTarget.value
+        })
+    }
+
 
  
     deleteNote(){
@@ -178,17 +158,6 @@ class NoteEdit extends Component {
     }
 
    
-    // renderNoteTags(){
-    //     let noteTagsArray = Object.values(this.props.noteTags)
-    //     return(
-    //         <ul>
-    //             {noteTagsArray.map((noteTag) => (
-    //                 <li>{noteTag.tag.name}</li>
-    //             ))}
-    //         </ul>
-    //     )
-        
-    // }
 
     filteredFirstNoteId() {
         let notesArray = Object.values(this.props.notes)
@@ -210,14 +179,6 @@ class NoteEdit extends Component {
         return final
     }
 
-    // firstNotebookIdforTags() {
-    //     let notebooksArray = Object.values(this.props.notebooks)
-    //     let final = []
-    //     notebooksArray.map((notebook) => (
-    //         final.push(notebook.id)
-    //     ))
-    //     return final[final.length - 1]
-    // }
     renderNewButton(){
         if (this.props.match.path === '/notebooks/:notebook_id/notes/:note_id') {
             return (<button onClick={this.createNote}>New</button>)
@@ -229,25 +190,6 @@ class NoteEdit extends Component {
         dispatch(this.props.createNote(note))
     }
 
-    // createNoteTag(){
-    //     let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.firstNotebookId() }
-    //     dispatch(this.props.createNote(note)).then((res) => {
-    //         let noteTag = {note_id: parseInt(res.note.id), tag_id: parseInt(this.props.match.params.tag_id)}
-    //         dispatch(this.props.createNoteTag(noteTag)).then((res) => {
-    //             this.setState({
-    //                 title: res.note_tag.note.title,
-    //                 content: res.note_tag.note.content,
-    //                 notebook_id: res.note_tag.note.notebook_id
-    //             })
-    //         }).then((res) =>{
-    //             this.setState({
-    //                 newNoteTag: true
-    //             })
-    //         })
-    //     })
-    //     // let note = {note_id: 1175, tag_id: 3}
-    //     // dispatch(this.props.createNoteTag(note))
-    // }
     firstNoteTag(){
         let last = this.props.noteTags[this.props.noteTags.length - 1]
         let lastId = Object.assign({},last).note_id
@@ -308,19 +250,6 @@ class NoteEdit extends Component {
        )
    }
 
-    // notebookOptions() {
-    //     let notebooksArray = Object.values(this.props.notebooks)
-    //     return (
-    //         <div>
-    //             <select className='notebook-options' style={{ outline: 'none' }} value={this.state.notebook_id} onChange={this.update('notebook_id')} >
-    //                 {notebooksArray.map((notebook) => (
-    //                     <option value={notebook.id}>{notebook.name}</option>
-    //                 ))}
-    //             </select>
-    //         </div>
-    //     )
-
-    // }
 
    updateTagInput(field){
        return e => this.setState({
@@ -339,27 +268,6 @@ class NoteEdit extends Component {
    changeContent(newContent){
       return () => this.setState({content: newContent})
    }
-//    updateEditorState(editorState){
-//        this.setState({editorState})
-//    }
-
-    // onEditorStateChange = (editorState) => {
-    //     // console.log(editorState)
-    //     this.setState({
-    //         editorState,
-    //     });
-    // };
-
-   
-
-//         let notebooksArray = Object.values(this.props.notebooks)
-// return (
-//     <select value={this.state.notebook_id} onChange={this.update('notebook_id')} >
-//         {notebooksArray.map((notebook) => (
-//             <option value={notebook.id}>{notebook.name}</option>
-//         ))}
-//     </select>
-// )
 
     render() {
         let first = this.props.noteTag[0]
@@ -389,7 +297,7 @@ class NoteEdit extends Component {
                         <input type="text"
                             value={ this.state.title}
                             placeholder='please title your note'
-                            onChange={this.update('title')}
+                            onChange={this.updateTitle('title')}
                             className='note-title'
                         />
                         <br />

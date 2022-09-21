@@ -9,7 +9,6 @@ import {ContentState} from "draft-js"
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import './EditorContainer.css'
 class RichEditor extends Component {
     constructor(props) {
         super(props);
@@ -22,16 +21,9 @@ class RichEditor extends Component {
         };
       
     }
-    // componentDidMount(){
-     
-    // }
-
-    // componentDidUpdate(prevState, prevProps){
-     
-    // }
 
     componentDidUpdate(prevProps,prevState){
-        // console.log(draftToHtml(convertToRaw(prevState.editorState.getCurrentContent())))
+
         
         if (prevProps.noteId !== this.props.noteId) {
             dispatch(this.props.fetchNote(this.props.noteId)).then((res) => {
@@ -46,30 +38,12 @@ class RichEditor extends Component {
             })
         }
 
-  
-        // const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
 
-        // const markup = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
-        // console.log(markup)
     }
 
-//     if(prevProps === this.props) {
-//     dispatch(this.props.fetchNote(noteId)).then((res) => {
-//         dispatch(this.props.updateNote(noteId)).then((res) => {
-//             const blocksFromHTML = convertFromHTML(res.note.content);
-//             const state = ContentState.createFromBlockArray(
-//                 blocksFromHTML.contentBlocks,
-//                 blocksFromHTML.entityMap,
-//             );
-//             this.setState({ editorState: EditorState.createWithContent(state) })
-//         })
-//     })
-// }
 
 
     onEditorStateChange = (editorState) => {
-        // console.log(editorState)
-        //  this.props.changeContent(stateToHTML(this.state.editorState.getCurrentContent()))
         this.setState({
             editorState
         })
@@ -79,33 +53,14 @@ class RichEditor extends Component {
         
     }
 
-    // updateNote(newContent){
-    //   this.props.updateNote({id: this.props.noteId, content: newContent })
-    // }
-  
+ 
 
 
     render() {
       
         const { editorState } = this.state;
-        // <NoteEdit editorState={this.state.editorState}/>
         return (
             <div className='editor'>
-                {/* {console.log(this.state.editorState.getCurrentContent().getSelectionAfter())} */}
-                
-                {/* {console.log(this.state.editorState.getCurrentInlineStyle().blocks)} */}
-                {
-                    // console.log(stateToHTML(this.state.editorState.getCurrentContent()))
-                    // console.log(convertToRaw(this.state.editorState.getCurrentContent()).blocks[0].text)
-                }
-                {/* <form action="">
-
-                    <input type="text"
-                        value={draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())) }
-                        // onChange={ () => this.props.updateNote({content: stateToHTML(this.state.editorState.getCurrentContent()), id:this.props.noteId})}
-                        // value={this.state.editorState.getCurrentContent().blocks[0].text}
-                    />
-                </form> */}
                 <Editor
                     editorStyle={{ position: 'relative', top: '4.6rem', left: '2.4rem', height: '25rem'}}
                     editorState={editorState}
@@ -117,7 +72,6 @@ class RichEditor extends Component {
                         link: { inDropdown: true },
                         history: { inDropdown: false },
             
-                        // image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
                     }}
                 />
             </div>

@@ -46,7 +46,6 @@ class NotebookItem extends React.Component {
     
     render() {
         return (
-            // this.firstNoteId().length === 0 ? `/notebooks/${this.props.notebook.id}/notes` : `/notebooks/${this.props.notebook.id}/notes/${this.firstNoteId()[this.firstNoteId().length - 1]}`
             <div className='notebooks-list'>
 
                 <li className='notebook-option-container'>

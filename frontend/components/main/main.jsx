@@ -69,8 +69,7 @@ class Main extends React.Component {
                 })
             })
         })
-        // let note = {note_id: 1175, tag_id: 3}
-        // dispatch(this.props.createNoteTag(note))
+
     }
 
  
@@ -141,7 +140,6 @@ class Main extends React.Component {
     }
 
     renderCreatebutton(){
-        console.log(this.props)
         if (this.props.location.pathname.includes('tags') === true){
             return  <button className='new-button' onClick={this.createNoteTag}>New</button>
         } else if (this.props.location.pathname.includes('notebooks/') === true){
@@ -203,7 +201,6 @@ class Main extends React.Component {
      
         return (
             <div className='main'>
-              {console.log(this.props)}
                 <div className='main-content' style={this.props.location.pathname === '/' ? {backgroundImage: 'url("images/evernote_mug.png")'}: null}>
         
                     <hgroup className="header-group">

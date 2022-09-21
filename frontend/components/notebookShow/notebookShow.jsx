@@ -14,7 +14,6 @@ class NotebookShow extends React.Component {
             newNoteId: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
-        // this.createNote = this.createNote.bind(this)
     }
 
     componentDidMount(){
@@ -108,12 +107,6 @@ class NotebookShow extends React.Component {
         return final
     }
 
-    // createNoteInNotebook(){
-    //     let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.props.match.params.notebook_id }
-    //     dispatch(this.props.createNote(note)).then((res) => {
-    //         this.setState({newNoteId: res.note.id})
-    //     })
-    // }
 
     render() {
 

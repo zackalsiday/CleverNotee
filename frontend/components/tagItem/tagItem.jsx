@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { RiDeleteBin6Line} from 'react-icons/ri'
+
+import { Redirect } from 'react-router-dom'
 class TagItem extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { id: this.props.tag.id, name: this.props.tag.name}
+        this.state = { id: this.props.tag.id, name: this.props.tag.name, deletedTag: false}
         this.deleteTag = this.deleteTag.bind(this)
     }
 
@@ -20,7 +22,7 @@ class TagItem extends React.Component {
 
     deleteTag(){
         this.props.deleteTag(this.props.tag.id)
-        window.location.reload()
+  
     }
     filteredNotes() {
         let first = Object.values(this.props.noteTags)
@@ -39,7 +41,9 @@ class TagItem extends React.Component {
 
         return (
             <li className='tags-list-container'>
+      
             <div className='tags-list'>
+           
                     <Link className='tags-list-link' to={`/tags/${this.props.tag.id}/notes/${this.firstNote()}`}>
                     <div className='tags-list-name' onClick={this.props.toggleTags}>{this.props.tag.name}</div>
                 </Link>

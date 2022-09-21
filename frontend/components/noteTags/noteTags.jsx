@@ -24,7 +24,6 @@ class NoteTags extends React.Component {
                 let first = Object.values(this.props.noteTags)
         let filteredNoteTags = first.filter(noteTag => noteTag.tag_id.toString() === this.props.match.params.tag_id)
         let reverse = filteredNoteTags.reverse()
-        // console.log(reverse)
         this.setState({firstNote: reverse[0].id})
     }).then((res) => {
         let first = Object.values(this.props.noteTags)
@@ -59,7 +58,6 @@ class NoteTags extends React.Component {
             <ul>
                 {reversed.map((noteTags) => (
                     <li>
-                        {/* {console.log(noteTags)} */}
                         <Link to={`/tags/${this.props.match.params.tag_id}/notes/${noteTags.note_id}`}>
                         
                         {
@@ -77,9 +75,6 @@ class NoteTags extends React.Component {
     }
 
     filteredNotes(){
-        // let first = Object.values(this.props.noteTags)
-        // let filteredNoteTags = first.filter(noteTag => noteTag.tag_id.toString() === this.props.match.params.tag_id)
-        // return filteredNoteTags
         return this.props.noteTags
     }
 
@@ -94,7 +89,6 @@ class NoteTags extends React.Component {
 
         return (
             <div>
-                {/* {console.log(this.props)} */}
                 {this.renderNotes()}
                 {this.state.tagsVisible === true ? this.renderTags() : ''}
                 {/* {this.state.empty === true ? (<Redirect to={`/tags/${this.props.match.params.tag_id}/notes/${this.firstNote()}`}/>) : '' } */}

@@ -50,15 +50,7 @@ class NoteForm extends React.Component {
 
     }
 
-    // tagsOptions(){
-    //     let tagsArray = Object.values(this.props.tags)
-
-    //     return(
-    //         tagsArray.map((tag) => (
-    //             <button>{tag.name}</button>
-    //         ))
-    //     )
-    // }
+ 
 
     render(){
         return(

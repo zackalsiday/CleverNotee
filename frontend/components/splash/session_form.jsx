@@ -1,5 +1,4 @@
 import React from 'react'
-// import { FaRegLightbulb } from 'react-icons/fa'
 import { RiLightbulbFill } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 

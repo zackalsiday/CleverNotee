@@ -3,9 +3,8 @@ import TagItemContainer from '../tagItem/tagItem_container'
 class TagsList extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {name: '', user_id: this.props.currentUser, tags_visible: true}
+        this.state = {name: '', user_id: this.props.currentUser, tags_visible: true, deletedTag: false}
         this.createTag = this.createTag.bind(this)
-        // this.toggleTags = this.toggleTags.bind(this)
     }
     componentDidMount(){
         dispatch(this.props.fetchTags())
@@ -16,20 +15,12 @@ class TagsList extends React.Component {
         return(
             <ul >
                 {tagsArray.map((tag) => (
-                     <div><TagItemContainer  toggleTags={this.props.toggleTags} tag={tag} updateTag={this.props.updateTag}/></div>
+                     <div><TagItemContainer  toggleTags={this.props.toggleTags} tag={tag} updateTag={this.props.updateTag} /></div>
                 ))}
                 <br />
             </ul>
         )
     }
-
-    // toggleTags(){
-    //     if(this.state.tags_visible === true){
-    //         this.setState({tags_visible: false})
-    //     }else{
-    //         this.setState({tags_visible: true})
-    //     }
-    // }
 
     update(field) {
         return e => this.setState({
@@ -52,9 +43,6 @@ class TagsList extends React.Component {
                         className='new-tag-input'
                         placeholder='Create new Tag then click "Enter"'
                         />
-                {/* <input type="submit" 
-                        value='submit'
-                /> */}
             </form>
         )
     }
@@ -63,7 +51,6 @@ class TagsList extends React.Component {
 
         return (
             <div className='tags-container'>
-                {/* {console.log(this.state)} */}
                 <div className='tags-header'>Tags</div>
                 {this.state.tags_visible === true? this.renderTagsForm() : ''}
                 {this.state.tags_visible === true ? this.renderTags() : ''}

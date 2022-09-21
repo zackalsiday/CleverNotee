@@ -7,7 +7,6 @@ import { Route, Redirect, Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 
 const Auth = ({ component: Component, path, loggedIn, exact }) => (
-    // Redirect to the notes page if the user is authenticated
     <Route
         path={path}
         exact={exact}
@@ -25,7 +24,6 @@ const Protected = ({ component: Component, path, loggedIn, exact }) => (
             loggedIn ? (
                 <Component {...props} />
             ) : (
-                // Redirect to the login page if the user is already authenticated
                 <Redirect to="/" />
             )
         }

@@ -13,34 +13,10 @@ class Note extends React.Component{
         let allNotes = this.props.fetchNotes
         dispatch(allNotes())
         this.props.fetchNoteTags()
-        // dispatch(this.props.fetchNote(1))
      
     }
 
-    // renderNotes(){
-    //     let notesArray = Object.values(this.props.notes)
-    //     let reversed = notesArray.reverse()
 
-        
-    //     return(
-            
-
-    //             <div>
-    //                 <div className='notes-list-header'>
-    //                     <TbNotes className='notes-list-logo'stroke='white' fill='black' size='1.4em' color='black' />
-    //                     <p>Notes</p>
-    //                 </div>
-    //                     <ul>
-    //                         {reversed.map((note) => (
-    //                             <li><NoteItem noteTags={this.props.noteTags} note={note}/></li>
-                                
-    //                         ))}
-    //                     </ul>
-    //             </div>
-
-
-    //     )
-    // }
 
     render(){
         let notesArray = Object.values(this.props.notes)
