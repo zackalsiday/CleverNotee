@@ -16,6 +16,8 @@ import { TbNotes } from 'react-icons/tb'
 import {TbNotebook} from 'react-icons/tb'
 import {RiPriceTagFill} from 'react-icons/ri'
 import { RiLogoutBoxFill} from 'react-icons/ri'
+import { AiFillGithub} from 'react-icons/ai'
+import { FaAngellist} from 'react-icons/fa'
 class Main extends React.Component {
     
     constructor(props){
@@ -265,6 +267,16 @@ class Main extends React.Component {
                                 <button className="logout-but" onClick={this.props.logout}>
                                         <RiLogoutBoxFill size='1.5em' color='#cccccc' /><p className='logout-text'>Log out</p>
                                 </button>
+                                <a className='github-link'target="_blank" href="https://github.com/zackalsiday">
+                                    <button className='github-but'>
+                                        <AiFillGithub size='1.5em' color='#cccccc'/><p className='github-text'>Github</p>
+                                    </button>
+                                </a>
+                                <a className='angel-link' target="_blank" href="https://angel.co/u/zack-alsiday">
+                                    <button className='angel-but'>
+                                     <FaAngellist size='1.5em' color='#cccccc' /><p className='angel-text'>Angel List</p>
+                                    </button>
+                                </a>
                             </div>
                         </div>
             </div>

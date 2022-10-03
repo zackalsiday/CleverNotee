@@ -383,3 +383,65 @@ ul{
     background-color: transparent;
 }
 
+.github-link{
+    text-decoration: none;
+}
+
+.github-but{
+    display: flex;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    
+    
+    bottom: 4.6rem;
+    
+    height: 2.5em;
+    width: 18.7rem;
+    padding-left: 1.3rem;
+    padding-top: 6px;
+}
+
+.github-text{
+        position: relative;
+        bottom: 10px;
+        font-size: 14px;
+        margin-left: 5px;
+        color: #cccccc;
+}
+
+.github-but:hover{
+    background-color: #333;
+}
+
+
+.angel-link {
+    text-decoration: none;
+}
+
+.angel-but {
+    display: flex;
+    border: none;
+    background-color: transparent;
+    position: relative;
+
+
+    bottom: 4.6rem;
+
+    height: 2.5em;
+    width: 18.7rem;
+    padding-left: 1.3rem;
+    padding-top: 6px;
+}
+
+.angel-text {
+    position: relative;
+    bottom: 10px;
+    font-size: 14px;
+    margin-left: 5px;
+    color: #cccccc;
+}
+
+.angel-but:hover {
+    background-color: #333;
+}
