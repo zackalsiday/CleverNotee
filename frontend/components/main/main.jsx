@@ -18,6 +18,7 @@ import {RiPriceTagFill} from 'react-icons/ri'
 import { RiLogoutBoxFill} from 'react-icons/ri'
 import { AiFillGithub} from 'react-icons/ai'
 import { FaAngellist} from 'react-icons/fa'
+import {AiFillLinkedin} from 'react-icons/Ai'
 class Main extends React.Component {
     
     constructor(props){
@@ -267,6 +268,8 @@ class Main extends React.Component {
                                 <button className="logout-but" onClick={this.props.logout}>
                                         <RiLogoutBoxFill size='1.5em' color='#cccccc' /><p className='logout-text'>Log out</p>
                                 </button>
+                                <div className='socials'>
+
                                 <a className='github-link'target="_blank" href="https://github.com/zackalsiday">
                                     <button className='github-but'>
                                         <AiFillGithub size='1.5em' color='#cccccc'/><p className='github-text'>Github</p>
@@ -277,6 +280,13 @@ class Main extends React.Component {
                                      <FaAngellist size='1.5em' color='#cccccc' /><p className='angel-text'>Angel List</p>
                                     </button>
                                 </a>
+                                <a className='linkedin-link' target="_blank" href="https://www.linkedin.com/in/zack-alsiday-061598210/">
+                                    <button className='linkedin-but'>
+                                    <AiFillLinkedin size='1.5em' color='#cccccc' /><p className='linkedin-text'>Linked-In</p>
+                                    </button>
+                                </a>
+                                </div>
+                                
                             </div>
                         </div>
             </div>

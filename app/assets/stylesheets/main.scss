@@ -445,3 +445,39 @@ ul{
 .angel-but:hover {
     background-color: #333;
 }
+
+.linkedin-link {
+    text-decoration: none;
+}
+
+.linkedin-but {
+    display: flex;
+    border: none;
+    background-color: transparent;
+    position: relative;
+
+
+    bottom: 4.6rem;
+
+    height: 2.5em;
+    width: 18.7rem;
+    padding-left: 1.3rem;
+    padding-top: 6px;
+}
+
+.linkedin-text {
+    position: relative;
+    bottom: 10px;
+    font-size: 14px;
+    margin-left: 5px;
+    color: #cccccc;
+}
+
+.linkedin-but:hover {
+    background-color: #333;
+}
+
+.socials{
+    position: relative;
+    top: 3rem;
+}
