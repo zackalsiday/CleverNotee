@@ -19,8 +19,8 @@ class SessionForm extends React.Component {
     }
 
     guestLogin(){
-        const user = {username: 'Guest', password: 'password'}
-        this.props.login(user)
+        const guest = {username: 'Guest', password: 'password'}
+        this.props.login(guest)
     }
 
     handleSubmit(e) {
