@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { signup } from '../../actions/session_actions';
 import SessionForm from './session_form';
 import { createNotebook } from '../../actions/notebook_actions';
-
+import { login } from '../../actions/session_actions';
 const mapStateToProps = state => ({
     errors: state.errors.session,
     formType: "signup",
@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     processForm: user => dispatch(signup(user)),
-    createNotebook: notebook => (createNotebook(notebook))
+    createNotebook: notebook => (createNotebook(notebook)),
+    login: user => dispatch(login(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionForm);

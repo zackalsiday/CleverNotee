@@ -10,11 +10,17 @@ class SessionForm extends React.Component {
             password: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.guestLogin = this.guestLogin.bind(this)
     }
     update(field) {
         return e => this.setState({
             [field]: e.currentTarget.value
         })
+    }
+
+    guestLogin(){
+        const user = {username: 'Guest', password: 'password'}
+        this.props.login(user)
     }
 
     handleSubmit(e) {
@@ -78,6 +84,8 @@ class SessionForm extends React.Component {
 
 
                             <input className="session-submit" type="submit" value={this.props.formType} />
+                            
+                            <button onClick={this.guestLogin}className='demo-but'>login as guest</button>
                         </div>
                         <div className='form-toggle'>Please {this.props.formType} or <span id='the-link-on-bottom-of-form' >{this.props.navLink}</span></div>
 

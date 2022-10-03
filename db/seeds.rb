@@ -8,6 +8,7 @@
 
 zakarya = User.create!({username: 'zakarya', password: 'password'})
 mike = User.create!({username: 'mike', password: 'password'})
+demo = User.create!({username: 'Guest', password: 'password'})
 notebook1 = Notebook.create!({name: 'first notebook', user_id: zakarya.id})
 notebook2 = Notebook.create!({name: 'first notebook', user_id: mike.id})
 note1 = Note.create!({title: 'First Note', content: '', author_id: zakarya.id, notebook_id: notebook1.id })
