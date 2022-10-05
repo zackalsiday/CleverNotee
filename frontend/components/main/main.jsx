@@ -18,7 +18,7 @@ import {RiPriceTagFill} from 'react-icons/ri'
 import { RiLogoutBoxFill} from 'react-icons/ri'
 import { AiFillGithub} from 'react-icons/ai'
 import { FaAngellist} from 'react-icons/fa'
-import {AiFillLinkedin} from 'react-icons/Ai'
+import {AiFillLinkedin} from 'react-icons/ai'
 class Main extends React.Component {
     
     constructor(props){
