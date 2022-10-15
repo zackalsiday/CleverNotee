@@ -7,7 +7,7 @@ class TagsList extends React.Component {
         this.createTag = this.createTag.bind(this)
     }
     componentDidMount(){
-        dispatch(this.props.fetchTags())
+        this.props.fetchTags()
     }
 
     renderTags(){

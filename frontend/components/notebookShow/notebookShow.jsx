@@ -18,7 +18,7 @@ class NotebookShow extends React.Component {
 
     componentDidMount(){
        this.props.fetchNotes()
-        dispatch(this.props.fetchNotebook(this.props.match.params.notebook_id)).then((res) => {
+        this.props.fetchNotebook(this.props.match.params.notebook_id).then((res) => {
             this.setState({currentNotebookName: res.notebook.name})
         })
     }

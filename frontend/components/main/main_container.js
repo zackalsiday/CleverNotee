@@ -16,9 +16,9 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
     logout: () => dispatch(logout()),
     fetchNotes: () => dispatch(fetchNotes()),
-    createNote: note => (createNote(note)),
+    createNote: note => dispatch((createNote(note))),
     fetchNotebooks: () => dispatch(fetchNotebooks()),
-    createNoteTag : NoteTag => (createNoteTag(NoteTag))
+    createNoteTag : NoteTag => dispatch((createNoteTag(NoteTag)))
     
 });
 

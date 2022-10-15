@@ -43,7 +43,7 @@ class NoteEdit extends Component {
         this.props.fetchNoteTags()
         this.props.fetchNotebooks()
 
-                  dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
+        this.props.fetchNote(this.props.match.params.note_id).then((res) => {
             this.setState({
                 title: res.note.title,
                 content: res.note.content,
@@ -62,7 +62,7 @@ class NoteEdit extends Component {
             this.setState({empty: true})
         }
        if((prevProps.match.params.note_id != this.props.match.params.note_id) && this.props.match.params.note_id != 'undefined') {
-            dispatch(this.props.fetchNote(this.props.match.params.note_id)).then((res) => {
+            this.props.fetchNote(this.props.match.params.note_id).then((res) => {
                 this.setState({
                     title: res.note.title,
                     content: res.note.content,
@@ -75,7 +75,7 @@ class NoteEdit extends Component {
         }else if(prevState.title != this.state.title ) {
             const note = Object.assign({}, this.state)
             this.props.updateNote(note) 
-            dispatch(this.props.fetchNote(this.state.id))
+            this.props.fetchNote(this.state.id)
           
         }else if(prevState.content != this.state.content){
             const note = Object.assign({}, this.state)
@@ -131,7 +131,7 @@ class NoteEdit extends Component {
         })
         }else{
             let noteTagId = Object.assign({}, this.props.noteTag[0]).id
-            dispatch(this.props.deleteNoteTag(noteTagId)).then((res) => {
+            this.props.deleteNoteTag(noteTagId).then((res) => {
                 this.setState({
                     noteTagdeleted: true
                 })
@@ -187,7 +187,7 @@ class NoteEdit extends Component {
 
     createNote(){
         let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.props.match.params.notebook_id }
-        dispatch(this.props.createNote(note))
+     this.props.createNote(note)
     }
 
     firstNoteTag(){
@@ -204,11 +204,11 @@ class NoteEdit extends Component {
     }
     removeTagfromNote(tag){
         if (this.props.match.path !== "/tags/:tag_id/notes/:note_id"){
-               dispatch(this.props.deleteNoteTag(tag.id)).then((res) => {
+               this.props.deleteNoteTag(tag.id).then((res) => {
             window.location.reload()
         })
             }else{
-            dispatch(this.props.deleteNoteTag(tag.id)).then((res) => {
+            this.props.deleteNoteTag(tag.id).then((res) => {
                 window.location.reload()
             }).then((res) => {
                 this.setState({
@@ -242,7 +242,7 @@ class NoteEdit extends Component {
                <li>choose a tag</li>
                {allTags.map((tag) => 
                     
-                   <li onClick={() => dispatch(this.props.createNoteTag({ tag_id: tag.id, note_id: parseInt(this.props.match.params.note_id) }))}>
+                   <li onClick={() => this.props.createNoteTag({ tag_id: tag.id, note_id: parseInt(this.props.match.params.note_id) })}>
                        {tag.name}
                    </li>
                )}
@@ -259,8 +259,8 @@ class NoteEdit extends Component {
    }
 
    addNewTag(){
-       dispatch(this.props.createTag({name: this.state.addTag, user_id: this.props.currentUser.id})).then((res) => {
-           dispatch(this.props.createNoteTag({note_id: this.props.match.params.note_id, tag_id: res.tag.id}))
+       this.props.createTag({name: this.state.addTag, user_id: this.props.currentUser.id}).then((res) => {
+           this.props.createNoteTag({note_id: this.props.match.params.note_id, tag_id: res.tag.id})
        })
    }
 

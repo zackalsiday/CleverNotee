@@ -58,9 +58,9 @@ class Main extends React.Component {
 
     createNoteTag() {
         let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.firstNotebookIdforTags() }
-        dispatch(this.props.createNote(note)).then((res) => {
+        this.props.createNote(note).then((res) => {
             let noteTag = { note_id: parseInt(res.note.id), tag_id: this.props.location.pathname.match(/(\d+)/)[0][0]}
-            dispatch(this.props.createNoteTag(noteTag)).then((res) => {
+            this.props.createNoteTag(noteTag).then((res) => {
                 this.setState({
                     title: res.note_tag.note.title,
                     content: res.note_tag.note.content,
@@ -136,7 +136,7 @@ class Main extends React.Component {
 
     createNoteInNotebook() {
         let note = { title: 'Untitled', content: '', author_id: this.props.currentUser.id, notebook_id: this.props.location.pathname.match(/(\d+)/)[0][0] }
-        dispatch(this.props.createNote(note)).then((res) => {
+        this.props.createNote(note).then((res) => {
             this.setState({ newNoteId: res.note.id })
         })
     }

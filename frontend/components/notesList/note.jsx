@@ -10,8 +10,8 @@ class Note extends React.Component{
         this.state = {note: null }
     }
     componentDidMount(){
-        let allNotes = this.props.fetchNotes
-        dispatch(allNotes())
+        this.props.fetchNotes()
+        // dispatch(allNotes())
         this.props.fetchNoteTags()
      
     }

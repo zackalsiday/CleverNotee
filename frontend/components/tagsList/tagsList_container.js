@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
     currentUser: state.entities.users[state.session.id].id
 })
 const mapDispatchToProps = dispatch => ({
-    fetchTags: () => fetchTags(),
+    fetchTags: () => dispatch(fetchTags()),
     createTag: tag => dispatch(createTag(tag)),
     updateTag: tagId => dispatch(updateTag(tagId))
 });

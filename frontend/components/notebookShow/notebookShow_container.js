@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
     fetchNotes: () => dispatch(fetchNotes()),
     createNote: note => (createNote(note)),
-    fetchNotebook: notebookId => (fetchNotebook(notebookId))
+    fetchNotebook: notebookId => dispatch((fetchNotebook(notebookId)))
 })
 
 export default connect (

@@ -28,7 +28,7 @@ const mapStateToProps = (state,ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchNote: (noteId) => (fetchNote(noteId)),
+    fetchNote: (noteId) => dispatch((fetchNote(noteId))),
     updateNote: note => dispatch(updateNote(note)),
     deleteNote: noteId => dispatch(deleteNote(noteId)),
     fetchNotebooks: () => dispatch(fetchNotebooks()),
@@ -37,10 +37,10 @@ const mapDispatchToProps = dispatch => ({
     createNote: note => (createNote(note)),
     fetchNoteTag: NoteTagId => (fetchNoteTag(NoteTagId)),
     updateNoteTag: NoteTag => dispatch(updateNoteTag(NoteTag)),
-    createNoteTag: NoteTag => (createNoteTag(NoteTag)),
-    deleteNoteTag: NoteTag => (deleteNoteTag(NoteTag)),
+    createNoteTag: NoteTag => dispatch((createNoteTag(NoteTag))),
+    deleteNoteTag: NoteTag => dispatch((deleteNoteTag(NoteTag))),
     fetchTags: () => dispatch(fetchTags()),
-    createTag: tag => (createTag(tag)),
+    createTag: tag => dispatch((createTag(tag))),
     random: []
 });
 

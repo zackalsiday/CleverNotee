@@ -26,7 +26,7 @@ class RichEditor extends Component {
 
         
         if (prevProps.noteId !== this.props.noteId) {
-            dispatch(this.props.fetchNote(this.props.noteId)).then((res) => {
+            this.props.fetchNote(this.props.noteId).then((res) => {
                 const blocksFromHTML = htmlToDraft(this.props.content);
                 const { contentBlocks, entityMap } = blocksFromHTML;
                 const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap)

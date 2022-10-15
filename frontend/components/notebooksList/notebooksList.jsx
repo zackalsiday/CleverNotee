@@ -8,8 +8,8 @@ class NotebookList extends React.Component {
     }
 
     componentDidMount(){
-        let allNotebooks = this.props.fetchNotebooks
-        dispatch(allNotebooks())
+    this.props.fetchNotebooks()
+       
         let notebooksArray = Object.values(this.props.notebooks)
         this.props.fetchNotes()
     }

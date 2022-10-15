@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchNotebooks: () => fetchNotebooks(),
+    fetchNotebooks: () => dispatch(fetchNotebooks()),
     createNotebook: notebook => dispatch(createNotebook(notebook)),
     deleteNotebook: notebookId => dispatch(deleteNotebook(notebookId)),
     updateNotebook: notebook => dispatch(updateNotebook(notebook)),
